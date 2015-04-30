@@ -1,0 +1,40 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Show and hide hidden files
+alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES;
+killall Finder /System/Library/CoreServices/Finder.app'
+alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO;
+killall Finder /System/Library/CoreServices/Finder.app'
+
+# Reset the screen shot directory to the desktop
+alias resetScreenshotdir='defaults write com.apple.screencapture location ~/Desktop; killall SystemUIServer'
+
+# Vim 7.4 Alias
+alias vim='/usr/local/bin/vim'
+
+# Jumps to htdocs and if provided with a subdirectory will then try that too.
+function htdocs () {
+    if [ -z "$1" ]; then
+        cd /applications/xampp/htdocs
+    else
+        cd /applications/xampp/htdocs
+        cd $1
+    fi
+}
+
+# Pretty code copy function
+function hl() {
+    if [ -z "$1" ]; then
+        echo Your doing things wrong...
+    else
+        highlight -O rtf -t 2 -K 11 "$1" | pbcopy
+    fi
+}
+
+# Add laravel to the PATH. Gets removed on close, hence here.
+export PATH="$PATH:~/.composer/vendor/bin"
