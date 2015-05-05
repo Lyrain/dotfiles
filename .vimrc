@@ -89,3 +89,17 @@ set smarttab " Inserts indents instead of tabs at the start of the line
 
 " Set Toggle Line number to Ctrl-N twice
 :nmap <C-N><C-N> :set invnumber<CR>
+
+" Configuration for Syntastic
+" Recommended Configuration
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" Ignore ng- attributes in html
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
