@@ -103,3 +103,4 @@ let g:syntastic_check_on_wq = 0
 
 " Ignore ng- attributes in html
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+let g:syntastic_html_tidy_inline_tags=["ui-view"]
