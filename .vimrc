@@ -53,13 +53,14 @@ autocmd BufWritePre *.md :%s/\s\+$//e
 " the same name and then generate and open the file in preview.
 let mapleader = " " " Binds <Leader> to SPACE
 function! OpenMarkdownPreview()
-	:silent !clear
-	if filereadable(./pdf/'%:r'.pdf)
-		:silent !rm '%:r'.pdf
-	endif
 
 	if !isdirectory('./pdf')
 		:silent !mkdir './pdf'
+	endif
+
+	:silent !clear
+	if filereadable(./pdf/'%:r'.pdf)
+		:silent !rm '%:r'.pdf
 	endif
 
 	:silent !pandoc '%:p' -o ./pdf/'%:r'.pdf
@@ -89,6 +90,7 @@ set smarttab " Inserts indents instead of tabs at the start of the line
 
 " Set Toggle Line number to Ctrl-N twice
 :nmap <C-N><C-N> :set invnumber<CR>
+set number
 
 " Configuration for Syntastic
 " Recommended Configuration
