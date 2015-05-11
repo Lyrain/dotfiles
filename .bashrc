@@ -17,16 +17,6 @@ alias resetScreenshotdir='defaults write com.apple.screencapture location ~/Desk
 # Vim 7.4 Alias
 alias vim='/usr/local/bin/vim'
 
-# Jumps to htdocs and if provided with a subdirectory will then try that too.
-function htdocs () {
-    if [ -z "$1" ]; then
-        cd /applications/xampp/htdocs
-    else
-        cd /applications/xampp/htdocs
-        cd $1
-    fi
-}
-
 # Pretty code copy function
 function hl() {
     if [ -z "$1" ]; then
