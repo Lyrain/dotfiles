@@ -15,7 +15,7 @@ killall Finder /System/Library/CoreServices/Finder.app'
 alias resetScreenshotdir='defaults write com.apple.screencapture location ~/Desktop; killall SystemUIServer'
 
 # Vim 7.4 Alias
-alias vim='/usr/local/bin/vim'
+# alias vim='/usr/local/bin/vim'
 
 # Pretty code copy function
 function hl() {
@@ -28,3 +28,6 @@ function hl() {
 
 # Add laravel to the PATH. Gets removed on close, hence here.
 export PATH="$PATH:~/.composer/vendor/bin"
+
+# Add homebrew sbin to PATH so that executables work
+export PATH="/usr/local/sbin:$PATH"
