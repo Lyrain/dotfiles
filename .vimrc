@@ -73,17 +73,19 @@ map <Leader>op :call OpenMarkdownPreview()<CR>
 set spell spelllang=en_gb
 
 " size of a hard tab stop
-set tabstop=4
+set tabstop=2
 
 "size of an indent
-set shiftwidth=4
+set shiftwidth=2
 
-"a combination of spaces and tabs are used to simulate tab stops at a width
-"other than the (hard) tab stop
-set softtabstop=4
+" a combination of spaces and tabs are used to simulate tab stops at a width
+" other than the (hard) tab stop
+set softtabstop=2
 
 set expandtab " Always uses spaces instead of tab chars
 set smarttab " Inserts indents instead of tabs at the start of the line
+
+autocmd FileType python setlocal shiftwidth=4 tabstop=4
 
 :set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
 :set list
@@ -103,6 +105,10 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" Syntastic won't check html files unless you manually :SyntasticCheck
+let syntastic_mode_map = { 'passive_filetypes': ['html'] }
+
 " Ignore ng- attributes in html
+" Ignore meteor:blaze errors
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
-let g:syntastic_html_tidy_inline_tags=["ui-view"]
+let g:syntastic_html_tidy_inline_tags=["ui-view, template"]
