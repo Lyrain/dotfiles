@@ -31,3 +31,6 @@ export PATH="$PATH:~/.composer/vendor/bin"
 
 # Add homebrew sbin to PATH so that executables work
 export PATH="/usr/local/sbin:$PATH"
+
+# Set the EDITOR env variable
+export EDITOR=vim
