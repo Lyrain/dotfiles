@@ -14,8 +14,7 @@ killall Finder /System/Library/CoreServices/Finder.app'
 # Reset the screen shot directory to the desktop
 alias resetScreenshotdir='defaults write com.apple.screencapture location ~/Desktop; killall SystemUIServer'
 
-# Vim 7.4 Alias
-# alias vim='/usr/local/bin/vim'
+alias cl='clear'
 
 # Pretty code copy function
 function hl() {
