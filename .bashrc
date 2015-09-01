@@ -15,6 +15,7 @@ killall Finder /System/Library/CoreServices/Finder.app'
 alias resetScreenshotdir='defaults write com.apple.screencapture location ~/Desktop; killall SystemUIServer'
 
 alias cl='clear'
+alias ll='ls -lah'
 
 # Pretty code copy function
 function hl() {
