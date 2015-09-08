@@ -1,0 +1,5 @@
+syntastic
+vim-airline
+vim-colors-solarized
+vim-markdown
+YouCompleteMe
