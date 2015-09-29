@@ -112,3 +112,9 @@ let syntastic_mode_map = { 'passive_filetypes': ['html'] }
 " Ignore meteor:blaze errors
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 let g:syntastic_html_tidy_inline_tags=["ui-view, template"]
+
+" If you prefer the Omni-Completion tip window to close when a selection is
+" made, these lines close it on movement in insert mode or when leaving
+" insert mode
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
