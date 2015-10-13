@@ -30,7 +30,10 @@ function hl() {
 export PATH="$PATH:~/.composer/vendor/bin"
 
 # Add homebrew sbin to PATH so that executables work
-export PATH="/usr/local/sbin:$PATH"
+export PATH="$PATH:/usr/local/sbin"
+
+# Add Mercurial to PATH
+export PATH="$PATH:/usr/local/Cellar/mercurial/3.5.2/bin/"
 
 # Set the EDITOR env variable
 export EDITOR=vim
