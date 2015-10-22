@@ -63,7 +63,7 @@ function! OpenMarkdownPreview()
 		:silent !rm '%:r'.pdf
 	endif
 
-	:silent !pandoc '%:p' -o ./pdf/'%:r'.pdf
+	:silent !pandoc '%:p' -o ./pdf/'%:r'.pdf --variable fontsize=12pt --variable linestretch=1.5
 	:silent !open ./pdf/'%:r'.pdf
 	:redraw!
 endfunction
