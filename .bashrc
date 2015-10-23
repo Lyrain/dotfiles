@@ -16,6 +16,7 @@ alias resetScreenshotdir='defaults write com.apple.screencapture location ~/Desk
 
 alias cl='clear'
 alias ll='ls -lah'
+alias tree='tree -I *.pyc'
 
 # Pretty code copy function
 function hl() {
