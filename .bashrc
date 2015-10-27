@@ -34,7 +34,7 @@ export PATH="$PATH:~/.composer/vendor/bin"
 export PATH="$PATH:/usr/local/sbin"
 
 # Add Mercurial to PATH
-export PATH="$PATH:/usr/local/Cellar/mercurial/3.5.2/bin/"
+export PATH="$PATH:/usr/local/Cellar/mercurial/3.5.2/bin"
 
 # Set the EDITOR env variable
 export EDITOR=vim
