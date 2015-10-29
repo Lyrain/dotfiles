@@ -47,29 +47,7 @@ let g:vim_markdown_folding_disabled=1
 " Can list multiple files types inside of { *.md, *.txt  } I think.
 autocmd BufWritePre *.md :%s/\s\+$//e
 
-" Adds a command <SPACE>op to generate the .md file out to a .pdf file using
-" pandoc and LaTex. The function will add a folder in the same directory as
-" the file called ./pdf if it isn't there, delete any existing pdf files with
-" the same name and then generate and open the file in preview.
-let mapleader = " " " Binds <Leader> to SPACE
-function! OpenMarkdownPreview()
-
-	if !isdirectory('./pdf')
-		:silent !mkdir './pdf'
-	endif
-
-	:silent !clear
-	if filereadable(./pdf/'%:r'.pdf)
-		:silent !rm '%:r'.pdf
-	endif
-
-	:silent !pandoc '%:p' -o ./pdf/'%:r'.pdf --variable fontsize=12pt --variable linestretch=1.5
-	:silent !open ./pdf/'%:r'.pdf
-	:redraw!
-endfunction
-
-map <Leader>op :call OpenMarkdownPreview()<CR>
-map <Leader>cp ciw<C-R>0
+map <Leader>cp ciw<C-R>0<Esc>
 
 set spell spelllang=en_gb
 
@@ -119,3 +97,32 @@ let g:syntastic_html_tidy_inline_tags=["ui-view, template"]
 " insert mode
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" OS specific configurations
+if has('mac')
+  " Adds a command <SPACE>op to generate the .md file out to a .pdf file using
+  " pandoc and LaTex. The function will add a folder in the same directory as
+  " the file called ./pdf if it isn't there, delete any existing pdf files with
+  " the same name and then generate and open the file in preview.
+  let mapleader = " " " Binds <Leader> to SPACE
+  function! OpenMarkdownPreview()
+    if !isdirectory('./pdf')
+      :silent !mkdir './pdf'
+    endif
+
+    :silent !clear
+    if filereadable(./pdf/'%:r'.pdf)
+      :silent !rm '%:r'.pdf
+    endif
+
+    :silent !pandoc '%:p' -o ./pdf/'%:r'.pdf --variable fontsize=12pt --variable linestretch=1.5
+    :silent !open ./pdf/'%:r'.pdf
+    :redraw!
+  endfunction
+
+  map <Leader>op :call OpenMarkdownPreview()<CR>
+
+  let g:syntastic_python_python_exec="/usr/local/Cellar/python3/3.5.0"
+elseif has('unix')
+
+endif
