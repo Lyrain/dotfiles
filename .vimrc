@@ -69,6 +69,7 @@ function! OpenMarkdownPreview()
 endfunction
 
 map <Leader>op :call OpenMarkdownPreview()<CR>
+map <Leader>cp ciw<C-R>0
 
 set spell spelllang=en_gb
 
