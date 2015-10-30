@@ -8,5 +8,17 @@
 # http://superuser.com/questions/183870/
 export EDITOR=vim
 
-PATH=$PATH:~/Games/startScripts/
+# OS Specific
+if [[ "$(uname)" == 'Darwin' ]]; then
+  # Add laravel to the PATH. Gets removed on close, hence here.
+  export PATH="$PATH:~/.composer/vendor/bin"
+
+  # Add homebrew sbin to PATH so that executables work
+  export PATH="$PATH:/usr/local/sbin"
+
+  # Add Mercurial to PATH
+  export PATH="$PATH:/usr/local/Cellar/mercurial/3.5.2/bin"
+elif [[ "$(uname)" == 'Linux' ]]; then
+  PATH=$PATH:~/Games/startScripts/
+fi
 
