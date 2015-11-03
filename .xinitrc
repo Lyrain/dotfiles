@@ -4,7 +4,7 @@
 setxkbmap -option caps:escape
 
 # Disable the screen from going black
-xset s off
+xset s off -dpms
 
 # Tell X to load ~/.Xresources
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources

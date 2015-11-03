@@ -24,7 +24,7 @@ if [[ "$(uname)" == 'Darwin' ]]; then
       fi
   }
 elif [[ "$(uname)" == 'Linux' ]]; then
-  alias sysupdate ='sudo pacman -Syu'
+  alias sysupdate='sudo pacman -Syu'
 fi
 
 alias cl='clear'
