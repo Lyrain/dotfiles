@@ -122,7 +122,8 @@ if has('mac')
 
   map <Leader>op :call OpenMarkdownPreview()<CR>
 
-  let g:syntastic_python_python_exec="/usr/local/Cellar/python3/3.5.0"
+  let g:syntastic_python_python_exec="/usr/local/Cellar/python3/3.5.0/bin/python3"
 elseif has('unix')
 
 endif
+
