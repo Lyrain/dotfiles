@@ -23,8 +23,6 @@ if [[ "$(uname)" == 'Darwin' ]]; then
           highlight -O rtf -t 2 -K 11 "$1" | pbcopy
       fi
   }
-
-  # scutil --set HostName Myless-MacBook-Pro.local
 elif [[ "$(uname)" == 'Linux' ]]; then
   alias sysupdate='sudo pacman -Syu'
 fi
