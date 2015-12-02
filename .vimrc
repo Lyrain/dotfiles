@@ -17,11 +17,10 @@ filetype plugin indent on
 set t_Co=256
 set term=xterm-256color
 
-" Solarized Set up
+" Color scheme Set up
 syntax enable
-set background=dark
 
-" Solarized options
+" Color scheme options
 colorscheme solarized
 
 " 80 line marker
@@ -35,7 +34,6 @@ set laststatus=2
 
 " Airline Config
 " let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = 'solarized'
 
 set background=dark
 let g:airline_solarized_bg = "dark"
@@ -73,6 +71,10 @@ autocmd FileType python setlocal shiftwidth=4 tabstop=4
 :nmap <C-N><C-N> :set invnumber<CR>
 set number
 
+" Date time stamp by pressing F5
+:nnoremap <F5> "=strftime("%c")<CR>P
+:inoremap <F5> <C-R>=strftime("%c")<CR>
+
 " Configuration for Syntastic
 " Recommended Configuration
 set statusline+=%#warningmsg#
@@ -98,6 +100,10 @@ let g:syntastic_html_tidy_inline_tags=["ui-view, template"]
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
+" Table mode Config
+let g:table_mode_corner_corner="+"
+let g:table_mode_header_fillchar="="
+
 " OS specific configurations
 if has('mac')
   " Adds a command <SPACE>op to generate the .md file out to a .pdf file using
@@ -115,7 +121,7 @@ if has('mac')
       :silent !rm '%:r'.pdf
     endif
 
-    :silent !pandoc '%:p' -o ./pdf/'%:r'.pdf --toc --variable fontsize=12pt --variable linestretch=1.5
+    :silent !pandoc '%:p' -o ./pdf/'%:r'.pdf --toc --variable fontsize=12pt --variable linestretch=1.5 --variable geometry:margin=1in
     :silent !open ./pdf/'%:r'.pdf
     :redraw!
   endfunction
