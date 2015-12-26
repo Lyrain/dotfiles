@@ -22,6 +22,8 @@ if [[ "$(uname)" == 'Darwin' ]]; then
   # Add pylint to PATH
   export PATH="$PATH:/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin"
 elif [[ "$(uname)" == 'Linux' ]]; then
-  PATH=$PATH:~/Games/startScripts/
+  export PATH="$PATH:~/Games/startScripts/"
+
+  export QEMU_AUDIO_DRV=alsa
 fi
 
