@@ -14,6 +14,7 @@ if [[ "$(uname)" == 'Darwin' ]]; then
   killall Finder /System/Library/CoreServices/Finder.app'
 
   alias py='python3'
+  alias ruby="/usr/local/Cellar/ruby/2.2.3/bin/ruby" 
 
   # Pretty code copy function
   function hl() {
@@ -29,5 +30,6 @@ fi
 
 alias cl='clear'
 alias ll='ls -lah'
+alias ..='cd ..'
 alias tree='tree -I *.pyc'
 

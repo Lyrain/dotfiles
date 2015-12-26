@@ -87,6 +87,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 " Syntastic won't check html files unless you manually :SyntasticCheck
+" This is cause most html files take some form of template engine/scripting
 let syntastic_mode_map = { 'passive_filetypes': ['html'] }
 
 " Ignore ng- attributes in html
@@ -99,6 +100,8 @@ let g:syntastic_html_tidy_inline_tags=["ui-view, template"]
 " insert mode
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" let g:ycm_filetype_blacklist = { 'ruby': 1 }
 
 " Table mode Config
 let g:table_mode_corner_corner="+"
@@ -129,6 +132,7 @@ if has('mac')
   map <Leader>op :call OpenMarkdownPreview()<CR>
 
   let g:syntastic_python_python_exec="/usr/local/Cellar/python3/3.5.0/bin/python3"
+  let g:syntastic_python_checkers = ['python']
 elseif has('unix')
 
 endif

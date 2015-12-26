@@ -18,6 +18,9 @@ if [[ "$(uname)" == 'Darwin' ]]; then
 
   # Add Mercurial to PATH
   export PATH="$PATH:/usr/local/Cellar/mercurial/3.5.2/bin"
+
+  # Add pylint to PATH
+  export PATH="$PATH:/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin"
 elif [[ "$(uname)" == 'Linux' ]]; then
   PATH=$PATH:~/Games/startScripts/
 fi
