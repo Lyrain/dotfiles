@@ -1,3 +1,6 @@
+-- Configure home path
+home_path = os.getenv('HOME') .. '/'
+
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -16,7 +19,7 @@ local menubar = require("menubar")
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
-                     title = "Oops, there were errors during startup!",
+                     title = "There were errors during start-up!",
                      text = awesome.startup_errors })
 end
 
@@ -29,7 +32,7 @@ do
         in_error = true
 
         naughty.notify({ preset = naughty.config.presets.critical,
-                         title = "Oops, an error happened!",
+                         title = "An error has occurred!",
                          text = err })
         in_error = false
     end)
@@ -41,7 +44,8 @@ end
 beautiful.init(awful.util.getdir("config") .. "/themes/zenburn-custom/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xterm"
+terminal = "urxvt"
+
 -- Should be set to vim anyway via $EDITOR
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
@@ -51,7 +55,7 @@ editor_cmd = terminal .. " -e " .. editor
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+modkey = "Mod1"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
@@ -81,10 +85,25 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags = {}
+tags = {
+  names = {
+    'Chrome',
+    'Vim',
+    'Docs',
+    'Multimedia',
+    'Junk'
+  },
+  layout = {
+    layouts[3], -- Chrome
+    layouts[3], -- Vim
+    layouts[3], -- Docs
+    layouts[3], -- Multimedia
+    layouts[3] -- Junk
+  }
+}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
 
@@ -94,11 +113,20 @@ myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
-   { "quit", awesome.quit }
+   { "quit", awesome.quit },
+   { "shutdown", "shutdown now" }
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+gamesmenucommand = "cd ~/Games/startScripts && "
+
+gamesmenu= {
+  { "Minecraft", gamesmenucommand .. "./minecraft" },
+  { "Factorio", gamesmenucommand .. "./factorio" }
+}
+
+mymainmenu = awful.menu({ items = { { "Awesome", myawesomemenu, beautiful.awesome_icon },
+                                    -- { "Games", gamesmenu, beautiful.awesome_icon },
+                                    { "Open Terminal", terminal }
                                   }
                         })
 

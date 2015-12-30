@@ -22,8 +22,13 @@ if [[ "$(uname)" == 'Darwin' ]]; then
   # Add pylint to PATH
   export PATH="$PATH:/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin"
 elif [[ "$(uname)" == 'Linux' ]]; then
+  # Game starting scripts
   export PATH="$PATH:~/Games/startScripts/"
 
+  # Sound set-up for QEMU
   export QEMU_AUDIO_DRV=alsa
+
+  # Set terminal to urxvt
+  export TERM=rxvt-unicode
 fi
 
