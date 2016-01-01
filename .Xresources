@@ -27,10 +27,8 @@ URxvt.internalBorder:       3
 URxvt.lineSpace:            0
 
 ! Fonts
-URxvt.allow_bold:           false
-/* URxvt.font:                 -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1 */
-URxvt*font: xft:Ubuntu Mono:pixelsize=16
-URxvt*boldFont: xft:Ubuntu Mono:pixelsize=14
+URxvt*font: xft:Inconsolata:pixelsize=14
+URxvt*boldFont: xft:Inconsolata:pixelsize=14
 
 ! Fix font space
 URxvt*letterSpace: -1
