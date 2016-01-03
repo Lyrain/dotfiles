@@ -60,8 +60,9 @@ PROMPT="
 ${hg_info} \
 ${git_info} \
 ${git_last_commit}
-%{$fg[red]%}%* \
 %{$terminfo[bold]$fg[white]%}› %{$reset_color%}"
+
+#%{$fg[red]%}%* \
 
 if [[ "$USER" == "root" ]]; then
 PROMPT="
