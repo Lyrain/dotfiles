@@ -103,9 +103,12 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " let g:ycm_filetype_blacklist = { 'ruby': 1 }
 
-" Table mode Config
-let g:table_mode_corner_corner="+"
-let g:table_mode_header_fillchar="="
+" Nerdtree config
+" Maps nerd tree toggle
+map <C-t> :NERDTreeToggle<CR>
+
+" Closes vim if nerdtree is only tab open
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " OS specific configurations
 if has('mac')
