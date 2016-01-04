@@ -50,7 +50,7 @@ ys_hg_prompt_info() {
 	fi
 }
 
-# Prompt format: \n # TIME USER at MACHINE in [DIRECTORY] on git:BRANCH STATE \n $ 
+# Prompt format: \n # TIME USER at MACHINE in [DIRECTORY] on git:BRANCH STATE \n $
 PROMPT="
 %{$fg[cyan]%}%n \
 %{$fg[white]%}at \
