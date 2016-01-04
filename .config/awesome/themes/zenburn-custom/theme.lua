@@ -41,7 +41,7 @@ end
 --}}}
 
 -- {{{ Styles
-theme.font      = "Profont 8"
+theme.font      = "FreeFont 12"
 
 -- {{{ Colors
 theme.fg_normal = "#DCDCCC"
