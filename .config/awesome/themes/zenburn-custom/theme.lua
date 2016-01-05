@@ -41,7 +41,7 @@ end
 --}}}
 
 -- {{{ Styles
-theme.font      = "FreeFont 12"
+theme.font      = "DejaVu Sans 12"
 
 -- {{{ Colors
 theme.fg_normal = "#DCDCCC"
