@@ -36,5 +36,4 @@ setopt autocd
 alias cl='clear'
 alias ll='ls -lah'
 alias ..='cd ..'
-alias tree='tree -I *.pyc'
 
