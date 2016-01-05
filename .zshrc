@@ -27,7 +27,7 @@ export LANG=en_GB.UTF-8
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='mvim'
+  export EDITOR='vim'
 fi
 
 # No need to change directory with cd, Can just type dir name an hit enter
