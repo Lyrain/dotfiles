@@ -47,6 +47,9 @@ autocmd BufWritePre *.md :%s/\s\+$//e
 
 map <Leader>cp ciw<C-R>0<Esc>
 
+" C-N twice goes to next tab
+:nmap <C-N><C-N> :tabn<CR>
+
 set spell spelllang=en_gb
 
 " size of a hard tab stop
@@ -67,8 +70,7 @@ autocmd FileType python setlocal shiftwidth=4 tabstop=4
 :set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
 :set list
 
-" Set Toggle Line number to Ctrl-N twice
-:nmap <C-N><C-N> :set invnumber<CR>
+" Set line numbers on
 set number
 
 " Date time stamp by pressing F5
@@ -106,6 +108,13 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " Nerdtree config
 " Maps nerd tree toggle
 map <C-t> :NERDTreeToggle<CR>
+
+" Opens NERDTree automagically when vim starts
+" autocmd vimenter * NERDTree
+
+" Opens NERDTree automagically when vim starts with no specified files
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Closes vim if nerdtree is only tab open
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
