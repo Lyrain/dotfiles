@@ -1,6 +1,7 @@
 #
 # Symlink to ~/.oh-my-zsh/custom/themes/xxf.zsh-theme
 # Make the /themes directory first
+# This is a personally modified version of xxf.zsh-theme
 #
 
 # Copy and self modified from ys.zsh-theme, the one of default themes in master repository
