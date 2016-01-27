@@ -141,7 +141,23 @@ if has('mac')
     :redraw!
   endfunction
 
+  function! PandocNoToc()
+    if !isdirectory('./pdf')
+      :silent !mkdir './pdf'
+    endif
+
+    :silent !clear
+    if filereadable(./pdf/'%:r'.pdf)
+      :silent !rm '%:r'.pdf
+    endif
+
+    :silent !pandoc '%:p' -o ./pdf/'%:r'.pdf --variable fontsize=12pt --variable linestretch=1.5 --variable geometry:margin=1in
+    :silent !open ./pdf/'%:r'.pdf
+    :redraw!
+  endfunction
+
   map <Leader>op :call OpenMarkdownPreview()<CR>
+  map <Leader>nt :call PandocNoToc()<CR>
 
   let g:syntastic_python_python_exec="/usr/local/Cellar/python3/3.5.0/bin/python3"
   let g:syntastic_python_checkers = ['python']
