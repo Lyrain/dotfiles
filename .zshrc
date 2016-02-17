@@ -32,6 +32,7 @@ setopt autocd
 alias cl='clear'
 alias ll='ls -lah'
 alias ..='cd ..'
+alias cpwd='pwd | pbcopy'
 
 # OS Specific
 if [[ "$(uname)" == 'Darwin' ]]; then
