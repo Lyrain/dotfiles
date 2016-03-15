@@ -136,7 +136,7 @@ if has('mac')
       :silent !rm '%:r'.pdf
     endif
 
-    :silent !pandoc --filter pandoc-citeproc '%:p' --biblio ./bib.bib --csl=ieee.csl -o ./pdf/'%:r'.pdf --toc --variable fontsize=12pt --variable linestretch=1.5 --variable geometry:margin=1in
+    :silent !pandoc --filter pandoc-citeproc '%:p' --biblio ./bib.bib --csl=ieee.csl -o ./pdf/'%:r'.pdf --latex-engine=xelatex --toc --variable fontsize=12pt --variable linestretch=1.5 --variable geometry:margin=1in
     :silent !open ./pdf/'%:r'.pdf
     :redraw!
   endfunction
