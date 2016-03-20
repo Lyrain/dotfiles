@@ -46,11 +46,19 @@ if [[ "$(uname)" == 'Darwin' ]]; then
   # alias ruby="/usr/local/Cellar/ruby/2.2.3/bin/ruby"
 
   # Pretty code copy function
-  function hl() {
+  function hl () {
       if [ -z "$1" ]; then
           echo Your doing things wrong...
       else
           highlight -O rtf -t 2 -K 11 "$1" | pbcopy
+      fi
+  }
+
+  function git () {
+      if [ "$1" = push ]; then
+          command git push && say -v Whisper "It has been pushed"
+      else
+          command git "$@"
       fi
   }
 elif [[ "$(uname)" == 'Linux' ]]; then
