@@ -105,6 +105,9 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " let g:ycm_filetype_blacklist = { 'ruby': 1 }
 
+" Ask once per ycm_extra_conf.py file
+let g:ycm_extra_conf_globlist = ['~/code/cpp/network_test/*']
+
 " Nerdtree config
 " Maps nerd tree toggle
 map <C-t> :NERDTreeToggle<CR>
