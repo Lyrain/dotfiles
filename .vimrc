@@ -90,7 +90,7 @@ let g:syntastic_check_on_wq = 0
 
 " Syntastic won't check html files unless you manually :SyntasticCheck
 " This is cause most html files take some form of template engine/scripting
-let syntastic_mode_map = { 'passive_filetypes': ['html'] }
+let syntastic_mode_map = { 'passive_filetypes': ['html', 'java'] }
 
 " Ignore ng- attributes in html
 " Ignore meteor:blaze errors
