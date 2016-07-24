@@ -87,6 +87,7 @@ tramp
 # eshell files
 /eshell/history
 /eshell/lastdir
+eshell
 
 # elpa packages
 /elpa/
@@ -112,4 +113,10 @@ flycheck_*.el
 
 # el-get
 el-get
+
+# games
+games
+
+# Theme
+emacs-color-theme-solarized
 
