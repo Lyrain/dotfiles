@@ -90,7 +90,7 @@ let g:syntastic_check_on_wq = 0
 
 " Syntastic won't check html files unless you manually :SyntasticCheck
 " This is cause most html files take some form of template engine/scripting
-let syntastic_mode_map = { 'passive_filetypes': ['html'] }
+let syntastic_mode_map = { 'passive_filetypes': ['html', 'java'] }
 
 " Ignore ng- attributes in html
 " Ignore meteor:blaze errors
@@ -104,6 +104,9 @@ autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " let g:ycm_filetype_blacklist = { 'ruby': 1 }
+
+" Ask once per ycm_extra_conf.py file
+let g:ycm_extra_conf_globlist = ['~/code/cpp/network_test/*']
 
 " Nerdtree config
 " Maps nerd tree toggle
