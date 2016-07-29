@@ -97,7 +97,7 @@ tags = {
     layouts[3], -- Chrome
     layouts[3], -- Vim
     layouts[3], -- Docs
-    layouts[3], -- Multimedia
+    layouts[1], -- Multimedia
     layouts[3] -- Junk
   }
 }
