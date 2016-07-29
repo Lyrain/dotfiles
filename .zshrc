@@ -26,13 +26,16 @@ export LANG=en_GB.UTF-8
 # Preferred editor
 export EDITOR='vim'
 
-# No need to change directory with cd, Can just type dir name an hit enter
+# No need to change directory with cd, Can just type dir name and hit enter
 setopt autocd
 
+# Aliases
 alias cl='clear'
 alias ll='ls -lah'
 alias ..='cd ..'
-alias cpwd='pwd | pbcopy'
+
+# Git aliases
+alias gits='git status'
 
 # OS Specific
 if [[ "$(uname)" == 'Darwin' ]]; then
@@ -43,6 +46,8 @@ if [[ "$(uname)" == 'Darwin' ]]; then
   killall Finder /System/Library/CoreServices/Finder.app'
 
   alias py='python3'
+  # pbcopy is OS X specific
+  alias cpwd='pwd | pbcopy'
   # alias ruby="/usr/local/Cellar/ruby/2.2.3/bin/ruby"
 
   # Pretty code copy function
