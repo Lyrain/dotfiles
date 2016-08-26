@@ -2,16 +2,39 @@
 " ~/.vimrc - Myles Offord
 " =========================
 
+" Vundle Start
+set nocompatible " Required
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" Let Vundle manage itself.
+Plugin 'gmarik/Vundle.vim'
+
+" Plugins
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-surround'
+Plugin 'mattn/emmet-vim'
+
+" Color Scheme
+Plugin 'altercation/vim-colors-solarized'
+
+call vundle#end()
+filetype plugin indent on
+" Vundle End
+
 " Automatic Reloading of the .vimrc file
 autocmd! BufWritePost .vimrc source %
 
+syntax on
+
 " Make copy/paste work properly in tmux/iterm2
 set clipboard=unnamed
-
-" Plugin infection
-execute pathogen#infect()
-syntax on
-filetype plugin indent on
 
 " Color set up
 set t_Co=256

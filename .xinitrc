@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# Binds escape to caps lock key cause I don't  have alien fingers
+# Binds escape to caps lock key cause I don't have alien fingers
 setxkbmap -option caps:escape
 
 # Disable the screen from going black

@@ -25,6 +25,17 @@ if [[ "$(uname)" == 'Darwin' ]]; then
   brew cleanup
 
 elif [[ "$(uname)" == 'Linux' ]]; then
-  # Assume arch, use pacman
-  pacman -Syu
+  # Assume Debian (I don't use anything else)
+
+  apt-get install git
 fi
+
+# Setup vim, this isn't platform specific assuming we have installed already
+# git
+
+# Clone Vundle
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+# Install Plugins
+vim +PluginInstall +qall
+
