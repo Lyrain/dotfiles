@@ -36,8 +36,7 @@ Return a list of installed packages or nil for every skipped package."
 				'helm
 				'projectile
 				'helm-projectile
-                                'web-mode
-                                'coffee-mode)
+                                'web-mode)
 
 ;; Custom theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/emacs-color-theme-solarized")
