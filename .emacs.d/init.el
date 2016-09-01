@@ -17,10 +17,10 @@ Return a list of installed packages or nil for every skipped package."
   (mapcar
    (lambda (package)
      (if (package-installed-p package)
-	 nil
+   nil
        (if (y-or-n-p (format "Package %s is missing. Install it? " package))
-	   (package-install package)
-	 package)))
+     (package-install package)
+   package)))
    packages))
 
 ;; Make sure to have downloaded archive description.
@@ -32,10 +32,10 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; List packages for installation here.
 (fluff-ensure-package-installed 'evil
-				'evil-surround
-				'helm
-				'projectile
-				'helm-projectile
+                                'evil-surround
+                                'helm
+                                'projectile
+                                'helm-projectile
                                 'web-mode)
 
 ;; Custom theme
@@ -85,3 +85,4 @@ Return a list of installed packages or nil for every skipped package."
 
 (require 'helm-projectile)
 (helm-projectile-on)
+
