@@ -36,7 +36,8 @@ Return a list of installed packages or nil for every skipped package."
                                 'helm
                                 'projectile
                                 'helm-projectile
-                                'web-mode)
+                                'web-mode
+                                'emmet-mode)
 
 ;; Custom theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/emacs-color-theme-solarized")
@@ -81,8 +82,21 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; Projectile + Helm-projectile
 (require 'projectile)
-(projectile-mode t)
+(projectile-global-mode)
 
 (require 'helm-projectile)
 (helm-projectile-on)
 
+;; Web-Mode
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(setq web-mode-markup-indent-offset 2)
+(setq web-mode-css-indent-offset 2) ;; CSS offset indentation
+(setq web-mode-code-indent-offset 2) ;; Script/code offset indentation (for JavaScript, Java, PHP, Ruby, VBScript, Python, etc.)
+
+;; Emmet-Mode
+(require 'emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes.
+(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+(setq emmet-move-cursor-between-quotes t) ;; Move the cursor to the first set of empty quotes, default nil.
+(setq emmet-expand-jsx-className? t) ;; Expand for JSX for use with react, default nil.
