@@ -20,6 +20,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-surround'
 Plugin 'mattn/emmet-vim'
+Plugin 'rust-lang/rust.vim'
 
 " Color Scheme
 Plugin 'altercation/vim-colors-solarized'
