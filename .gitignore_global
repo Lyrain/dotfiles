@@ -120,3 +120,7 @@ games
 # Theme
 emacs-color-theme-solarized
 
+# Elpa Packages folder
+.emacs.d/elpa
+
+
