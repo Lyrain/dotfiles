@@ -33,6 +33,7 @@ setopt autocd
 alias cl='clear'
 alias ll='ls -lah'
 alias ..='cd ..'
+alias desk='~/Desktop'
 
 # Git aliases
 alias gits='git status'
