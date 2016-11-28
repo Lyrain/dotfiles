@@ -19,11 +19,16 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
 Plugin 'mattn/emmet-vim'
 Plugin 'rust-lang/rust.vim'
 
 " Color Scheme
 Plugin 'altercation/vim-colors-solarized'
+" Plugin 'sickill/vim-monokai'
+
+" Remeber to run :PluginInstall
+" OR vim +PluginInstall +qall from the terminal!
 
 call vundle#end()
 filetype plugin indent on

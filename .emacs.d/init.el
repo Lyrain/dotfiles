@@ -7,6 +7,9 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
+;; Print debug stacktrace when an error is detected
+(setq debug-on-error  t)
+
 ;; Initialize packages
 (setq package-enable-at-startup nil)
 
@@ -31,8 +34,8 @@ Return a list of installed packages or nil for every skipped package."
 (package-initialize)
 
 ;; List packages for installation here.
-(fluff-ensure-package-installed 'evil
-                                'evil-surround
+;; 'evil 'evil-surround ?
+(fluff-ensure-package-installed 'monokai-theme
                                 'helm
                                 'projectile
                                 'helm-projectile
@@ -40,10 +43,7 @@ Return a list of installed packages or nil for every skipped package."
                                 'emmet-mode)
 
 ;; Custom theme
-(add-to-list 'custom-theme-load-path "~/.emacs.d/emacs-color-theme-solarized")
-;; Need to set-frame-parameter to dark before loading the them, otherwise it doesn't work
-(set-frame-parameter nil 'background-mode 'dark)
-(load-theme 'solarized t)
+(load-theme 'monokai t)
 
 ;; Essential settings.
 (setq inhibit-splash-screen t
@@ -64,28 +64,85 @@ Return a list of installed packages or nil for every skipped package."
 (setq custom-safe-themes t)
 (put 'narrow-to-region 'disabled nil)
 (custom-set-variables
- '(initial-frame-alist (quote ((fullscreen . maximized)))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(package-selected-packages (quote (web-mode helm-projectile evil-surround emmet-mode))))
+(setq scroll-step 1)
 ;; Change from control to command on mac
-;; (setq mac-command-modifier 'control)
+(setq mac-command-modifier 'control)
 
 ;; Evil-Mode
-(require 'evil)
-(evil-mode t)
+;; (require 'evil)
+;; (evil-mode t)
 
 ;; Evil-Surround
-(require 'evil-surround)
-(global-evil-surround-mode t)
+;; (require 'evil-surround)
+;; (global-evil-surround-mode t)
 
 ;; Helm
 (require 'helm)
-(helm-mode t)
+(require 'helm-config)
 
-;; Projectile + Helm-projectile
-(require 'projectile)
+;; The default "C-x c" is quite close to "C-x C-x", which quits Emacs.
+;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+;; cannot change 'helm-command-prefix-key' once 'helm-config' is loaded.
+(global-unset-key (kbd "C-x c"))
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+;; rebind tab to run persistent action 
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+;; make TAB work in terminal
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+;; list actions using C-z
+(define-key helm-map (kbd "C-z") 'helm-select-action)
+
+(when (executable-find "curl")
+  (setq helm-google-suggest-use-curl-p t))
+
+(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, no occupy whole other window
+      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in 'require' and 'declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t
+      helm-echo-input-in-header-line        t)
+
+(defun fluff-helm-hide-minibuffer-maybe ()
+  "Hide minibuffer in Helm session if we use the header line as input field."
+  (when (with-helm-buffer helm-echo-input-in-header-line)
+    (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
+      (overlay-put ov 'window (selected-window))
+      (overlay-put ov 'face
+                   (let ((bg-color (face-background 'default nil)))
+                     `(:background, bg-color :foreground, bg-color)))
+      (setq-local cursor-type nil))))
+
+(add-hook 'helm-minibuffer-set-up-hook
+          'fluff-helm-hide-minibuffer-maybe)
+
+(setq helm-autoresize-max-height 0)
+(setq helm-autoresize-min-height 20)
+(helm-autoresize-mode 1)
+
+(helm-mode 1)
+
+;; Projectile + helm-projectile
 (projectile-global-mode)
-
-(require 'helm-projectile)
+(setq projectile-completion-system 'helm)
 (helm-projectile-on)
+
+;; Projectile file indexing is really slow on windows (this is the default elsewhere)
+;; setting to 'alien uses external tools (git, find, etc) to index files (much faster than lisp solution)
+(setq projectile-indexing-method 'alien)
+
+;; Use helm completion for switching projectile projects
+(setq projectile-switch-project-action 'helm-projectile)
+
+
 
 ;; Web-Mode
 (require 'web-mode)
