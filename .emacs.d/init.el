@@ -71,6 +71,11 @@ Return a list of installed packages or nil for every skipped package."
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages (quote (web-mode helm-projectile evil-surround emmet-mode))))
 (setq scroll-step 1)
+
+;; Turn Backup off because it is very annoying
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
+
 ;; Change from control to command on mac
 (setq mac-command-modifier 'control)
 
