@@ -19,7 +19,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-repeat' " Enables repeat of vim-surround
 Plugin 'mattn/emmet-vim'
 Plugin 'rust-lang/rust.vim'
 
@@ -140,6 +140,9 @@ let g:ycm_extra_conf_globlist = ['~/code/cpp/network_test/*']
 " Nerdtree config
 " Maps nerd tree toggle
 map <C-t> :NERDTreeToggle<CR>
+
+" Show hidden files by default, this can be toggled with I. (Uppercase i)
+let NERDTreeShowHidden=1
 
 " Opens NERDTree automagically when vim starts
 " autocmd vimenter * NERDTree
