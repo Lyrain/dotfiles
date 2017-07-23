@@ -78,6 +78,16 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; Change from control to command on mac
 (setq mac-command-modifier 'control)
+(global-linum-mode 1)
+
+;; Save all tempfiles in $TMPDIR/emacs$UID/
+(defconst emacs-tmp-dir (format "%s/$s$s/" temporary-file-directory "emcas" (user-uid)))
+(setq backup-directory-alist
+      '((".*" . ,emacs-tmp-dir)))
+(setq auto-save-file-name-transforms
+      '((".*" ,emacs-tmp-dir t)))
+(setq auto-save-list-file-prefix
+      emacs-tmp-dir)
 
 ;; Evil-Mode
 ;; (require 'evil)
