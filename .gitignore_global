@@ -110,7 +110,7 @@ flycheck_*.el
 
 # projectiles files
 .projectile
-.eld
+*.eld
 
 # el-get
 el-get
