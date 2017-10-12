@@ -14,7 +14,7 @@
 (setq package-enable-at-startup nil)
 
 (defun fluff-ensure-package-installed (&rest packages)
-  "Assure every package is installed, ask for installation if it's not.
+  "Ensure every package is installed, ask for installation if it's not.
 
 Return a list of installed packages or nil for every skipped package."
   (mapcar
@@ -37,6 +37,8 @@ Return a list of installed packages or nil for every skipped package."
 ;; 'evil 'evil-surround ?
 (fluff-ensure-package-installed 'monokai-theme
                                 'helm
+                                'evil
+                                'evil-surround
                                 'projectile
                                 'helm-projectile
                                 'web-mode
@@ -90,12 +92,26 @@ Return a list of installed packages or nil for every skipped package."
       emacs-tmp-dir)
 
 ;; Evil-Mode
-;; (require 'evil)
-;; (evil-mode t)
+(require 'evil)
+(evil-mode t)
+
+;; Map 'c' in such a way ciw & cow works properly
+(general-nmap "c"
+              (general-key-dispatch 'evil-change
+                "ow" 'toggle-word-wrap
+                "w"  (general-simulate-keys ('evil-change "iw"))
+                "iw" (general-simulate-keys ('evil-change "iw"))
+                "tb" 'some-command
+                "c"  'evil-change-whole-line
+                ;; could be used for other operators where there
+                ;; isn't an existing command for the linewise version:
+                ;; "c" (general-simulate-keys ('evil-change "c"))
+                ))
+(general-vmap "c" 'evil-change)
 
 ;; Evil-Surround
-;; (require 'evil-surround)
-;; (global-evil-surround-mode t)
+(require 'evil-surround)
+(global-evil-surround-mode t)
 
 ;; Helm
 (require 'helm)

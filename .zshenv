@@ -15,6 +15,9 @@ if [[ "$(uname)" == 'Darwin' ]]; then
 
   # Add pylint to PATH
   export PATH="$PATH:/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin"
+
+  # Set GEM_HOME for per-user gem install
+  export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 elif [[ "$(uname)" == 'Linux' ]]; then
   # Game starting scripts
   export PATH="$PATH:~/Games/startScripts/"
