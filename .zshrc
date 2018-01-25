@@ -46,9 +46,9 @@ if [[ "$(uname)" == 'Darwin' ]]; then
   alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO;
   killall Finder /System/Library/CoreServices/Finder.app'
 
-  alias py='python3'
+  alias python='python3'
   # pbcopy is OS X specific
-  alias cpwd='pwd | pbcopy'
+  alias cpwd='printf "%q\n" "$(pwd)" | pbcopy'
   # alias ruby="/usr/local/Cellar/ruby/2.2.3/bin/ruby"
 
   # Pretty code copy function
