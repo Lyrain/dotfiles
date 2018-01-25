@@ -121,11 +121,6 @@ let g:syntastic_check_on_wq = 0
 " This is cause most html files take some form of template engine/scripting
 let syntastic_mode_map = { 'passive_filetypes': ['html', 'java'] }
 
-" Ignore ng- attributes in html
-" Ignore meteor:blaze errors
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
-let g:syntastic_html_tidy_inline_tags=["ui-view, template"]
-
 " If you prefer the Omni-Completion tip window to close when a selection is
 " made, these lines close it on movement in insert mode or when leaving
 " insert mode
@@ -143,9 +138,6 @@ map <C-t> :NERDTreeToggle<CR>
 
 " Show hidden files by default, this can be toggled with I. (Uppercase i)
 let NERDTreeShowHidden=1
-
-" Opens NERDTree automagically when vim starts
-" autocmd vimenter * NERDTree
 
 " Opens NERDTree automagically when vim starts with no specified files
 autocmd StdinReadPre * let s:std_in=1
