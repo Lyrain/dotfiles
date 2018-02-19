@@ -18,16 +18,18 @@ if [[ "$(uname)" == 'Darwin' ]]; then
 
   # Set GEM_HOME for per-user gem install
   export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
-elif [[ "$(uname)" == 'Linux' ]]; then
-  # Game starting scripts
-  export PATH="$PATH:~/Games/startScripts/"
-
-  # Sound set-up for QEMU
-  export QEMU_AUDIO_DRV=alsa
-
-  # Set terminal to urxvt
-  export TERM=rxvt-unicode
 fi
+
+# if [[ "$(uname)" == 'Linux' ]]; then
+#   # Game starting scripts
+#   export PATH="$PATH:~/Games/startScripts/"
+#
+#   # Sound set-up for QEMU
+#   export QEMU_AUDIO_DRV=alsa
+#
+#   # Set terminal to urxvt
+#   export TERM=rxvt-unicode
+# fi
 
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
