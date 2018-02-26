@@ -328,7 +328,7 @@ you should place your code here."
   ;; Disable ivy virtual buffers as they look like real
   ;; open buffers and they annoy me.
   (with-eval-after-load 'recentf
-    (setq ivy-use-virtual-buffers nil)) 
+    (setq ivy-use-virtual-buffers nil))
   (progn ;; Whitespace setup
     (require 'whitespace)
     (add-hook 'prog-mode-hook 'whitespace-mode)
