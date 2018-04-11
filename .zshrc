@@ -20,14 +20,11 @@ plugins=(git ruby rails cargo vundle)
 
 source $ZSH/oh-my-zsh.sh
 
-# You may need to manually set your language environment
-export LANG=en_GB.UTF-8
-
-# Preferred editor
-export EDITOR='vim'
-
 # No need to change directory with cd, Can just type dir name and hit enter
 setopt autocd
+
+# Set vi mode
+# bindkey -v
 
 # Aliases
 alias cl='clear'
@@ -37,6 +34,7 @@ alias desk='~/Desktop'
 
 # Git aliases
 alias gits='git status'
+
 
 # OS Specific
 if [[ "$(uname)" == 'Darwin' ]]; then
@@ -62,3 +60,4 @@ if [[ "$(uname)" == 'Darwin' ]]; then
 elif [[ "$(uname)" == 'Linux' ]]; then
 fi
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

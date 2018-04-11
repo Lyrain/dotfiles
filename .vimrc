@@ -22,6 +22,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat' " Enables repeat of vim-surround
 Plugin 'mattn/emmet-vim'
 Plugin 'rust-lang/rust.vim'
+Plugin 'tpope/vim-fireplace'
+Plugin 'tpope/vim-classpath'
 
 " Color Scheme
 Plugin 'altercation/vim-colors-solarized'
@@ -37,26 +39,30 @@ filetype plugin indent on
 " Automatic Reloading of the .vimrc file
 autocmd! BufWritePost .vimrc source %
 
+" Should-be defaults
 syntax on
-
-" Make copy/paste work properly in tmux/iterm2
+set encoding=utf-8
 set clipboard=unnamed
+set number
+set bs=2
+
+" Splits open at the bottom and right, not the default silly settings.
+set splitbelow
+set splitright
+
+" Split Navigation
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
 
 " Color set up
 set t_Co=256
 set term=xterm-256color
-
-" Color scheme Set up
-syntax enable
-
-" Color scheme options
 colorscheme solarized
 
 " 80 line marker
 let &colorcolumn=join(range(80,81),",")
-
-" Make Backspace kill indents and tabs in one press
-set bs=2
 
 " Display Airline linestatus ALL the time
 set laststatus=2
@@ -74,10 +80,17 @@ let g:vim_markdown_folding_disabled=1
 " Can list multiple files types inside of { *.md, *.txt  } I think.
 autocmd BufWritePre *.md :%s/\s\+$//e
 
-map <Leader>cp ciw<C-R>0<Esc>
+" Bind <Leader> to SPACE
+let mapleader = " "
+
+" Overwrite the word at the cursor with what is in the clipboard
+map <Leader>ow ciw<C-R>0<Esc>
+
+" C-t for new tab
+nnoremap <C-t> :tabnew<CR>
 
 " C-N twice goes to next tab
-:nmap <C-N><C-N> :tabn<CR>
+" nmap <C-N><C-N> :tabn<CR>
 
 set spell spelllang=en_gb
 
@@ -96,15 +109,12 @@ set smarttab " Inserts indents instead of tabs at the start of the line
 
 autocmd FileType python setlocal shiftwidth=4 tabstop=4
 
-:set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
-:set list
-
-" Set line numbers on
-set number
+set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
+set list
 
 " Date time stamp by pressing F5
-:nnoremap <F5> "=strftime("%c")<CR>P
-:inoremap <F5> <C-R>=strftime("%c")<CR>
+nnoremap <F5> "=strftime("%c")<CR>P
+inoremap <F5> <C-R>=strftime("%c")<CR>
 
 " Configuration for Syntastic
 " Recommended Configuration
@@ -127,14 +137,12 @@ let syntastic_mode_map = { 'passive_filetypes': ['html', 'java'] }
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
-" let g:ycm_filetype_blacklist = { 'ruby': 1 }
-
 " Ask once per ycm_extra_conf.py file
-let g:ycm_extra_conf_globlist = ['~/code/cpp/network_test/*']
+" let g:ycm_extra_conf_globlist = ['~/code/cpp/network_test/*']
 
 " Nerdtree config
 " Maps nerd tree toggle
-map <C-t> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
 
 " Show hidden files by default, this can be toggled with I. (Uppercase i)
 let NERDTreeShowHidden=1
@@ -152,35 +160,34 @@ if has('mac')
   " pandoc and LaTex. The function will add a folder in the same directory as
   " the file called ./pdf if it isn't there, delete any existing pdf files with
   " the same name and then generate and open the file in preview.
-  let mapleader = " " " Binds <Leader> to SPACE
   function! OpenMarkdownPreview()
     if !isdirectory('./pdf')
-      :silent !mkdir './pdf'
+      silent !mkdir './pdf'
     endif
 
-    :silent !clear
+    silent !clear
     if filereadable(./pdf/'%:r'.pdf)
-      :silent !rm '%:r'.pdf
+      silent !rm '%:r'.pdf
     endif
 
-    :silent !pandoc --filter pandoc-citeproc '%:p' --biblio ./bib.bib --csl=ieee.csl -o ./pdf/'%:r'.pdf --latex-engine=xelatex --toc --variable fontsize=12pt --variable linestretch=1.5 --variable geometry:margin=1in
-    :silent !open ./pdf/'%:r'.pdf
-    :redraw!
+    silent !pandoc --filter pandoc-citeproc '%:p' --biblio ./bib.bib --csl=ieee.csl -o ./pdf/'%:r'.pdf --latex-engine=xelatex --toc --variable fontsize=12pt --variable linestretch=1.5 --variable geometry:margin=1in
+    silent !open ./pdf/'%:r'.pdf
+    redraw!
   endfunction
 
   function! PandocNoToc()
     if !isdirectory('./pdf')
-      :silent !mkdir './pdf'
+      silent !mkdir './pdf'
     endif
 
-    :silent !clear
+    silent !clear
     if filereadable(./pdf/'%:r'.pdf)
-      :silent !rm '%:r'.pdf
+      silent !rm '%:r'.pdf
     endif
 
-    :silent !pandoc '%:p' -o ./pdf/'%:r'.pdf --variable fontsize=12pt --variable linestretch=1.5 --variable geometry:margin=1in
-    :silent !open ./pdf/'%:r'.pdf
-    :redraw!
+    silent !pandoc '%:p' -o ./pdf/'%:r'.pdf --variable fontsize=12pt --variable linestretch=1.5 --variable geometry:margin=1in
+    silent !open ./pdf/'%:r'.pdf
+    redraw!
   endfunction
 
   map <Leader>op :call OpenMarkdownPreview()<CR>
