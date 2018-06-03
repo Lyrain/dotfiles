@@ -35,6 +35,7 @@ alias desk='~/Desktop'
 # Git aliases
 alias gits='git status'
 
+alias vim='nvim'
 
 # OS Specific
 if [[ "$(uname)" == 'Darwin' ]]; then

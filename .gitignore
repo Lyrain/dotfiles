@@ -120,13 +120,6 @@ tags
 # Custom #
 ##########
 
-.config/*
-
-!.config/i3
-!.config/awesome
-!.config/polybar
-!.config/cmus
-!.config/ranger
-!.config/mpv
-!.config/qutebrowser
+.config/ranger/history
+.config/ranger/bookmarks
 

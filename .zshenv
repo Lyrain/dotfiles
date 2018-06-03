@@ -2,6 +2,8 @@
 # ~/.zshenv
 #
 
+export EDITOR="nvim"
+
 # OS Specific
 if [[ "$(uname)" == 'Darwin' ]]; then
   # Add laravel to the PATH. Gets removed on close, hence here.

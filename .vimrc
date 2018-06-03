@@ -154,48 +154,49 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Closes vim if nerdtree is only tab open
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" OS specific configurations
-if has('mac')
-  " Adds a command <SPACE>op to generate the .md file out to a .pdf file using
-  " pandoc and LaTex. The function will add a folder in the same directory as
-  " the file called ./pdf if it isn't there, delete any existing pdf files with
-  " the same name and then generate and open the file in preview.
-  function! OpenMarkdownPreview()
-    if !isdirectory('./pdf')
-      silent !mkdir './pdf'
-    endif
+" Adds a command <SPACE>op to generate the .md file out to a .pdf file using
+" pandoc and LaTex. The function will add a folder in the same directory as
+" the file called ./pdf if it isn't there, delete any existing pdf files with
+" the same name and then generate and open the file in preview.
+function! Pandoc()
+  if !isdirectory('./pdf')
+    silent !mkdir './pdf'
+  endif
 
-    silent !clear
-    if filereadable(./pdf/'%:r'.pdf)
-      silent !rm '%:r'.pdf
-    endif
+  silent !clear
+  if filereadable(./pdf/'%:r'.pdf)
+    silent !rm '%:r'.pdf
+  endif
 
-    silent !pandoc --filter pandoc-citeproc '%:p' --biblio ./bib.bib --csl=ieee.csl -o ./pdf/'%:r'.pdf --latex-engine=xelatex --toc --variable fontsize=12pt --variable linestretch=1.5 --variable geometry:margin=1in
-    silent !open ./pdf/'%:r'.pdf
-    redraw!
-  endfunction
+  silent !pandoc --filter pandoc-citeproc '%:p' -o ./pdf/'%:r'.pdf
+        \ --pdf-engine=xelatex
+        \ --toc
+        \ --variable fontsize=12pt
+        \ --variable linestretch=1.5
+        \ --variable geometry:margin=1in
+  redraw!
+endfunction
 
-  function! PandocNoToc()
-    if !isdirectory('./pdf')
-      silent !mkdir './pdf'
-    endif
+function! PandocNoToc()
+  if !isdirectory('./pdf')
+    silent !mkdir './pdf'
+  endif
 
-    silent !clear
-    if filereadable(./pdf/'%:r'.pdf)
-      silent !rm '%:r'.pdf
-    endif
+  silent !clear
+  if filereadable(./pdf/'%:r'.pdf)
+    silent !rm '%:r'.pdf
+  endif
 
-    silent !pandoc '%:p' -o ./pdf/'%:r'.pdf --variable fontsize=12pt --variable linestretch=1.5 --variable geometry:margin=1in
-    silent !open ./pdf/'%:r'.pdf
-    redraw!
-  endfunction
+  silent !pandoc '%:p' -o ./pdf/'%:r'.pdf
+        \ --variable fontsize=12pt
+        \ --variable linestretch=1.5
+        \ --variable geometry:margin=1in
+  redraw!
+endfunction
 
-  map <Leader>op :call OpenMarkdownPreview()<CR>
-  map <Leader>nt :call PandocNoToc()<CR>
+map <Leader>op :call Pandoc()<CR>
+map <Leader>nt :call PandocNoToc()<CR>
 
-  let g:syntastic_python_python_exec="/usr/local/Cellar/python3/3.5.0/bin/python3"
-  let g:syntastic_python_checkers = ['python']
-elseif has('unix')
-
-endif
+let g:syntastic_python_python_exec="/usr/local/Cellar/python3/3.5.0/bin/python3"
+let g:syntastic_python_checkers = ['python']
 
