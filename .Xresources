@@ -34,7 +34,7 @@ URxvt*font: xft:Dejavu Sans Mono:style=Book:size=12, \
 URxvt*boldFont: xft:FreeFont:size=12
 
 ! Fix font space
-URxvt*letterSpace: -2
+URxvt*letterSpace: 0
 
 ! Scrollbar
 URxvt.scrollStyle:          rxvt

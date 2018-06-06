@@ -26,7 +26,8 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-classpath'
 
 " Color Scheme
-Plugin 'altercation/vim-colors-solarized'
+" Plugin 'altercation/vim-colors-solarized'
+Plugin 'dylanaraps/wal.vim'
 " Plugin 'sickill/vim-monokai'
 
 " Remeber to run :PluginInstall
@@ -59,7 +60,7 @@ map <C-l> <C-w>l
 " Color set up
 set t_Co=256
 set term=xterm-256color
-colorscheme solarized
+colorscheme wal
 
 " 80 line marker
 let &colorcolumn=join(range(80,81),",")
@@ -126,6 +127,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+" let g:syntastic_rust_checkers = ['cargo']
 
 " Syntastic won't check html files unless you manually :SyntasticCheck
 " This is cause most html files take some form of template engine/scripting

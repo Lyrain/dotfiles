@@ -35,6 +35,8 @@ alias desk='~/Desktop'
 # Git aliases
 alias gits='git status'
 
+# Pretty print json
+alias json='python -m json.tool'
 
 # OS Specific
 if [[ "$(uname)" == 'Darwin' ]]; then
@@ -59,5 +61,7 @@ if [[ "$(uname)" == 'Darwin' ]]; then
   }
 elif [[ "$(uname)" == 'Linux' ]]; then
 fi
+
+(cat ~/.cache/wal/sequences &)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

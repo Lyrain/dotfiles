@@ -127,6 +127,12 @@ tags
 !.config/polybar
 !.config/cmus
 !.config/ranger
+
+.config/ranger/history
+.config/ranger/bookmarks
+
 !.config/mpv
 !.config/qutebrowser
+
+
 
