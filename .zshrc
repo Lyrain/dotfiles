@@ -38,6 +38,9 @@ alias gits='git status'
 # Pretty print json
 alias json='python -m json.tool'
 
+# use neovim
+alias vim='nvim'
+
 # OS Specific
 if [[ "$(uname)" == 'Darwin' ]]; then
   # Show and hide hidden files
@@ -62,6 +65,6 @@ if [[ "$(uname)" == 'Darwin' ]]; then
 elif [[ "$(uname)" == 'Linux' ]]; then
 fi
 
-(cat ~/.cache/wal/sequences &)
+# (cat ~/.cache/wal/sequences &)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
