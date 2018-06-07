@@ -13,7 +13,7 @@ Plug 'tpope/vim-markdown'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace' " Clojure, uses vim-classpath
-
+Plug 'ledger/vim-ledger' " For bookkeeping
 " Haskell
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'Twinside/vim-hoogle', { 'for': 'haskell' }
