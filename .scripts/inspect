@@ -8,22 +8,48 @@ if len(sys.argv) < 2:
     print("inspect file.json [key] [max depth]")
     exit(1)
 
-def dump_json(key = "metadata", depth = 10):
-    count = 0
-    for k, v in jobj[key].items():
-        count += 1
-        print(k, ":", v)
-        if count >= depth:
-            return
+def parse_key(jobject, key):
+    klst = key.split(':')
+
+    for k in klst[:-1]:
+        try:
+            jobject = jobject[k]
+        except KeyError as kE:
+            print("Unable to find key : {0}".format(kE))
+
+    try:
+        last = int(klst[-1])
+    except ValueError:
+        last = klst[-1]
+
+    return (jobject, last)
+
+def dump_json(jobject, key = "metadata", depth = 10):
+    (jobject, key) = parse_key(jobject, key)
+
+    try:
+        count = 0
+        for k, v in jobject[key].items():
+             count += 1
+             print(k, ":", v)
+             if count >= depth:
+                 return
+    except AttributeError:
+        # case where the key yeilds a value,
+        # not a nested dict
+        print(jobject[key])
+    except KeyError as kE:
+        print("Unable to find key : {0}".format(kE))
 
 with open(sys.argv[1]) as fin:
     jobj = json.loads(fin.read())
 
-one_arg = lambda: dump_json(sys.argv[2])
-two_args = lambda: dump_json(sys.argv[2], int(sys.argv[3]))
+no_args = lambda: dump_json(jobj)
+one_arg = lambda: dump_json(jobj, sys.argv[2])
+two_args = lambda: dump_json(jobj, sys.argv[2], int(sys.argv[3]))
 
 switch = {
-        2: dump_json,
+        2: no_args,
         3: one_arg,
         4: two_args
 }
