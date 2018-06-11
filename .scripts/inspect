@@ -1,0 +1,32 @@
+#!/usr/bin/python3
+
+import json
+import sys
+
+if len(sys.argv) < 2:
+    print("Invalid usage.")
+    print("inspect file.json [key] [max depth]")
+    exit(1)
+
+def dump_json(key = "metadata", depth = 10):
+    count = 0
+    for k, v in jobj[key].items():
+        count += 1
+        print(k, ":", v)
+        if count >= depth:
+            return
+
+with open(sys.argv[1]) as fin:
+    jobj = json.loads(fin.read())
+
+one_arg = lambda: dump_json(sys.argv[2])
+two_args = lambda: dump_json(sys.argv[2], int(sys.argv[3]))
+
+switch = {
+        2: dump_json,
+        3: one_arg,
+        4: two_args
+}
+
+switch[len(sys.argv)]()
+
