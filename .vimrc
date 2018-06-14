@@ -26,8 +26,8 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-classpath'
 
 " Color Scheme
-" Plugin 'altercation/vim-colors-solarized'
-Plugin 'dylanaraps/wal.vim'
+Plugin 'altercation/vim-colors-solarized'
+" Plugin 'dylanaraps/wal.vim'
 " Plugin 'sickill/vim-monokai'
 
 " Remeber to run :PluginInstall
@@ -60,7 +60,7 @@ map <C-l> <C-w>l
 " Color set up
 set t_Co=256
 set term=xterm-256color
-colorscheme wal
+colorscheme solarized
 
 " 80 line marker
 let &colorcolumn=join(range(80,81),",")

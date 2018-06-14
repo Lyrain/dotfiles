@@ -6,40 +6,36 @@
 export LANG=en_GB.UTF-8
 export EDITOR="nvim"
 
+export LD_LIBRARY_PATH="/usr/local/lib"
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
-export PATH="$PATH:/home/myles/.scripts"
+# array of paths to try to add to PATH
+# Only adds paths that exist as directories
+paths=("$HOME/bin" # for lein
+       "$HOME/.scripts" # for dotfiles scripts
+       "$HOME/.composer/vendor/bin" # laravel (macOS)
+       "$HOME/.config/.composer/vendor/bin" # laravel (linux)
+       "$HOME/.cargo/bin" # cargo
+       "/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin" # pylint
+       )
 
-# OS Specific
-if [[ "$(uname)" == 'Darwin' ]]; then
-  # Add laravel to the PATH. Gets removed on close, hence here.
-  export PATH="$PATH:~/.composer/vendor/bin"
+for p in $paths; do
+  if [ -d "$p" ]; then
+    export PATH="$PATH:$p"
+  fi
+done
 
-
-  # Add ~/bin to path, hold lein
-  export PATH="$PATH:/home/myles/bin"
-  export PATH="$PATH:/home/myles/.cargo/bin"
-  export LD_LIBRARY_PATH="/usr/local/lib"
-  export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
-  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
-
-  # Add pylint to PATH
-  export PATH="$PATH:/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin"
-
+if type "ruby" > /dev/null; then
   # Set GEM_HOME for per-user gem install
   export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 fi
 
-# if [[ "$(uname)" == 'Linux' ]]; then
-#   # Game starting scripts
-#   export PATH="$PATH:~/Games/startScripts/"
-#
-#   # Sound set-up for QEMU
-#   export QEMU_AUDIO_DRV=alsa
-#
-#   # Set terminal to urxvt
-#   export TERM=rxvt-unicode
-# fi
+if type > /dev/null; then
+  # set rust src path for racer
+  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+fi
 
-if command -v pyenv 1>/dev/null 2>&1; then
+if type pyenv > /dev/null; then
   eval "$(pyenv init -)"
 fi
+
