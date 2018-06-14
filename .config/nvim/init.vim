@@ -18,11 +18,15 @@ Plug 'ledger/vim-ledger' " For bookkeeping
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'Twinside/vim-hoogle', { 'for': 'haskell' }
 Plug 'pbrisbin/vim-syntax-shakespeare'
+" PHP
+Plug 'stanangeloff/php.vim' " syntax hilighting
+Plug 'shawncplus/phpcomplete.vim' " omnicompleation
 
 " Web
 Plug 'mattn/emmet-vim'
 
 " Autocompleation
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run install script
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
