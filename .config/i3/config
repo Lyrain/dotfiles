@@ -10,8 +10,8 @@
 #
 
 for_window [class="^.*"] border pixel 0
-gaps inner 5
-gaps outer 8
+gaps inner 3
+gaps outer 5
 font pango:monospace 8
 
 set $mod Mod1
@@ -93,7 +93,7 @@ bindsym $mod+v split toggle
 bindsym $mod+f fullscreen toggle
 
 # Toggle gaps
-bindsym $mod+g            gaps inner current set 5; gaps outer current set 8
+bindsym $mod+g            gaps inner current set 3; gaps outer current set 5
 bindsym $mod+Shift+g      gaps inner current set 0; gaps outer current set 0
 
 # change container layout (stacked, tabbed, toggle split)
