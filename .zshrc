@@ -65,6 +65,4 @@ if [[ "$(uname)" == 'Darwin' ]]; then
 elif [[ "$(uname)" == 'Linux' ]]; then
 fi
 
-# (cat ~/.cache/wal/sequences &)
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
