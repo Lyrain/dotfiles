@@ -30,8 +30,8 @@ elif [[ "$(uname)" == 'Linux' ]]; then
   apt-get install git
 fi
 
-# Setup vim, this isn't platform specific assuming we have installed already
-# git
+# Setup vim, this isn't platform specific assuming we have
+# git installed already
 
 # Clone Vundle
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
