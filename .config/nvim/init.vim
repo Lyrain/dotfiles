@@ -3,7 +3,7 @@ call plug#begin('~/.vim/plugged')
 
 " General Editing
 Plug 'neomake/neomake' " Asyc replacement for syntastic
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " Enables repeat of vim-surround
@@ -11,6 +11,7 @@ Plug 'tpope/vim-repeat' " Enables repeat of vim-surround
 " Language
 Plug 'tpope/vim-markdown'
 Plug 'rust-lang/rust.vim'
+Plug 'elixir-editors/vim-elixir'
 Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace' " Clojure, uses vim-classpath
 Plug 'ledger/vim-ledger' " For bookkeeping
