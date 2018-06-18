@@ -90,6 +90,9 @@ Temporary Items
 cmake-build-debug/
 cmake-build-release/
 
+# ctags
+tags
+
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml
 
