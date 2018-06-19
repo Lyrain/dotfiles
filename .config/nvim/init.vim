@@ -11,6 +11,7 @@ Plug 'tpope/vim-repeat' " Enables repeat of vim-surround
 " Language
 Plug 'tpope/vim-markdown'
 Plug 'rust-lang/rust.vim'
+Plug 'sebastianmarkow/deoplete-rust'
 Plug 'elixir-editors/vim-elixir'
 Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace' " Clojure, uses vim-classpath

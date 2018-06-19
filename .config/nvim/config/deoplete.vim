@@ -12,3 +12,7 @@ inoremap <expr><C-h>
 inoremap <expr><BS>
       \ deoplete#smart_close_popup()."\<C-h>"
 
+" deoplete-rust
+let g:deoplete#sources#rust#racer_binary = $HOME.'/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path = $HOME.'/.src/rust/src'
+
