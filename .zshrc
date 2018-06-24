@@ -66,3 +66,4 @@ elif [[ "$(uname)" == 'Linux' ]]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
