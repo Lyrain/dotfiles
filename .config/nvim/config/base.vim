@@ -7,7 +7,7 @@ syntax enable " Enable sytax highlighting
 
 " Cursor & Line
 set number
-set colorcolumn=80
+let &colorcolumn=join(range(80,81),",")
 set cursorline
 
 " Files

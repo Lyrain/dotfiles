@@ -11,7 +11,6 @@ Plug 'tpope/vim-repeat' " Enables repeat of vim-surround
 " Language
 Plug 'tpope/vim-markdown'
 Plug 'rust-lang/rust.vim'
-Plug 'sebastianmarkow/deoplete-rust'
 Plug 'elixir-editors/vim-elixir'
 Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace' " Clojure, uses vim-classpath
@@ -30,6 +29,8 @@ Plug 'mattn/emmet-vim'
 " Autocompleation
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
+Plug 'sebastianmarkow/deoplete-rust'
+Plug 'carlitux/deoplete-ternjs'
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run install script
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
