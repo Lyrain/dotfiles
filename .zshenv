@@ -30,7 +30,7 @@ if type "ruby" > /dev/null; then
   export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 fi
 
-if type > /dev/null; then
+if type "rustc" > /dev/null; then
   # set rust src path for racer
   export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 fi

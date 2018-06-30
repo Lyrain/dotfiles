@@ -2,12 +2,6 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 #
-# This config file uses keycodes (bindsym) and was written for the QWERTY
-# layout.
-#
-# To get a config file with the same key positions, but for your current
-# layout, use the i3-config-wizard
-#
 
 for_window [class="^.*"] border pixel 0
 gaps inner 3
@@ -15,7 +9,7 @@ gaps outer 5
 font pango:monospace 8
 
 set $mod Mod1
-# set $term --no-startup-id st
+set $term --no-startup-id urxvt
 
 # External scripts
 exec --no-startup-id setxkbmap -option caps:escape
@@ -25,9 +19,6 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 set $shutdown sudo shutdown -h now
 set $reboot sudo reboot
 set $lock --no-startup-id dm-tool lock
-
-
-set $enabletrackpad xinput --enable 15
 
 # Audio
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+
@@ -68,23 +59,11 @@ bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
 
-# alternatively, you can use the cursor keys:
-# bindsym $mod+Left focus left
-# bindsym $mod+Down focus down
-# bindsym $mod+Up focus up
-# bindsym $mod+Right focus right
-
 # move focused window
 bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 # split in vertical orientation
 bindsym $mod+v split toggle
@@ -191,13 +170,3 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-#######################################################################
-# automatically start i3-config-wizard to offer the user to create a
-# keysym-based config which used their favorite modifier (alt or windows)
-#
-# i3-config-wizard will not launch if there already is a config file
-# in ~/.i3/config.
-#
-# Please remove the following exec line:
-#######################################################################
-exec i3-config-wizard

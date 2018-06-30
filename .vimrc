@@ -26,9 +26,10 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-classpath'
 
 " Color Scheme
-Plugin 'altercation/vim-colors-solarized'
+" Plugin 'altercation/vim-colors-solarized'
 " Plugin 'dylanaraps/wal.vim'
 " Plugin 'sickill/vim-monokai'
+Plugin 'dracula/vim'
 
 " Remeber to run :PluginInstall
 " OR vim +PluginInstall +qall from the terminal!
@@ -60,7 +61,7 @@ map <C-l> <C-w>l
 " Color set up
 set t_Co=256
 set term=xterm-256color
-colorscheme solarized
+colorscheme dracula
 
 " 80 line marker
 let &colorcolumn=join(range(80,81),",")
@@ -155,7 +156,7 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Closes vim if nerdtree is only tab open
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
+"
 " Adds a command <SPACE>op to generate the .md file out to a .pdf file using
 " pandoc and LaTex. The function will add a folder in the same directory as
 " the file called ./pdf if it isn't there, delete any existing pdf files with
@@ -176,6 +177,7 @@ function! Pandoc()
         \ --variable fontsize=12pt
         \ --variable linestretch=1.5
         \ --variable geometry:margin=1in
+  " silent !evince ./pdf/'%:r'.pdf
   redraw!
 endfunction
 
@@ -193,6 +195,7 @@ function! PandocNoToc()
         \ --variable fontsize=12pt
         \ --variable linestretch=1.5
         \ --variable geometry:margin=1in
+  " silent !evince ./pdf/'%:r'.pdf
   redraw!
 endfunction
 
