@@ -16,6 +16,7 @@ paths=("$HOME/bin" # for lein
        "$HOME/.composer/vendor/bin" # laravel (macOS)
        "$HOME/.config/.composer/vendor/bin" # laravel (linux)
        "$HOME/.cargo/bin" # cargo
+       "$HOME/.src/Cataclysm-DDA"
        "/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin" # pylint
        )
 
@@ -37,5 +38,10 @@ fi
 
 if type pyenv > /dev/null; then
   eval "$(pyenv init -)"
+fi
+
+# For Enviroment variables that I may not wish to add to git
+if [ -f "$HOME/.env" ]; then
+  . $HOME/.env
 fi
 

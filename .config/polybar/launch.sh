@@ -11,13 +11,16 @@ while pgrep -x polybar >/dev/null; do sleep 1; done
 #  MONITOR=$i polybar example -c ~/.config/polybar/config &
 #done
 
-if uname -r | awk '/ARCH$/'; then
+case $(hostname) in
+zeus)
   polybar DVI &
   polybar HDMI-1 &
-else
+  ;;
+daportbd1)
   polybar eDP &
   polybar HDMI-1-1 &
-fi
+  ;;
+esac
 
 feh --bg-scale ~/.config/wall.png
 
