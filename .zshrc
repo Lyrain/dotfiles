@@ -40,6 +40,7 @@ alias json='python -m json.tool'
 
 # use neovim
 alias vim='nvim'
+alias fvi='nvim $(fzf)'
 
 # OS Specific
 if [[ "$(uname)" == 'Darwin' ]]; then
