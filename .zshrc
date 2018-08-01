@@ -40,7 +40,7 @@ alias json='python -m json.tool'
 
 # use neovim
 alias vim='nvim'
-alias fvi='nvim $(fzf)'
+alias vif='nvim $(fzf)'
 
 # play youtube videos given a URL
 function yt() {
