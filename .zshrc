@@ -14,7 +14,7 @@ ZSH_THEME="xxf"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ruby rails cargo vundle)
+plugins=(git rails cargo vundle)
 
 # User configuration
 
@@ -41,6 +41,11 @@ alias json='python -m json.tool'
 # use neovim
 alias vim='nvim'
 alias fvi='nvim $(fzf)'
+
+# play youtube videos given a URL
+function yt() {
+  mpv --ytdl "$@"
+}
 
 # OS Specific
 if [[ "$(uname)" == 'Darwin' ]]; then
