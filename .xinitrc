@@ -28,4 +28,5 @@ xset s off -dpms
 #   sleep 1m;
 # done &
 
-exec awesome
+exec i3
+

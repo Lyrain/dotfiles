@@ -64,8 +64,6 @@ if [[ "$(uname)" == 'Darwin' ]]; then
       fi
   }
 elif [[ "$(uname)" == 'Linux' ]]; then
-  alias pacman-prune-orphans="pacman -Qtd | awk '{ print $1 }' \
-      | xargs -I{} sudo pacman --noconfirm -R {}"
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
