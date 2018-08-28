@@ -13,6 +13,7 @@ set $term --no-startup-id urxvt
 
 # External scripts
 exec_always --no-startup-id setxkbmap -option caps:escape
+exec_always --no-startup-id xrdb -I$HOME ~/.Xresources
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Commands

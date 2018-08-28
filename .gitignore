@@ -1,3 +1,4 @@
+
 ### Emacs ###
 # -*- mode: gitignore; -*-
 *~
@@ -124,4 +125,6 @@ tags
 .config/ranger/bookmarks
 
 .config/nvim/spell
+
+.config/i3/i3log
 

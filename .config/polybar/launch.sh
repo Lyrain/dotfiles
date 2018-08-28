@@ -17,8 +17,8 @@ zeus)
   polybar HDMI-1 &
   ;;
 daportbd1)
-  polybar eDP &
-  polybar HDMI-1-1 &
+  polybar eDP-1 &
+  polybar HDMI-1 &
   ;;
 esac
 
