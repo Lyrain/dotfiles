@@ -19,6 +19,7 @@ paths=("$HOME/bin" # for lein
        "$HOME/.src/Cataclysm-DDA"
        "$HOME/Library/Python/3.7/bin"
        "/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin" # pylint
+       "/snap/bin" # Snap
        )
 
 for p in $paths; do

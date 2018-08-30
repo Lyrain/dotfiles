@@ -7,6 +7,6 @@ from subprocess import call
              randint(0, 255),
              randint(0, 255))
 
-color = "{:X}{:X}{:X}".format(r, g, b)
+color = "{:02X}{:02X}{:02X}".format(r, g, b)
 call(["i3lock", "-c", color])
 
