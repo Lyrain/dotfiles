@@ -28,4 +28,6 @@ set clipboard+=unnamedplus
 
 " Use ,t for 'jump to tag'.
 nnoremap <Leader>t <C-]>
+nnoremap <Leader>n :noh<CR>
+nnoremap <Leader>x exb
 

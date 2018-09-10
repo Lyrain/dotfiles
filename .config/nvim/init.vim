@@ -26,6 +26,7 @@ Plug 'shawncplus/phpcomplete.vim' " omnicompleation
 
 " Web
 Plug 'mattn/emmet-vim'
+Plug 'elmcast/elm-vim'
 
 " Autocompleation
 Plug 'ludovicchabant/vim-gutentags'
