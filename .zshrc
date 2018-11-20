@@ -47,6 +47,12 @@ function yt() {
   mpv --ytdl "$@"
 }
 
+if [ -d ~/Homestead ] && type "vagrant" > /dev/null; then
+  function homestead() {
+      ( cd ~/Homestead && vagrant $* )
+  }
+fi
+
 # OS Specific
 if [[ "$(uname)" == 'Darwin' ]]; then
   # Show and hide hidden files

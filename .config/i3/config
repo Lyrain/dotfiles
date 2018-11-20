@@ -13,12 +13,12 @@ set $term --no-startup-id urxvt
 
 # External scripts
 exec_always --no-startup-id setxkbmap -option caps:escape
+exec_always --no-startup-id xrdb -I$HOME ~/.Xresources
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Commands
 set $shutdown sudo shutdown -h now
 set $reboot sudo reboot
-set $lock --no-startup-id dm-tool lock
 
 # Audio
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+
@@ -28,7 +28,8 @@ bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle
 # Shutdown, Restart & Lock
 bindsym $mod+Shift+x exec prompt "Are you sure you want to shutdown?" "$shutdown"
 bindsym $mod+x       exec prompt "Are you sure you want to restart?" "$restart"
-bindsym $mod+Shift+m exec prompt "Are you sure you want to lock?" "$lock"
+
+bindsym $mod+Ctrl+q exec lock
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient

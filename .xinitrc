@@ -9,24 +9,10 @@ xset s off -dpms
 # Tell X to load ~/.Xresources
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
-# # Background Image
-# feh --bg-scale ~/arch-bg.png
-#
-# while true; do
-#   # User and hostname
-#   USER_NAME=$( whoami );
-#   HOST_NAME=$( hostname );
-#
-#   USER_HOST="$USER_NAME : $HOST_NAME";
-#
-#   # Date and Time
-#   DWM_CLOCK=$( date '+%e %b %Y %a | %k:%M' );
-#
-#   # Output command
-#   DWM_STATUS="$USER_HOST | $DWM_CLOCK";
-#   xsetroot -name "$DWM_STATUS";
-#   sleep 1m;
-# done &
+session=${1:-i3}
 
-exec i3 -d all # --shmlog-size 26214400
+case $session in
+  i3  ) exec i3 # -d all --shmlog-size 26214400;;
+  kde ) exec startkde;;
+esac
 
