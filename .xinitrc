@@ -28,5 +28,5 @@ xset s off -dpms
 #   sleep 1m;
 # done &
 
-exec i3
+exec i3 -d all # --shmlog-size 26214400
 
