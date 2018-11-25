@@ -12,7 +12,7 @@ xset s off -dpms
 session=${1:-i3}
 
 case $session in
-  i3  ) exec i3 # -d all --shmlog-size 26214400;;
+  i3  ) exec i3;; # -d all --shmlog-size 26214400;;
   kde ) exec startkde;;
 esac
 
