@@ -11,7 +11,7 @@ export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
 # array of paths to try to add to PATH
 # Only adds paths that exist as directories
-paths=("$HOME/bin" # for lein
+paths=("$HOME/bin"
        "$HOME/.scripts" # for dotfiles scripts
        "$HOME/.composer/vendor/bin" # laravel (macOS)
        "$HOME/.config/.composer/vendor/bin" # laravel (linux)
@@ -21,11 +21,13 @@ paths=("$HOME/bin" # for lein
        "$HOME/.local/bin" # pip executables installed with --user
        "/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin" # pylint
        "/snap/bin" # Snap
+       "/usr/local/opt/php@7.1/bin"
+       "/usr/local/opt/php@7.1/sbin"
        )
 
 for p in $paths; do
   if [ -d "$p" ]; then
-    export PATH="$PATH:$p"
+    export PATH="$p:$PATH"
   fi
 done
 
