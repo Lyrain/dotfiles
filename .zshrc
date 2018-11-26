@@ -33,7 +33,7 @@ alias ..='cd ..'
 alias desk='~/Desktop'
 
 # Git aliases
-alias gits='git status'
+alias gs='git status'
 
 # Pretty print json
 alias json='python -m json.tool'

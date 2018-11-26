@@ -18,6 +18,7 @@ paths=("$HOME/bin" # for lein
        "$HOME/.cargo/bin" # cargo
        "$HOME/.src/Cataclysm-DDA"
        "$HOME/Library/Python/3.7/bin"
+       "$HOME/.local/bin" # pip executables installed with --user
        "/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin" # pylint
        "/snap/bin" # Snap
        )
