@@ -1,3 +1,11 @@
+# To clone:
+#
+# git clone --separate-git-dir=$HOME/.myconf /path/to/repo $HOME/myconf-tmp
+# cp ~/myconf-tmp/.gitmodules ~  # If you use Git submodules
+# rm -r ~/myconf-tmp/
+# alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
+#
+
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
@@ -33,7 +41,8 @@ alias ..='cd ..'
 alias desk='~/Desktop'
 
 # Git aliases
-alias gs='git status'
+alias gs='git status' # take priority over GhostScript
+alias git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME
 
 # Pretty print json
 alias json='python -m json.tool'

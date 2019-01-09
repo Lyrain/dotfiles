@@ -28,6 +28,12 @@ set clipboard+=unnamedplus
 
 " Use ,t for 'jump to tag'.
 nnoremap <Leader>t <C-]>
+
+" Removes highlighting until the next search is made
 nnoremap <Leader>n :noh<CR>
+
+" Removes the last char from the current word
 nnoremap <Leader>x exb
+
+nnoremap <Leader>m :make<CR><CR>
 
