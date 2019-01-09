@@ -83,6 +83,8 @@ if [[ "$(uname)" == 'Darwin' ]]; then
           highlight -O rtf -t 2 -K 11 "$1" | pbcopy
       fi
   }
+
+  alias matlab='/Applications/MATLAB_R2018b.app/bin/matlab -nodesktop'
 elif [[ "$(uname)" == 'Linux' ]]; then
 fi
 
