@@ -42,7 +42,7 @@ alias desk='~/Desktop'
 
 # Git aliases
 alias gs='git status' # take priority over GhostScript
-alias git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME
+alias config='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 
 # Pretty print json
 alias json='python -m json.tool'
