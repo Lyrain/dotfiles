@@ -86,6 +86,7 @@ if [[ "$(uname)" == 'Darwin' ]]; then
 
   alias matlab='/Applications/MATLAB_R2018b.app/bin/matlab -nodesktop'
 elif [[ "$(uname)" == 'Linux' ]]; then
+  alias cpwd='printf "%q\n" "$(pwd)" | xsel'
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
