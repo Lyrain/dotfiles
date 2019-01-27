@@ -29,7 +29,6 @@ Plug 'mattn/emmet-vim'
 Plug 'elmcast/elm-vim'
 
 " Autocompleation
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'carlitux/deoplete-ternjs'
