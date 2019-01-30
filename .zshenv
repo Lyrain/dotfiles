@@ -46,7 +46,12 @@ if type pyenv > /dev/null; then
 fi
 
 # For Enviroment variables that I may not wish to add to git
-if [ -f "$HOME/.env" ]; then
-  . $HOME/.env
-fi
+# Covered by zsh-env plugin
+# if [ -f "$HOME/.env" ]; then
+#   . $HOME/.env
+# fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
