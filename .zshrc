@@ -56,6 +56,11 @@ function yt() {
   mpv --ytdl "$@"
 }
 
+# get 256 shasum in uppercase of a file
+function sha() {
+  shasum -a 256 "$@" | awk '{ print(toupper($0)) }'
+}
+
 if [ -d ~/Homestead ] && type "vagrant" > /dev/null; then
   function homestead() {
       ( cd ~/Homestead && vagrant $* )
@@ -91,3 +96,4 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+fpath+=${ZDOTDIR:-~}/.zsh_functions
