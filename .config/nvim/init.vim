@@ -8,6 +8,14 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " Enables repeat of vim-surround
 
+" Linter & LSP
+Plug 'w0rp/ale'
+
+" Autocompleation
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'sebastianmarkow/deoplete-rust'
+Plug 'carlitux/deoplete-ternjs'
+
 " Language
 Plug 'tpope/vim-markdown'
 Plug 'rust-lang/rust.vim'
@@ -28,10 +36,6 @@ Plug 'shawncplus/phpcomplete.vim' " omnicompleation
 Plug 'mattn/emmet-vim'
 Plug 'elmcast/elm-vim'
 
-" Autocompleation
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
-Plug 'sebastianmarkow/deoplete-rust'
-Plug 'carlitux/deoplete-ternjs'
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run install script
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
