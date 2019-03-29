@@ -1,5 +1,4 @@
-#!/bin/sh
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Terminate already running bar instances
 killall -q polybar
@@ -13,12 +12,12 @@ while pgrep -x polybar >/dev/null; do sleep 1; done
 
 case $(hostname) in
 zeus)
-  polybar DVI &
+  MONITOR=DVI-I-1 polybar DVI &
   polybar HDMI-1 &
   ;;
 daportbd1)
-  polybar eDP-1 &
-  polybar HDMI-1 &
+  MONITOR=eDP-1 polybar daportbd &
+  MONITOR=HDMI-1 polybar daportbd &
   ;;
 esac
 

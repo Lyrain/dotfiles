@@ -21,9 +21,9 @@ alert = #bd2c40
 [bar/DVI]
 ;; Primary monitor for zeus.
 ;; 1920x1080
-monitor = ${env:MONITOR:DVI-I-1}
+monitor = ${env:MONITOR:}
 width = 100%
-height = 27
+height = 1.8%
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 6.0
@@ -47,9 +47,10 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=10:antialias=false;0
-font-2 = siji:pixelsize=10;1
+font-0 = "Noto Sans Regular:size=10;1"
+font-1 = "Noto Sans Regular:size=10;1"
+font-2 = "Noto Sans Symbols:size=10;1"
+font-3 = "Noto Sans Symbols2:size=10;1"
 
 modules-left = bspwm i3
 modules-center = mpd
@@ -74,53 +75,15 @@ tray-padding = 2
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-[bar/HDMI-1]
-;; Secondary zeus monitor
-;; 1920x1080
-monitor = ${env:MONITOR:HDMI-1}
-width = 100%
-height = 27
-radius = 6.0
-fixed-center = false
-
-fg = ${xrdb:color7}
-bg = ${xrdb:color2}
-
-line-size = 3
-line-color = #f00
-
-border-size = 4
-border-color = #00000000
-
-padding-left = 0
-padding-right = 2
-
-module-margin-left = 1
-module-margin-right = 2
-
-font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
-
-modules-left = i3
-modules-center = mpd
-modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth temperature date powermenu
-
-tray-position = right
-tray-padding = 2
-
-cursor-click = pointer
-cursor-scroll = ns-resize
-
-[bar/eDP-1]
+[bar/daportbd]
 ;; This is used for daportbd
 ;; 3840 x 2160
-monitor = ${env:MONITOR:eDP-1}
+monitor = ${env:MONITOR:}
 width = 100%
 height = 27
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 6.0
+radius = 3.0
 fixed-center = false
 
 background = ${colors.background}
@@ -138,13 +101,14 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
+font-0 = "Noto Sans Regular:size=10;1"
+font-1 = "Noto Sans Regular:size=10;1"
+font-2 = "Noto Sans Symbols:size=10;1"
+font-3 = "Noto Sans Symbols2:size=10;1"
 
-modules-left = bspwm i3
+modules-left = i3 date
 modules-center = mpd
-modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = filesystem volume xkeyboard memory cpu wlan eth battery temperature powermenu
 
 tray-position = right
 tray-padding = 2
@@ -164,6 +128,8 @@ tray-padding = 2
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+bottom = true
 
 [module/xwindow]
 type = internal/xwindow
@@ -464,7 +430,7 @@ screenchange-reload = true
 ;compositing-border = over
 
 [global/wm]
-margin-top = 5
-margin-bottom = 5
+margin-top = 0
+margin-bottom = 0
 
 ; vim:ft=dosini
