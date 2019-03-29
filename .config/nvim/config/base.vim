@@ -20,8 +20,7 @@ set diffopt=filler,vertical
 set nowrap
 
 " Leader
-let mapleader = ','
-let maplocalleader = ','
+let mapleader = "\<Space>"
 
 " Clipboard
 set clipboard+=unnamedplus
