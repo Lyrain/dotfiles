@@ -1,6 +1,4 @@
 #
-# Symlink to ~/.oh-my-zsh/custom/themes/xxf.zsh-theme
-# Make the /themes directory first
 # This is a personally modified version of xxf.zsh-theme
 #
 
