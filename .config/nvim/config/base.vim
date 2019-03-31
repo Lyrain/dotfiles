@@ -10,6 +10,13 @@ set number
 let &colorcolumn=join(range(80,81),",")
 set cursorline
 
+" set tab key to insert 4 spaces
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set smarttab
+
 " Files
 set autoread " autoreload files changed on disk
 
@@ -24,6 +31,11 @@ let mapleader = "\<Space>"
 
 " Clipboard
 set clipboard+=unnamedplus
+
+" quick save
+nmap <leader>w :w<CR>
+" Toggle buffers
+nnoremap <leader><leader> <c-^>
 
 " Use ,t for 'jump to tag'.
 nnoremap <Leader>t <C-]>
