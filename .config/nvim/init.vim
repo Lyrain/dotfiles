@@ -29,6 +29,7 @@ Plug 'elixir-editors/vim-elixir'
 Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace' " Clojure, uses vim-classpath
 Plug 'ledger/vim-ledger' " For bookkeeping
+Plug 'posva/vim-vue'
 " Haskell
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'Twinside/vim-hoogle', { 'for': 'haskell' }
