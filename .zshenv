@@ -16,7 +16,8 @@ paths=("$HOME/bin"
        "$HOME/.composer/vendor/bin" # laravel (macOS)
        "$HOME/.config/.composer/vendor/bin" # laravel (linux)
        "$HOME/.cargo/bin" # cargo
-       "$HOME/.src/Cataclysm-DDA"
+       "$HOME/.yarn/bin" # yarn
+       "$HOME/.config/yarn/global/node_modules/.bin"
        "$HOME/Library/Python/3.7/bin"
        "$HOME/.local/bin" # pip executables installed with --user
        "/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin" # pylint
