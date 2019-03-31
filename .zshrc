@@ -1,38 +1,50 @@
-# To clone:
+# # To clone:
+# #
+# # git clone --separate-git-dir=$HOME/.myconf /path/to/repo $HOME/myconf-tmp
+# # cp ~/myconf-tmp/.gitmodules ~  # If you use Git submodules
+# # rm -r ~/myconf-tmp/
+# # alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
+# #
 #
-# git clone --separate-git-dir=$HOME/.myconf /path/to/repo $HOME/myconf-tmp
-# cp ~/myconf-tmp/.gitmodules ~  # If you use Git submodules
-# rm -r ~/myconf-tmp/
-# alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
+# # Path to your oh-my-zsh installation.
+# export ZSH=~/.oh-my-zsh
 #
+# # Set name of the theme to load.
+# # Look in ~/.oh-my-zsh/themes/
+# # Optionally, if you set this to "random", it'll load a random theme each
+# # time that oh-my-zsh is loaded.
+#
+# # Would you like to use another custom folder than $ZSH/custom?
+# # ZSH_CUSTOM=/path/to/new-custom-folder
+#
+# # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# # Example format: plugins=(rails git textmate ruby lighthouse)
+# # Add wisely, as too many plugins slow down shell startup.
+# plugins=(git cargo env)
+#
+# # User configuration
+#
+# source $ZSH/oh-my-zsh.sh
+#
+# # No need to change directory with cd, Can just type dir name and hit enter
+# setopt autocd
 
-# Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+source $HOME/antigen.zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="xxf"
+antigen use oh-my-zsh
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+antigen bundle git
+antigen bundle cargo
+antigen bundle env
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git cargo env)
+antigen bundle zsh-users/zsh-syntax-highlighting
 
-# User configuration
+antigen theme Raymanns/dotfiles xxf
 
-source $ZSH/oh-my-zsh.sh
+antigen apply
 
-# No need to change directory with cd, Can just type dir name and hit enter
-setopt autocd
-
-# Set vi mode
-# bindkey -v
+# ZSH_THEME="xxf"
 
 # Aliases
 alias cl='clear'
