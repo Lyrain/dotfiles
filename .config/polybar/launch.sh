@@ -12,8 +12,8 @@ while pgrep -x polybar >/dev/null; do sleep 1; done
 
 case $(hostname) in
 zeus)
-  MONITOR=DVI-I-1 polybar DVI &
-  polybar HDMI-1 &
+  MONITOR=DVI-I-1 polybar zeus &
+  MONITOR=HDMI-1 polybar zeus &
   ;;
 daportbd1)
   MONITOR=eDP-1 polybar daportbd &

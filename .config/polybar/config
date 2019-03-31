@@ -18,7 +18,7 @@ primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/DVI]
+[bar/zeus]
 ;; Primary monitor for zeus.
 ;; 1920x1080
 monitor = ${env:MONITOR:}
@@ -74,6 +74,8 @@ tray-padding = 2
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+bottom = true
 
 [bar/daportbd]
 ;; This is used for daportbd

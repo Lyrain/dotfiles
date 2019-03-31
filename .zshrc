@@ -30,6 +30,10 @@
 # # No need to change directory with cd, Can just type dir name and hit enter
 # setopt autocd
 
+if [ ! -f $HOME/antigen.zsh ]; then
+  curl -sL git.io/antigen > $HOME/antigen.zsh
+fi
+
 source $HOME/antigen.zsh
 
 antigen use oh-my-zsh
