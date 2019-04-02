@@ -1,35 +1,11 @@
-# # To clone:
-# #
-# # git clone --separate-git-dir=$HOME/.myconf /path/to/repo $HOME/myconf-tmp
-# # cp ~/myconf-tmp/.gitmodules ~  # If you use Git submodules
-# # rm -r ~/myconf-tmp/
-# # alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
-# #
+# To clone:
 #
-# # Path to your oh-my-zsh installation.
-# export ZSH=~/.oh-my-zsh
-#
-# # Set name of the theme to load.
-# # Look in ~/.oh-my-zsh/themes/
-# # Optionally, if you set this to "random", it'll load a random theme each
-# # time that oh-my-zsh is loaded.
-#
-# # Would you like to use another custom folder than $ZSH/custom?
-# # ZSH_CUSTOM=/path/to/new-custom-folder
-#
-# # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# # Example format: plugins=(rails git textmate ruby lighthouse)
-# # Add wisely, as too many plugins slow down shell startup.
-# plugins=(git cargo env)
-#
-# # User configuration
-#
-# source $ZSH/oh-my-zsh.sh
-#
-# # No need to change directory with cd, Can just type dir name and hit enter
-# setopt autocd
+# git clone --separate-git-dir=$HOME/.myconf /path/to/repo $HOME/myconf-tmp
+# cp ~/myconf-tmp/.gitmodules ~  # If you use Git submodules
+# rm -r ~/myconf-tmp/
+# alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
 
+# Get antigen if we don't already have it.
 if [ ! -f $HOME/antigen.zsh ]; then
   curl -sL git.io/antigen > $HOME/antigen.zsh
 fi
@@ -43,6 +19,7 @@ antigen bundle cargo
 antigen bundle env
 
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
 
 antigen theme Raymanns/dotfiles xxf
 
