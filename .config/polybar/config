@@ -18,7 +18,7 @@ primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/zeus]
+[bar/main]
 ;; Primary monitor for zeus.
 ;; 1920x1080
 monitor = ${env:MONITOR:}
