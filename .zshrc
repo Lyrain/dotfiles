@@ -60,12 +60,16 @@ alias desk='~/Desktop'
 alias gs='git status' # take priority over GhostScript
 alias config='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 
+# use neovim
+alias vi='nvim'
+alias vim='nvim'
+alias vif='nvim $(fzf)'
+
 # Pretty print json
 alias json='python -m json.tool'
 
-# use neovim
-alias vim='nvim'
-alias vif='nvim $(fzf)'
+# Print out PATH legibly
+alias path='printenv PATH | tr ":" "\n"'
 
 # play youtube videos given a URL
 function yt() {
