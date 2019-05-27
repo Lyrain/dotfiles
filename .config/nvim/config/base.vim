@@ -11,10 +11,10 @@ let &colorcolumn=join(range(80,81),",")
 set cursorline
 
 " set tab key to insert 4 spaces
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=8
+set softtabstop=0
 set expandtab
+set shiftwidth=4
 set smarttab
 
 " Files
@@ -36,9 +36,8 @@ set clipboard+=unnamedplus
 nmap <leader>w :w<CR>
 " Toggle buffers
 nnoremap <leader><leader> <c-^>
-
 " Use ,t for 'jump to tag'.
-nnoremap <Leader>t <C-]>
+nnoremap <Leader>] <C-]>
 
 " Removes highlighting until the next search is made
 nnoremap <Leader>n :noh<CR>
