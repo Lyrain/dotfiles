@@ -7,6 +7,7 @@ export LANG=en_GB.UTF-8
 export EDITOR="nvim"
 
 export LD_LIBRARY_PATH="/usr/local/lib"
+export LIBRARY_PATH=LD_LIBRARY_PATH
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
 # array of paths to try to add to PATH
@@ -16,14 +17,13 @@ paths=("$HOME/bin"
        "$HOME/.composer/vendor/bin" # laravel (macOS)
        "$HOME/.config/.composer/vendor/bin" # laravel (linux)
        "$HOME/.cargo/bin" # cargo
-       "$HOME/.src/Cataclysm-DDA"
+       "$HOME/go/bin" # golang
        "$HOME/Library/Python/3.7/bin"
        "$HOME/.local/bin" # pip executables installed with --user
        "/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin" # pylint
        "/snap/bin" # Snap
        "/usr/local/opt/php@7.1/bin"
        "/usr/local/opt/php@7.1/sbin"
-       "$HOME/anaconda3/bin"
        )
 
 for p in $paths; do
