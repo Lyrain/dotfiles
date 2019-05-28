@@ -42,6 +42,7 @@ antigen bundle git
 antigen bundle cargo
 antigen bundle env
 
+antigen bundle kiurchv/asdf.plugin.zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen theme Raymanns/dotfiles xxf
