@@ -18,6 +18,8 @@ paths=("$HOME/bin"
        "$HOME/.config/.composer/vendor/bin" # laravel (linux)
        "$HOME/.cargo/bin" # cargo
        "$HOME/go/bin" # golang
+       "$HOME/.yarn/bin" # yarn
+       "$HOME/.config/yarn/global/node_modules/.bin"
        "$HOME/Library/Python/3.7/bin"
        "$HOME/.local/bin" # pip executables installed with --user
        "/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin" # pylint

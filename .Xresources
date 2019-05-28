@@ -7,6 +7,15 @@ Xft.rgba:                   rgb
 Xft.hinting:                true
 Xft.hintstyle:              hintslight
 
+!-----------------------------------------------------------
+! XTerm settings
+!-----------------------------------------------------------
+
+XTerm*faceName: Noto Mono:style=regular:size=12:antialias=true
+XTerm*loginShell: true
+XTerm*saveLines: 2000
+XTerm*termName: xterm-color
+
 !-------------------------------------------------------------------------------
 ! URxvt settings
 ! Colours lifted from Solarized (http://ethanschoonover.com/solarized)
