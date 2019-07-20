@@ -52,9 +52,9 @@ font-1 = "Noto Sans Regular:size=10;1"
 font-2 = "Noto Sans Symbols:size=10;1"
 font-3 = "Noto Sans Symbols2:size=10;1"
 
-modules-left = bspwm i3
+modules-left = i3
 modules-center = mpd
-modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = filesystem volume xkeyboard memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -228,28 +228,6 @@ icon-next = 
 
 label-song-maxlen = 25
 label-song-ellipsis = true
-
-[module/xbacklight]
-type = internal/xbacklight
-
-format = <label> <bar>
-label = BL
-
-bar-width = 10
-bar-indicator = |
-bar-indicator-foreground = #ff
-bar-indicator-font = 2
-bar-fill = ─
-bar-fill-font = 2
-bar-fill-foreground = #9f78e1
-bar-empty = ─
-bar-empty-font = 2
-bar-empty-foreground = ${colors.foreground-alt}
-
-[module/backlight-acpi]
-inherit = module/xbacklight
-type = internal/backlight
-card = intel_backlight
 
 [module/cpu]
 type = internal/cpu
