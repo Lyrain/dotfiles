@@ -15,6 +15,7 @@ set $term --no-startup-id alacritty
 exec_always --no-startup-id setxkbmap -option caps:escape
 exec_always --no-startup-id xrdb -I$HOME ~/.Xresources
 exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id if type "trackpad" > /dev/null; then trackpad; fi
 
 # Commands
 set $shutdown sudo shutdown -h now
