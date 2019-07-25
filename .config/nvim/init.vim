@@ -49,6 +49,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace' " Clojure, uses vim-classpath
 " Web
+Plug 'evidens/vim-twig'
 Plug 'mattn/emmet-vim'
 Plug 'elmcast/elm-vim'
 
