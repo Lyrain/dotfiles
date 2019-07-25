@@ -4,8 +4,8 @@
 #
 
 for_window [class="^.*"] border pixel 0
-gaps inner 3
-gaps outer 5
+gaps inner 0
+gaps outer 0
 font pango:monospace 8
 
 set $mod Mod1
