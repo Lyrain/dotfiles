@@ -60,32 +60,51 @@ if [ -d ~/Homestead ] && type "vagrant" > /dev/null; then
   }
 fi
 
+# Display the expanded alias on running one
+# See https://stackoverflow.com/questions/9299402/echo-all-aliases-in-zsh
+_-accept-line () {
+    emulate -L zsh
+    local -a WORDS
+    WORDS=( ${(z)BUFFER} )
+    # Unfortunately ${${(z)BUFFER}[1]} works only for at least two words,
+    # thus I had to use additional variable WORDS here.
+    local -r FIRSTWORD=${WORDS[1]}
+    local -r GREEN=$'\e[32m' RESET_COLORS=$'\e[0m'
+    [[ "$(whence -w $FIRSTWORD 2>/dev/null)" == "${FIRSTWORD}: alias" ]] &&
+        echo -nE $'\n'"${GREEN}Executing $(whence $FIRSTWORD)${RESET_COLORS}"
+    zle .accept-line
+}
+zle -N accept-line _-accept-line
+
 # OS Specific
-if [[ "$(uname)" == 'Darwin' ]]; then
-  # Show and hide hidden files
-  alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES;
-  killall Finder /System/Library/CoreServices/Finder.app'
-  alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO;
-  killall Finder /System/Library/CoreServices/Finder.app'
+case "$(uname)" in
+  'Darwin')
+    # Show and hide hidden files
+    alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES;
+    killall Finder /System/Library/CoreServices/Finder.app'
+    alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO;
+    killall Finder /System/Library/CoreServices/Finder.app'
 
-  alias python='python3'
-  # pbcopy is OS X specific
-  alias cpwd='printf "%q\n" "$(pwd)" | pbcopy'
-  # alias ruby="/usr/local/Cellar/ruby/2.2.3/bin/ruby"
+    alias python='python3'
+    # pbcopy is OS X specific
+    alias cpwd='printf "%q\n" "$(pwd)" | pbcopy'
+    # alias ruby="/usr/local/Cellar/ruby/2.2.3/bin/ruby"
 
-  # Pretty code copy function
-  function hl () {
-      if [ -z "$1" ]; then
-          echo Your doing things wrong...
-      else
-          highlight -O rtf -t 2 -K 11 "$1" | pbcopy
-      fi
-  }
+    # Pretty code copy function
+    function hl () {
+        if [ -z "$1" ]; then
+            echo Your doing things wrong...
+        else
+            highlight -O rtf -t 2 -K 11 "$1" | pbcopy
+        fi
+    }
 
-  alias matlab='/Applications/MATLAB_R2018b.app/bin/matlab -nodesktop'
-elif [[ "$(uname)" == 'Linux' ]]; then
-  alias cpwd='printf "%q\n" "$(pwd)" | xsel'
-fi
+    alias matlab='/Applications/MATLAB_R2018b.app/bin/matlab -nodesktop'
+    ;;
+  'Linux')
+     alias cpwd='printf "%q\n" "$(pwd)" | xsel'
+     ;;
+esac
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
