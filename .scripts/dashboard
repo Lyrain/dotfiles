@@ -1,0 +1,57 @@
+#!/bin/env python
+
+from __future__ import print_function
+import curses
+import os
+from time import localtime, strftime, sleep
+import subprocess
+
+hosts = [
+]
+
+def is_host_up(host):
+    """Check we can reach the hosts"""
+    DEVNULL = open(os.devnull, 'wb')
+    return subprocess.call(["ping", "-c", "1", "-w", "2000", host],
+            stdout=DEVNULL,
+            stderr=DEVNULL) == 0
+
+def check_hosts(win):
+    now = localtime()
+    if now.tm_sec % 5 != 0:
+        return
+
+    win.clear()
+    win.box()
+    fstr = '{0:>%d} : {1}' % max(map(len, hosts))
+
+    y, x = 1, 2
+    for host in hosts:
+        status = "UP" if is_host_up(host) else "DOWN"
+        win.addstr(y, x, fstr.format(host, status))
+
+        y, x = y + 1, 2
+
+    y, x = y + 1, 2
+    win.addstr(y, x, strftime(" %a, %d %b %H:%M:%S BST %Y", now))
+    win.refresh()
+
+def main(stdscr):
+    curses.noecho()
+    curses.cbreak()
+    stdscr.keypad(1)
+    stdscr.nodelay(1)
+
+    c = ord('a')
+    while True:
+
+        check_hosts(stdscr)
+
+        c = stdscr.getch()
+        if c == ord('q'):
+            break # Exit the loop
+
+
+if __name__ == '__main__':
+    curses.wrapper(main)
+
