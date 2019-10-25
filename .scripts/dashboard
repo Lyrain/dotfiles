@@ -3,55 +3,100 @@
 from __future__ import print_function
 import curses
 import os
+import sys
 from time import localtime, strftime, sleep
 import subprocess
+import re
 
-hosts = [
-]
+class Main(object):
+    def __init__(self, hosts):
+        self.hosts = hosts
 
-def is_host_up(host):
-    """Check we can reach the hosts"""
-    DEVNULL = open(os.devnull, 'wb')
-    return subprocess.call(["ping", "-c", "1", "-w", "2000", host],
-            stdout=DEVNULL,
-            stderr=DEVNULL) == 0
+    def run(self, stdscr):
+        """run the curses. this should be passed to curses.wrapper and not called directly"""
+        print(type(stdscr))
+        curses.noecho()
+        curses.cbreak()
+        stdscr.keypad(1)
+        stdscr.nodelay(1)
 
-def check_hosts(win):
-    now = localtime()
-    if now.tm_sec % 5 != 0:
-        return
+        c = ord('a')
+        while True:
+            self.check_hosts(stdscr)
 
-    win.clear()
-    win.box()
-    fstr = '{0:>%d} : {1}' % max(map(len, hosts))
+            c = stdscr.getch()
+            if c == ord('q'):
+                break # Exit the loop
 
-    y, x = 1, 2
-    for host in hosts:
-        status = "UP" if is_host_up(host) else "DOWN"
-        win.addstr(y, x, fstr.format(host, status))
+    def check_hosts(self, win):
+        """check each hosts status"""
+        now = localtime()
+        if now.tm_sec % 5 != 0:
+            return
+
+        win.clear()
+        win.box()
+        fstr = '{0:>%d} : {1}' % max(map(len, self.hosts))
+
+        y, x = 1, 2
+        for host in self.hosts:
+            status = "UP" if self.is_host_up(host) else "DOWN"
+            win.addstr(y, x, fstr.format(host, status))
+
+            y, x = y + 1, 2
 
         y, x = y + 1, 2
+        win.addstr(y, x, strftime(" %a, %d %b %H:%M:%S BST %Y", now))
+        win.refresh()
 
-    y, x = y + 1, 2
-    win.addstr(y, x, strftime(" %a, %d %b %H:%M:%S BST %Y", now))
-    win.refresh()
+    def is_host_up(self, host):
+        """Check we can reach the hosts by pinging it"""
+        DEVNULL = open(os.devnull, 'wb')
+        return subprocess.call(["ping", "-c", "1", "-w", "2000", host],
+                stdout=DEVNULL,
+                stderr=DEVNULL) == 0
 
-def main(stdscr):
-    curses.noecho()
-    curses.cbreak()
-    stdscr.keypad(1)
-    stdscr.nodelay(1)
+def hostmatch(s):
+    """
+    predicate matches only hostnames from a ansible ineventory file.
+    this is a hacky ish way but didn't want deps on this script
+    """
+    regex = re.compile('^(?!\[)(?:[a-z0-9\[\]:]+\.?){2,}$')
+    return regex.match(s) and s.find('.') > 0
 
-    c = ord('a')
-    while True:
+def expand(s):
+    """
+    Handles hosts with ranges denoted like example[01:05].com and creates the actual output as example01.com, example02.com, ..., example03.com
+    """
+    if '[' in s and ']' in s:
+        rv = []
+        lb = s.find('[')
+        rb = s.find(']')
 
-        check_hosts(stdscr)
+        a = tuple(s[lb+1:rb].split(':'))
+        (start, end) = int(a[0]), int(a[1])
 
-        c = stdscr.getch()
-        if c == ord('q'):
-            break # Exit the loop
+        for i in range(start, end+1):
+            rv.append(s[:lb] + str(i).zfill(2) + s[rb+1:])
 
+        return rv
+    else:
+        return [s]
+
+def flatten(lst):
+    """Takes a 2D list and and makes it a 1D list - like..., a normal list."""
+    return [item for sublist in lst for item in sublist]
 
 if __name__ == '__main__':
-    curses.wrapper(main)
+    if len(sys.argv) >= 3:
+        hosts = set()
+        flter = sys.argv[2]
+        with open(sys.argv[1]) as file_in:
+            tmp = filter(hostmatch, file_in.read().split("\n"))
+            hosts = filter(lambda x: flter in x, flatten(map(expand, tmp)))
+
+        main = Main(hosts)
+        curses.wrapper(main.run)
+    else:
+        print("usage: dashboard {hosts file} {filter}")
 
