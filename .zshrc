@@ -30,6 +30,7 @@ antigen apply
 
 # Aliases
 alias cl='clear'
+alias l='ls -l'
 alias ll='ls -lah'
 alias ..='cd ..'
 alias desk='~/Desktop'
