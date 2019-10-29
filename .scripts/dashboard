@@ -17,6 +17,12 @@ class Main(object):
         print(type(stdscr))
         curses.noecho()
         curses.cbreak()
+
+        curses.start_color()
+        curses.use_default_colors()
+        for i in range(0, curses.COLORS):
+            curses.init_pair(i + 1, i, -1)
+
         stdscr.keypad(1)
         stdscr.nodelay(1)
 
@@ -41,7 +47,8 @@ class Main(object):
         y, x = 1, 2
         for host in self.hosts:
             status = "UP" if self.is_host_up(host) else "DOWN"
-            win.addstr(y, x, fstr.format(host, status))
+            status_color = 11 if status == "UP" else 10
+            win.addstr(y, x, fstr.format(host, status), curses.color_pair(status_color))
 
             y, x = y + 1, 2
 
