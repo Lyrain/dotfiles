@@ -34,6 +34,7 @@ alias l='ls -l'
 alias ll='ls -lah'
 alias ..='cd ..'
 alias desk='~/Desktop'
+alias trim='sed -e "s/^[[:space:]]*//" -e "s/[[:space:]]*$//"'
 
 # Git aliases
 alias gs='git status' # take priority over GhostScript
