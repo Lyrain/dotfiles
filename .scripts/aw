@@ -1,0 +1,50 @@
+#!/bin/bash
+
+title="Ambari CLI"
+
+function getclusters {
+  read -ra clusters <<<$(cat $HOME/.clusters | sort -n)
+}
+
+trim() { sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' ;}
+
+#function listclusters {
+#  {
+#    getclusters && [ -n "$clusters" ]
+#
+#    echo 100
+#    echo $clusters > result
+#  } | whiptail --gague "Loading data..." 6 60 50
+#}
+
+function start {
+  if [ ! `which curl` ]; then
+    whiptail --title "$title" --msgbox "This script depends on curl which does not appear to be installed on this system. Please install curl." 8 78
+  fi
+
+  # whiptail --title "$title" --msgbox "$title" 8 78
+  main_menu
+}
+
+function main_menu {
+  while [ 1 ]; do
+
+  getclusters && [ -n "$clusters" ]
+  clusters+=('0' 'Quit')
+
+  CHOICE=$(whiptail --title "$title" --nocancel \
+     --menu "                            Main Menu" 20 70 10 3>&1 1>&2 2>&3 \
+     "${clusters[@]}"
+  )
+
+  case "$CHOICE" in
+    0 ) exit 0;;
+    * ) result=$CHOICE ;;
+  esac
+
+  whiptail --title "$title" --msgbox "$result" 20 78
+
+  done
+}
+start
+
