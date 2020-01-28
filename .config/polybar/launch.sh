@@ -16,7 +16,7 @@ eos)
     ;;
 zeus)
   MONITOR=DVI-I-1 polybar main &
-  MONITOR=HDMI-1 polybar main &
+  MONITOR=HDMI-0 polybar main &
   ;;
 daportbd1)
   MONITOR=eDP-1 polybar daportbd &
