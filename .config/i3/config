@@ -6,13 +6,16 @@
 for_window [class="^.*"] border pixel 0
 font pango:monospace 8
 
+bar {
+  status_command i3status
+}
+
 set $mod Mod1
 set $term --no-startup-id alacritty
 
 # External scripts
 exec_always --no-startup-id setxkbmap -option caps:escape
 exec_always --no-startup-id xrdb -I$HOME ~/.Xresources
-exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id if type "trackpad" > /dev/null; then trackpad; fi
 
 # Commands
@@ -156,4 +159,5 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec prompt "Do you really want to exit i3? This will end your X session." "i3-msg exit"
+
 
