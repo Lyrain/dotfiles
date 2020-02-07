@@ -5,6 +5,7 @@
 # You may need to manually set your language environment
 export LANG=en_GB.UTF-8
 export EDITOR="nvim"
+export TERM="xterm-256color"
 
 export LD_LIBRARY_PATH="/usr/local/lib"
 export LIBRARY_PATH=LD_LIBRARY_PATH

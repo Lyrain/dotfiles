@@ -7,7 +7,7 @@ for_window [class="^.*"] border pixel 0
 font pango:monospace 8
 
 bar {
-  status_command i3status
+  status_command i3status --config ~/.config/i3status/config
 }
 
 set $mod Mod1
