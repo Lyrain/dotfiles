@@ -32,7 +32,7 @@ bindsym $mod+Down exec --no-startup-id   amixer -c 2 set PCM 2%-
 
 # Shutdown, Restart & Lock
 bindsym $mod+Shift+x exec prompt "Are you sure you want to shutdown?" "$shutdown"
-bindsym $mod+x       exec prompt "Are you sure you want to restart?" "$restart"
+bindsym $mod+x       exec prompt "Are you sure you want to reboot?" "$reboot"
 
 bindsym $mod+Ctrl+q exec lock
 
