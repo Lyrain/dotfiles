@@ -10,7 +10,7 @@ bar {
   status_command i3status --config ~/.config/i3status/config
 }
 
-set $mod Mod1
+set $mod Mod4
 set $term --no-startup-id alacritty
 
 # External scripts
