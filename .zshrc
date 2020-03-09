@@ -17,7 +17,7 @@ antigen bundle kiurchv/asdf.plugin.zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 
-antigen theme Raymanns/dotfiles xxf
+antigen theme Lyrain/dotfiles xxf
 
 antigen apply
 
