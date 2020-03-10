@@ -9,6 +9,11 @@ xset s off -dpms
 # Tell X to load ~/.Xresources
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
+# If udiskie is installed, start the daemon
+if type "udiskie" > /dev/null; then
+  udiskie &
+fi
+
 session=${1:-i3}
 
 case $session in

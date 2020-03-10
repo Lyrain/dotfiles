@@ -6,6 +6,7 @@
 export LANG=en_GB.UTF-8
 export EDITOR="nvim"
 export SHELL="/bin/zsh"
+export TERM="xterm-256color"
 
 export LD_LIBRARY_PATH="/usr/local/lib"
 export LIBRARY_PATH=LD_LIBRARY_PATH

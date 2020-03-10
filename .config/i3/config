@@ -7,15 +7,16 @@ for_window [class="^.*"] border pixel 0
 font pango:monospace 8
 
 bar {
-  status_command i3status
+  status_command i3status --config ~/.config/i3status/config
 }
 
-set $mod Mod1
+set $mod Mod4
 set $term --no-startup-id alacritty
 
 # External scripts
 exec_always --no-startup-id setxkbmap -option caps:escape
 exec_always --no-startup-id xrdb -I$HOME ~/.Xresources
+exec_always --no-startup-id feh --bg-scale ~/.config/wall.*
 exec_always --no-startup-id if type "trackpad" > /dev/null; then trackpad; fi
 
 # Commands
@@ -32,7 +33,7 @@ bindsym $mod+Down exec --no-startup-id   amixer -c 2 set PCM 2%-
 
 # Shutdown, Restart & Lock
 bindsym $mod+Shift+x exec prompt "Are you sure you want to shutdown?" "$shutdown"
-bindsym $mod+x       exec prompt "Are you sure you want to restart?" "$restart"
+bindsym $mod+x       exec prompt "Are you sure you want to reboot?" "$reboot"
 
 bindsym $mod+Ctrl+q exec lock
 
@@ -65,7 +66,7 @@ bindsym $mod+z    exec zathura
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec rofi -show run
+bindsym $mod+d exec "rofi -combi-modi drun,run -show combi -modi combi"
 
 # find a window with rofi
 bindsym $mod+Shift+f exec rofi -show window
