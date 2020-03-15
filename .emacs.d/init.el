@@ -46,10 +46,22 @@ There are two things you can do about this warning:
 (put 'narror-to-region 'disabled nil)
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(custom-enabled-themes (quote (dracula)))
  '(custom-safe-themes
    (quote
-    ("6731049cee8f7cbd542d7b3e1c551f3fab716a92119bd7c77f0bd1ef20849fb8" default)))
+    ("55c2069e99ea18e4751bd5331b245a2752a808e91e09ccec16eb25dadbe06354" "6731049cee8f7cbd542d7b3e1c551f3fab716a92119bd7c77f0bd1ef20849fb8" default)))
  '(package-selected-packages (quote (evil counsel dracula-theme))))
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
+
+(require 'evil)
+(evil-mode 1)
+
