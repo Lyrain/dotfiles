@@ -18,6 +18,7 @@ exec_always --no-startup-id setxkbmap -option caps:escape
 exec_always --no-startup-id xrdb -I$HOME ~/.Xresources
 exec_always --no-startup-id feh --bg-scale ~/.config/wall.*
 exec_always --no-startup-id dunst
+exec_always --no-startup-id pulseaudio
 exec_always --no-startup-id if type "trackpad" > /dev/null; then trackpad; fi
 
 # Commands
