@@ -7,7 +7,7 @@ setxkbmap -option caps:escape
 xset s off -dpms
 
 # Tell X to load ~/.Xresources
-[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
+[ -f ~/.Xresources ] && xrdb -merge -I$HOME ~/.Xresources
 
 # If udiskie is installed, start the daemon
 if type "udiskie" > /dev/null; then
