@@ -63,6 +63,7 @@ bindsym $mod+w    exec firefox
 bindsym $mod+r    exec $term -e ranger
 bindsym $mod+n    exec $term -e ncmpcpp
 bindsym $mod+z    exec zathura
+bindsym --release $mod+Shift+s exec --no-startup-id "scrot --select --exec 'mv $f ~/Downloads/'"
 
 # kill focused window
 bindsym $mod+Shift+q kill
