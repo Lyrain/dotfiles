@@ -70,6 +70,7 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec "rofi -combi-modi drun,run -show combi -modi combi"
+bindsym $mod+Shift+d exec "rofi -show emoji -modi emoji"
 
 # find a window with rofi
 bindsym $mod+Shift+f exec rofi -show window
