@@ -16,6 +16,8 @@ set undodir=~/.config/nvim/undodir
 set undofile
 set incsearch
 set cursorline
+set shortmess+=c
+set signcolumn=yes
 set clipboard+=unnamedplus " Clipboard
 let &colorcolumn=join(range(80,81),",")
 
@@ -46,41 +48,35 @@ call plug#begin('~/.vim/plugged')
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run install script
 
 " Colors & Theming
-Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'morhetz/gruvbox', { 'as': 'gruvbox' }
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " Enables repeat of vim-surround
+Plug 'tpope/vim-markdown'
+" Plug 'tpope/vim-classpath'
+" Plug 'tpope/vim-fireplace' " Clojure, uses vim-classpath
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'w0rp/ale'
-
-" ##################
-" #### Language ####
-" ##################
-
-" Markdown
-Plug 'tpope/vim-markdown'
-" Rust
-Plug 'rust-lang/rust.vim'
-Plug 'cespare/vim-toml' " config format used frequenly in the rust toolchain
-" Erlang / Elixir
-Plug 'elixir-editors/vim-elixir'
-" Go
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-" JVM based
-Plug 'tpope/vim-classpath'
-Plug 'tpope/vim-fireplace' " Clojure, uses vim-classpath
-" Web
 Plug 'mattn/emmet-vim'
-" Language pack
 Plug 'sheerun/vim-polyglot'
+Plug 'ledger/vim-ledger' " Plaintext Accounting
 
-" Plaintext Accounting
-Plug 'ledger/vim-ledger'
+" " Markdown
+" " Rust
+" Plug 'rust-lang/rust.vim'
+" Plug 'cespare/vim-toml' " config format used frequenly in the rust toolchain
+" " Erlang / Elixir
+" Plug 'elixir-editors/vim-elixir'
+" " Go
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" " JVM based
+" Web
+" Language pack
 
 call plug#end()
 
@@ -99,11 +95,11 @@ nnoremap <Leader>x exb
 nnoremap <Leader>m :make<CR><CR>
 
 " theme
-colorscheme dracula
+colorscheme gruvbox
 set background=dark
 
 let g:airline_solarized_bg = "dark"
-let g:airline_theme = "dracula"
+let g:airline_theme = "gruvbox"
 
 " Use ag (the_silver_searcher) to find files, using git metadata too if it
 " exists
@@ -114,6 +110,8 @@ nnoremap <leader>p :Files<CR>
 nnoremap <leader>; :Buffer<CR>
 
 " CoC setup
+autocmd FileType json syntax match Comment +\/\/.\+$+
+
 function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
