@@ -1,5 +1,5 @@
 
-"filetype plugin indent on " filetype detection(on) plugin(on) indent(on)
+filetype plugin indent on " filetype detection(on) plugin(on) indent(on)
 syntax on
 set autoread " autoreload files changed on disk
 set noerrorbells
@@ -38,6 +38,22 @@ augroup markdownSpell
   autocmd FileType markdown setlocal spell
 augroup END
 
+augroup asciidocSpell
+    autocmd!
+    autocmd FileType asciidoc setlocal spell
+    autocmd BufEnter *.adoc,*.asciidoc call AsciidoctorMappings()
+augroup END
+
+augroup golang
+    autocmd!
+    autocmd FileType go setlocal noexpandtab
+augroup END
+
+augroup dart
+    autocmd!
+    autocmd FileType dart setlocal tabstop=2
+augroup END
+
 let g:tex_flavor = "latex"
 autocmd FileType tex setlocal spell
 
@@ -55,6 +71,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " Enables repeat of vim-surround
 Plug 'tpope/vim-markdown'
+Plug 'habamax/vim-asciidoctor'
 " Plug 'tpope/vim-classpath'
 " Plug 'tpope/vim-fireplace' " Clojure, uses vim-classpath
 Plug 'airblade/vim-rooter'
@@ -65,18 +82,6 @@ Plug 'w0rp/ale'
 Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'ledger/vim-ledger' " Plaintext Accounting
-
-" " Markdown
-" " Rust
-" Plug 'rust-lang/rust.vim'
-" Plug 'cespare/vim-toml' " config format used frequenly in the rust toolchain
-" " Erlang / Elixir
-" Plug 'elixir-editors/vim-elixir'
-" " Go
-" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-" " JVM based
-" Web
-" Language pack
 
 call plug#end()
 
@@ -97,6 +102,7 @@ nnoremap <Leader>m :make<CR><CR>
 " theme
 colorscheme gruvbox
 set background=dark
+highlight Normal ctermbg=NONE
 
 let g:airline_solarized_bg = "dark"
 let g:airline_theme = "gruvbox"
@@ -108,6 +114,7 @@ let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 nnoremap <leader>p :Files<CR>
 " FZF the list of open buffers
 nnoremap <leader>; :Buffer<CR>
+
 
 " CoC setup
 autocmd FileType json syntax match Comment +\/\/.\+$+
