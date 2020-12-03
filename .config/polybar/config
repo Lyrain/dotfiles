@@ -9,8 +9,8 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #222
-background-alt = #444
+background = #000
+background-alt = #222
 ;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
 foreground-alt = #555
@@ -19,117 +19,48 @@ secondary = #e60053
 alert = #bd2c40
 
 [bar/main]
-;; Primary monitor for zeus.
 ;; 1920x1080
 monitor = ${env:MONITOR:}
 width = 100%
-height = 1.8%
-;offset-x = 1%
-;offset-y = 1%
-radius = 6.0
-fixed-center = false
-
-# background = ${colors.background}
-# foreground = ${colors.foreground}
-
-fg = ${xrdb:color7}
-bg = ${xrdb:color2}
-
-line-size = 3
-line-color = #f00
-
-border-size = 4
-border-color = #00000000
-
-padding-left = 0
-padding-right = 2
-
-module-margin-left = 1
-module-margin-right = 2
-
-font-0 = "Noto Sans Regular:size=10;1"
-font-1 = "Noto Sans Regular:size=10;1"
-font-2 = "Noto Sans Symbols:size=10;1"
-font-3 = "Noto Sans Symbols2:size=10;1"
-
-modules-left = i3
-modules-center = mpd
-modules-right = filesystem volume xkeyboard memory cpu wlan eth battery temperature date powermenu
-
-tray-position = right
-tray-padding = 2
-;tray-transparent = true
-;tray-background = #0063ff
-
-;wm-restack = bspwm
-;wm-restack = i3
-
-;override-redirect = true
-
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
-
-cursor-click = pointer
-cursor-scroll = ns-resize
-
-bottom = true
-
-[bar/daportbd]
-;; This is used for daportbd
-;; 3840 x 2160
-monitor = ${env:MONITOR:}
-width = 100%
-height = 27
-;offset-x = 1%
-;offset-y = 1%
-radius = 3.0
+height = 1.6%
 fixed-center = false
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-line-size = 3
+fg = ${xrdb:color7}
+bg = ${xrdb:color2}
+
+line-size = 2
 line-color = #f00
 
-border-size = 4
+border-size = 2
 border-color = #00000000
 
 padding-left = 0
 padding-right = 2
 
 module-margin-left = 1
-module-margin-right = 2
+module-margin-right = 1
 
-font-0 = "Noto Sans Regular:size=10;1"
-font-1 = "Noto Sans Regular:size=10;1"
-font-2 = "Noto Sans Symbols:size=10;1"
-font-3 = "Noto Sans Symbols2:size=10;1"
+font-0 = "Noto Sans Regular:size=8;1"
+font-1 = "Noto Sans Regular:size=8;1"
+font-2 = "Noto Sans Symbols:size=8;1"
+font-3 = "Noto Sans Symbols2:size=8;1"
 
-modules-left = i3 date
+modules-left = i3
 modules-center = mpd
-modules-right = filesystem volume xkeyboard memory cpu wlan eth battery temperature powermenu
+modules-right = filesystem memory cpu eth temperature date
 
 tray-position = right
-tray-padding = 2
-;tray-transparent = true
-;tray-background = #0063ff
+tray-padding = 1
 
-;wm-restack = bspwm
-;wm-restack = i3
+wm-restack = i3
 
-;override-redirect = true
-
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
 
 cursor-click = pointer
-cursor-scroll = ns-resize
 
 bottom = true
 
@@ -247,7 +178,7 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp6s0
+interface = wlp4s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
@@ -269,7 +200,7 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = net0
+interface = enp0s31f6
 interval = 3.0
 
 format-connected-underline = #55aa55
