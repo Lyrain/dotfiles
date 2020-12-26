@@ -7,7 +7,6 @@ set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
-set number
 set nowrap
 set smartcase
 set noswapfile
@@ -16,6 +15,7 @@ set undodir=~/.config/nvim/undodir
 set undofile
 set incsearch
 set cursorline
+set ruler
 set shortmess+=c
 set signcolumn=yes
 set clipboard+=unnamedplus " Clipboard
@@ -24,6 +24,13 @@ let &colorcolumn=join(range(80,81),",")
 " Make hidden characters visible
 set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
 set list
+
+set number relativenumber
+augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter,WinLeave * set norelativenumber
+augroup END
 
 " Remove whitespace from the end of the line for all filetypes
 autocmd BufWritePre * :%s/\s\+$//e
