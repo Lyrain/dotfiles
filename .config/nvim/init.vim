@@ -39,6 +39,8 @@ autocmd FileType make setlocal noexpandtab " Makefiles require hard tabs
 " setup spelling for editing markdown files
 set spelllang=en_gb
 
+autocmd FileType javascript,typescript setlocal tabstop=2
+
 au BufRead,BufNewFile *.Rmd set filetype=markdown
 augroup markdownSpell
   autocmd!
