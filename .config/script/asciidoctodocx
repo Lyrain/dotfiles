@@ -1,0 +1,20 @@
+#!/bin/sh
+
+usage() {
+    echo "Usage: asciidoctodocx [input file] [output file]"
+    exit 1
+}
+
+if [ -z "$1" ]; then
+    echo "Error: No input file name or file does not exist"
+    usage
+fi
+
+if [ -z "$2" ]; then
+    echo "Error: No output file name or file exists"
+    usage
+fi
+
+asciidoctor --backend docbook --out-file - $1 | \
+    pandoc --from docbook --to docx --output $2 \
+    --highlight-style espresso

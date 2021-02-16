@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo 'connect 28:FF:3C:E6:DA:3D' | bluetoothctl
+

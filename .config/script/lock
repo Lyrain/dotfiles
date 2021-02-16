@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+"""
+Locks the screen when called with i3lock, applying customisations
+"""
+
+import os
+
+from random import randint
+from subprocess import call
+
+def color_lock():
+    """
+    Generate a random rbg color and lock the screen with that color
+    """
+    (red, green, blue) = (randint(0, 255),
+                 randint(0, 255),
+                 randint(0, 255))
+
+    color = "{:02X}{:02X}{:02X}".format(red, green, blue)
+    call(["i3lock", "-c", color])
+
+def blur_wallpaper_lock():
+    """
+    Displays a blured version of the current wallpaper as the lock screen
+    """
+    home = os.environ["HOME"]
+
+    wallpaper = "{0}/.config/wallpaper".format(home)
+    lockpaper = "{0}/.config/lockpaper.png".format(home)
+
+    call(["convert", wallpaper, "-blur", "0x5", lockpaper])
+    call(["i3lock", "-i", lockpaper, "-t"])
+
+if __name__ == "__main__":
+    #color_lock()
+    blur_wallpaper_lock()
