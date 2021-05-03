@@ -1,26 +1,31 @@
 set fish_greeting
 
+set -e EDITOR
 set -Ux EDITOR nvim
+set -Ux TERM screen-256color
+set -Ua fish_user_paths $HOME/go/bin/
+
+function nixwhere
+    readlink (which "$argv")
+end
+
+bind \cr __fzf_reverse_isearch
+
 
 abbr l 'ls -lh'
 abbr ll 'ls -lah'
 abbr - 'cd -'
 abbr .. 'cd ..'
-
-function take
-    mkdir -p $argv;
-    cd $argv
-end
-
 abbr g 'git'
+
 abbr gs 'git status'
 abbr gd 'git diff'
 abbr gl 'git pull'
 abbr gp 'git push'
-alias glol 'git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"'
+abbr glol 'git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"'
 abbr gco 'git checkout'
 abbr gcom 'git checkout master'
-alias config 'git --git-dir $HOME/.dotfiles.git/ --work-tree $HOME'
+abbr config 'git --git-dir $HOME/.dotfiles.git/ --work-tree $HOME'
 
 abbr vi 'nvim'
 abbr vim 'nvim'
