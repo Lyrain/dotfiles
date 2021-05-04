@@ -12,12 +12,13 @@ smart_gaps on
 
 set $mod Mod4
 set $term --no-startup-id alacritty
+set $editor nvim
 
 # External scripts
 exec_always --no-startup-id setxkbmap -option caps:escape
 exec_always --no-startup-id xrdb -I$HOME ~/.Xresources
 exec_always --no-startup-id feh --bg-scale ~/.config/wallpaper
-exec_always --no-startup-id dunst
+exec_always --no-startup-id dunst # -config ~/.config/dunst/dunstrc
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id picom --config $HOME/.config/picom/picom.conf
 
@@ -61,7 +62,8 @@ bindsym $mod+Return exec $term
 
 # App shortcuts
 bindsym $mod+w    exec firefox
-bindsym $mod+r    exec $term -e ranger
+bindsym $mod+r    exec thunar
+bindsym $mod+c    exec $term -e $SHELL -lc $editor
 bindsym $mod+n    exec $term -e ncmpcpp
 bindsym $mod+z    exec zathura
 bindsym --release $mod+Shift+s exec --no-startup-id "scrot --select --exec 'mv $f ~/Downloads/'"
