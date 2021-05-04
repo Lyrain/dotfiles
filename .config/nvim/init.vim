@@ -50,7 +50,6 @@ augroup END
 augroup asciidocSpell
     autocmd!
     autocmd FileType asciidoc setlocal spell
-    autocmd BufEnter *.adoc,*.asciidoc call AsciidoctorMappings()
 augroup END
 
 augroup golang
