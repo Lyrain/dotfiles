@@ -3,14 +3,19 @@ set fish_greeting
 set -e EDITOR
 set -Ux EDITOR nvim
 set -Ux TERM screen-256color
+
 set -Ua fish_user_paths $HOME/go/bin/
+
+if type "ruby" > /dev/null
+    set -Ux GEM_HOME (ruby -e 'print Gem.user_dir')
+    set -Ua fish_user_paths $GEM_HOME/bin
+end
 
 function nixwhere
     readlink (which "$argv")
 end
 
 bind \cr __fzf_reverse_isearch
-
 
 abbr l 'ls -lh'
 abbr ll 'ls -lah'
