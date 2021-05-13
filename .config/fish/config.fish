@@ -1,10 +1,19 @@
 set fish_greeting
 
 set -e EDITOR
+set -e TERM
+set -Ux LANG en_GB.UTF-8
 set -Ux EDITOR nvim
 set -Ux TERM screen-256color
 
+set -Ux LD_LIBRARY_PATH "/usr/local/lib"
+set -Ux LIBRARY_PATH $LD_LIBRARY_PATH
+
+set -Ux FZF_DEFAULT_COMMAND "rg --files"
+set -Ux FZF_DEFAULT_OPTS "--height 40% --reverse --border"
+
 set -Ua fish_user_paths $HOME/go/bin/
+set -Ua fish_user_paths $HOME/.cargo/bin
 
 if type "ruby" > /dev/null
     set -Ux GEM_HOME (ruby -e 'print Gem.user_dir')
