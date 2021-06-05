@@ -1,7 +1,6 @@
 set fish_greeting
 
 set -e EDITOR
-set -e TERM
 set -Ux LANG en_GB.UTF-8
 set -Ux EDITOR nvim
 set -Ux TERM screen-256color
