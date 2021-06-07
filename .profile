@@ -2,9 +2,6 @@
 # ~/.profile
 #
 
-export EDITOR=nvim
-export TERM=screen-256color
-
 export LD_LIBRARY_PATH="/usr/local/lib"
 export LIBRARY_PATH=${LD_LIBRARY_PATH}
 

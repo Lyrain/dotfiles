@@ -5,6 +5,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+export EDITOR=nvim
+export TERM=screen-256color
+
 # Prompt set up
 
 COLOR_RESET="\[\033[00;00m\]"
