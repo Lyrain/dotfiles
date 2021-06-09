@@ -20,6 +20,7 @@ paths=("$HOME/bin"
        "$HOME/.config/.composer/vendor/bin" # laravel (linux)
        "$HOME/.cargo/bin" # cargo
        "$HOME/go/bin" # golang
+       "$HOME/.pub-cache/bin"
        "$HOME/.yarn/bin" # yarn
        "$HOME/.config/yarn/global/node_modules/.bin"
        "$HOME/Library/Python/3.7/bin"
