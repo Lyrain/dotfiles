@@ -23,7 +23,8 @@ alert = #bd2c40
 monitor = ${env:MONITOR:}
 width = 100%
 height = 1.6%
-fixed-center = false
+fixed-center = true
+dpi = ${xrdb:Xft.dpi:-1}
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -50,7 +51,7 @@ font-3 = "Noto Sans Symbols2:size=8;1"
 
 modules-left = i3
 modules-center = mpd
-modules-right = filesystem memory cpu eth temperature date
+modules-right = filesystem memory cpu temperature eth wlan battery date
 
 tray-position = right
 tray-padding = 1
@@ -178,7 +179,7 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp4s0
+interface = wlp2s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
@@ -260,9 +261,13 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 
 [module/battery]
 type = internal/battery
-battery = BAT1
-adapter = ACAD
-full-at = 98
+
+full-at = 99
+
+battery = BAT0
+adapter = AC
+
+poll-interval = 5
 
 format-charging = <animation-charging> <label-charging>
 format-charging-underline = #ffb52a
@@ -295,8 +300,8 @@ format-underline = #f50a4d
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
 
-label = %temperature%
-label-warn = %temperature%
+label = %temperature-c%
+label-warn = %temperature-c%
 label-warn-foreground = ${colors.secondary}
 
 ramp-0 = 
