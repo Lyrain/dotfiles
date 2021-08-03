@@ -5,11 +5,12 @@
 # You may need to manually set your language environment
 export LANG=en_GB.UTF-8
 export EDITOR="nvim"
-export SHELL="/bin/zsh"
+# export SHELL="/bin/zsh"
 export TERM="xterm-256color"
 
 export LD_LIBRARY_PATH="/usr/local/lib"
 export LIBRARY_PATH=LD_LIBRARY_PATH
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "\!./git/*"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
 # array of paths to try to add to PATH
