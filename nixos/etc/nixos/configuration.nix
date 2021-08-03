@@ -38,7 +38,7 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; }}/dell/xps/15-9550"
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
     ];
 
   # Garbage collect daily
