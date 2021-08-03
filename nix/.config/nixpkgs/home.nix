@@ -36,6 +36,7 @@ in
 
     packages = with pkgs; [
       coreutils
+      zlib
       exfat
       killall
       udiskie
@@ -96,6 +97,7 @@ in
       go
       octaveFull
       R
+      rPackages.tidyverse
       rstudio
       adoptopenjdk-hotspot-bin-8
       maven
