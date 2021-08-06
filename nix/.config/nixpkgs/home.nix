@@ -69,6 +69,7 @@ in
       entr
       htop
       tmux
+      screen
       jq
       awscli2
       openssl
@@ -78,7 +79,10 @@ in
       ffmpeg
       pciutils
       lshw
+      lm_sensors
       docker-compose
+      nmap
+      telnet
 
       # Documents
       texlive.combined.scheme-medium
@@ -106,8 +110,10 @@ in
       scala_2_11
       nixops
       terraform
+      python38-with-packages
       ansible
       ansible-lint
+      gcc
 
       # Virt
       qemu
