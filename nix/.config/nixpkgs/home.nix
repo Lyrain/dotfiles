@@ -83,6 +83,8 @@ in
       docker-compose
       nmap
       telnet
+      mpc_cli
+      brightnessctl
 
       # Documents
       texlive.combined.scheme-medium
