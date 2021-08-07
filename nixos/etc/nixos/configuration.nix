@@ -90,6 +90,11 @@ in {
     # Per-interface useDHCP will be mandatory in the future, so this generated config
     # replicates the default behaviour.
     useDHCP = false;
+    # interfaces.enp0s20f0u1 = {
+    #   ipv4.addresses = [
+    #     { address = "10.100.0.1"; prefixLength = 24; }
+    #   ];
+    # };
     interfaces.enp0s20f0u2.useDHCP = true;
     interfaces.wlp2s0.useDHCP = true;
 
@@ -230,13 +235,6 @@ in {
 
     fade = true;
     fadeDelta = 4;
-  };
-
-  services.upower = {
-    enable = true;
-    # percentageLow = 30;
-    # percentageCritial = 20;
-    # percentageAction = 15;
   };
 
   # Enable CUPS to print documents.
