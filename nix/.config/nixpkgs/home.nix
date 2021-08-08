@@ -36,6 +36,7 @@ in
 
     packages = with pkgs; [
       coreutils
+      binutils
       zlib
       exfat
       killall
@@ -71,6 +72,8 @@ in
       tmux
       screen
       jq
+      xxd
+      file
       awscli2
       openssl
       openvpn
@@ -116,6 +119,8 @@ in
       ansible
       ansible-lint
       gcc
+      cargo
+      rustc
 
       # Virt
       qemu
