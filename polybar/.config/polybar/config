@@ -17,6 +17,8 @@ foreground-alt = #555
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
+system = #f90000
+function = #00f900
 
 [bar/main]
 ;; 1920x1080
@@ -51,7 +53,7 @@ font-3 = "Noto Sans Symbols2:size=8;1"
 
 modules-left = i3
 modules-center = mpd
-modules-right = filesystem memory cpu temperature backlight eth wlan battery date
+modules-right = filesystem memory cpu temperature pulseaudio backlight eth wlan battery date
 
 tray-position = right
 tray-padding = 1
@@ -174,8 +176,21 @@ type = internal/cpu
 interval = 2
 format-prefix = "c:"
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
+format-underline = ${colors.system}
 label = %percentage:2%%
+
+[module/pulseaudio]
+type = internal/pulseaudio
+sink = alsa_output.pci-0000_00_1f.3.analog-stereo
+interval = 2
+
+format-volume = <ramp-volume> <label-volume>
+format-volume-underline = ${colors.function}
+label-volume = %percentage:2%%
+label-muted = 🔇 muted
+ramp-volume-0 = 🔈
+ramp-volume-1 = 🔉
+ramp-volume-2 = 🔊
 
 [module/wlan]
 type = internal/network
@@ -231,34 +246,6 @@ format-underline = #0a6cf5
 
 label = %date% %time%
 
-[module/volume]
-type = internal/volume
-
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL
-label-volume-foreground = ${root.foreground}
-
-format-muted-prefix = " "
-format-muted-foreground = ${colors.foreground-alt}
-label-muted = sound muted
-
-bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
-
 [module/battery]
 type = internal/battery
 
@@ -296,7 +283,7 @@ thermal-zone = 0
 warn-temperature = 60
 
 format = <ramp> <label>
-format-underline = #f90000
+format-underline = ${colors.system}
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
 
@@ -314,9 +301,9 @@ type = internal/backlight
 card = intel_backlight
 use-actual-brightness = true
 
-format-underline = #f90000
 format-prefix = "b:"
 format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.function}
 
 [module/powermenu]
 type = custom/menu
