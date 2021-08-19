@@ -46,6 +46,8 @@ alias json='python -m json.tool'
 # Print out PATH legibly
 alias path='printenv PATH | tr ":" "\n"'
 
+alias hm='home-manager'
+
 # play youtube videos given a URL
 function yt() {
   mpv --ytdl "$@"
@@ -73,29 +75,13 @@ _-accept-line () {
 }
 zle -N accept-line _-accept-line
 
+eval "$(direnv hook zsh)"
+
 # OS Specific
 case "$(uname)" in
   'Darwin')
-    # Show and hide hidden files
-    alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES;
-    killall Finder /System/Library/CoreServices/Finder.app'
-    alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO;
-    killall Finder /System/Library/CoreServices/Finder.app'
-
     # pbcopy is OS X specific
     alias cpwd='printf "%q\n" "$(pwd)" | pbcopy'
-    # alias ruby="/usr/local/Cellar/ruby/2.2.3/bin/ruby"
-
-    # Pretty code copy function
-    function hl () {
-        if [ -z "$1" ]; then
-            echo Your doing things wrong...
-        else
-            highlight -O rtf -t 2 -K 11 "$1" | pbcopy
-        fi
-    }
-
-    alias matlab='/Applications/MATLAB_R2018b.app/bin/matlab -nodesktop'
     ;;
   'Linux')
      alias cpwd='printf "%q\n" "$(pwd)" | xsel'
