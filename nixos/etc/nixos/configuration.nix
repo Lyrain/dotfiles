@@ -42,12 +42,18 @@ in {
     ];
 
   # Garbage collect daily
-  nix.gc = {
-    automatic = true;
-    dates = "daily";
-    options = "--delete-older-than 3d";
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 3d";
+    };
+    autoOptimiseStore = true;
   };
-  nix.autoOptimiseStore = true;
 
   nixpkgs.config.allowUnfree = true;
 
@@ -103,6 +109,7 @@ in {
     # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
     wireless = {
+      interfaces = [ "wlp2s0" ];
       enable = true;  # Enables wireless support via wpa_supplicant.
       userControlled = {
         enable = true;
@@ -258,37 +265,6 @@ in {
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.extraConfig = "load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1";
 
-  # systemd.user.sockets.mpd = {
-  #   enable = true;
-  #   socketConfig = {
-  #     ListenStream = "%t/mpd/socket";
-  #     # ListenStream = "6600";
-  #     Backlog = "5";
-  #     KeepAlive = "true";
-  #     PassCredentials = "true";
-  #   };
-  #   wantedBy = [ "sockets.target" ];
-  # };
-
-  # systemd.user.services.mpd = {
-  #   enable = true;
-  #   description = "Music Player Daemon";
-  #   serviceConfig = {
-  #     Type = "notify";
-  #     ExecStart = "${pkgs.mpd}/bin/mpd --no-daemon $HOME/.config/mpd/mpd.conf";
-  #     LimitRTPRIO = "40";
-  #     LimitRTTIME = "infinity";
-  #     LimitMEMLOCK = "64M";
-  #     ProtectSystem = "yes";
-  #     NoNewPrivileges = "yes";
-  #     ProtectKernelTunables = "yes";
-  #     ProtectControlGroups = "yes";
-  #     RestrictAddressFamilies = "AF_INET AF_INET6 AF_UNIX AF_NETLINK";
-  #     RestrictNamespaces = "yes";
-  #   };
-  #   wantedBy = [ "default.target" ];
-  # };
-
   virtualisation.docker.enable = true;
   virtualisation.libvirtd.enable = true;
 
@@ -313,66 +289,13 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # coreutils
-    # exfat
-    # killall
-    # udiskie
-    # fish
-    # tree
-    # wget
-    # curl
-    # lynx
-    # youtube-dl
-    # zip
-    # unzip
-    # rsync
-    # git
-    # neovim
-    # ripgrep
-    # ag
-    # fzf
-    # alacritty
-    kitty
-    # rxvt-unicode
-    # mpd
-    # ncmpcpp
-    # feh
-    # scrot
-    # imagemagick
-    # aspell
-    # ranger
-    # radare2
-    # john
-    # bind
-    # entr
-    # htop
-    # tmux
-    # jq
-    # awscli2
-    # openssl
-    # openvpn
-    # upower
-    # acpi
-    # texlive.combined.scheme-medium
     nginx
-    # ffmpeg
-    # pciutils
-    # lshw
-    # docker-compose
-
-    # # Documents
-    # asciidoctor
-    # pandoc
-    # hugo
-
-    # # Manuals
-    # manpages
-    # stdmanpages
-    # zeal
 
     # Xorg
     xorg.xev
     xorg.xbacklight
+    xorg.libxcb
+    xorg.xcbutil
     xclip
     xsel
     xdotool
@@ -400,38 +323,9 @@ in {
     xfce.xfce4-taskmanager
     xfce.xfce4-volumed-pulse
 
-    # # Code
-    python38-with-packages
-    # conda
-    # nodejs-14_x
-    # go
-    # octaveFull
-    # R
-    # rstudio
-    # adoptopenjdk-hotspot-bin-8
-    # maven
-    # sbt
-    # gradle
-    # scala_2_11
-    # nixops
-    # terraform
-    # ansible
-    # ansible-lint
-
     # custom scripts
     nvidia-offload
 
-    # # Virtualisation
-    # qemu
-    # virt-manager
-    # nomad
-    # consul
-    # vault
-
-    # # Networking
-    # wireshark
-    # # wireshark-cli # causes a collision
-    # termshark
 
     # Graphical
     breeze-gtk
@@ -455,7 +349,6 @@ in {
     zoom-us
     multimc
     cataclysm-dda
-    kodi
   ];
 
   # Fonts

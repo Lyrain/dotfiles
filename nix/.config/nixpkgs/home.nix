@@ -37,6 +37,8 @@ in
     packages = with pkgs; [
       coreutils
       binutils
+      pkgconfig
+      glibc
       zlib
       exfat
       killall
@@ -47,6 +49,7 @@ in
       curl
       lynx
       youtube-dl
+      lame
       htop
       stow
       zip
@@ -66,6 +69,7 @@ in
       ranger
       radare2
       john
+      sshuttle
       bind
       entr
       htop
@@ -88,6 +92,7 @@ in
       telnet
       mpc_cli
       brightnessctl
+      direnv
 
       # Documents
       texlive.combined.scheme-medium
@@ -119,8 +124,10 @@ in
       ansible
       ansible-lint
       gcc
-      cargo
-      rustc
+
+      # Gui
+      mysql-workbench
+      teams
 
       # Virt
       qemu
@@ -168,6 +175,7 @@ in
   #   script = strings.fileContents ~/.config/polybar/launch.sh;
   #   config = ~/.config/polybar/config.example;
   # };
+  services.lorri.enable = true;
 
   # Programs
   programs.ncmpcpp = {
