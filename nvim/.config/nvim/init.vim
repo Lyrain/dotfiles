@@ -132,7 +132,12 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:coc_node_path = '/nix/store/529k7bilbwpzvlmnn98b4lqpkiqn2ydd-nodejs-14.9.0/bin/node'
+let nix_node_path = '/home/moffor/.nix-profile/bin'
+if !isdirectory(nix_node_path)
+    " system("nix eval --raw nixpkgs#nodejs-14_x") . "/bin/node",
+    " nix eval not stable yet.
+    let g:coc_node_path = nix_node_path
+endif
 
 inoremap <silent><expr> <TAB>
             \ pumvisible()? "\<C-n>" :
