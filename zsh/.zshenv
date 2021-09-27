@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 #
 # ~/.zshenv
 #
@@ -10,7 +11,7 @@ export TERM="xterm-256color"
 
 export LD_LIBRARY_PATH="/usr/local/lib"
 export LIBRARY_PATH=LD_LIBRARY_PATH
-export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "\!./git/*"'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!./git/*"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
 # array of paths to try to add to PATH
@@ -52,6 +53,10 @@ if type pyenv > /dev/null; then
   eval "$(pyenv init -)"
 fi
 
+if type direnv > /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
 # For Enviroment variables that I may not wish to add to git
 if [ -f "$HOME/.env" ]; then
   . $HOME/.env
@@ -60,4 +65,3 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-

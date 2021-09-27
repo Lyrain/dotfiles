@@ -1,4 +1,4 @@
-# To clone, see .scripts/bootstrap.sh
+#!/usr/bin/env zsh
 
 # Get antigen if we don't already have it.
 if [ ! -f $HOME/antigen.zsh ]; then
@@ -74,8 +74,6 @@ _-accept-line () {
     zle .accept-line
 }
 zle -N accept-line _-accept-line
-
-eval "$(direnv hook zsh)"
 
 # OS Specific
 case "$(uname)" in
