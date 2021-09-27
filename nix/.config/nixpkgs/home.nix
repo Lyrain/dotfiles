@@ -67,7 +67,7 @@ in
       imagemagick
       aspell
       ranger
-      radare2
+      rizin # it's the new radare2
       john
       sshuttle
       bind
@@ -88,11 +88,14 @@ in
       lshw
       lm_sensors
       docker-compose
+      podman
+      dive
       nmap
       telnet
       mpc_cli
       brightnessctl
       direnv
+      qpdf
 
       # Documents
       texlive.combined.scheme-medium
@@ -119,15 +122,22 @@ in
       gradle
       scala_2_11
       nixops
+      nix-index
       terraform
+      ruby
       python38-with-packages
       ansible
       ansible-lint
       gcc
+      gdb
 
       # Gui
       mysql-workbench
       teams
+      obsidian
+      krita
+      cutter
+      aws-workspaces
 
       # Virt
       qemu
