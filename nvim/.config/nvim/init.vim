@@ -133,10 +133,10 @@ function! s:check_back_space() abort
 endfunction
 
 let nix_node_path = '/home/moffor/.nix-profile/bin'
-if !isdirectory(nix_node_path)
+if isdirectory(nix_node_path)
     " system("nix eval --raw nixpkgs#nodejs-14_x") . "/bin/node",
     " nix eval not stable yet.
-    let g:coc_node_path = nix_node_path
+    let g:coc_node_path = nix_node_path . "/node"
 endif
 
 inoremap <silent><expr> <TAB>
