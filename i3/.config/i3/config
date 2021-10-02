@@ -75,7 +75,7 @@ bindsym $mod+r    exec thunar
 bindsym $mod+c    exec $term -e $SHELL -lc $editor
 bindsym $mod+n    exec $term -e ncmpcpp
 bindsym $mod+z    exec zathura
-bindsym --release $mod+Shift+s exec --no-startup-id "scrot --select --exec 'mv $f ~/Downloads/'"
+bindsym --release $mod+Shift+s exec --no-startup-id $HOME/.config/script/screenshot.sh
 
 # kill focused window
 bindsym $mod+Shift+q kill
