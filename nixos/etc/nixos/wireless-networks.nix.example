@@ -1,0 +1,15 @@
+{
+  "SSID_1" = {
+    pskRaw = "1234567890abcdef";
+  };
+  "SSID_2" = {
+    pskRaw = "1234567890abcdef";
+  };
+  "SSID_3" = {
+    auth = ''
+      eap=PEAP
+      identity="foobar@example.com"
+      password="abc123"
+      '';
+  };
+}

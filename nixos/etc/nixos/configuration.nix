@@ -101,7 +101,7 @@ in {
     #     { address = "10.100.0.1"; prefixLength = 24; }
     #   ];
     # };
-    interfaces.enp0s20f0u2.useDHCP = true;
+    # interfaces.enp0s20f0u2.useDHCP = true;
     interfaces.wlp2s0.useDHCP = true;
 
     # Configure network proxy if necessary
@@ -114,14 +114,7 @@ in {
       userControlled = {
         enable = true;
       };
-      networks = {
-        "LYRAIN" = {
-            pskRaw = "84789ca2d15c7b152cc3a1797decc730e65bf00f223a88d0ccf8dd0d74b907b9";
-        };
-        "VM8542242" = {
-            pskRaw = "8fe35f2e80e4079cc7ed168f32f42429e12eb34900ca0504bc7bcc1c56b07cd4";
-        };
-      };
+      networks = import ./wireless-networks.nix;
     };
   };
 
@@ -265,8 +258,11 @@ in {
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.extraConfig = "load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1";
 
-  virtualisation.docker.enable = true;
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    docker.enable = true;
+    libvirtd.enable = true;
+    podman.enable = true;
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.moffor = {
@@ -322,33 +318,14 @@ in {
     xfce.xfce4-systemload-plugin
     xfce.xfce4-taskmanager
     xfce.xfce4-volumed-pulse
+    xfce.thunar
 
     # custom scripts
     nvidia-offload
 
-
     # Graphical
     breeze-gtk
     flat-remix-icon-theme
-    firefox
-    geckodriver
-    chromedriver
-    google-chrome
-    xfce.thunar
-    remmina
-    slack
-    keepass
-    keepassxc
-    # zathura
-    mpv
-    vlc
-    insomnia
-    libreoffice
-    wpa_supplicant_gui
-    pavucontrol
-    zoom-us
-    multimc
-    cataclysm-dda
   ];
 
   # Fonts

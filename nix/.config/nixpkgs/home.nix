@@ -3,7 +3,8 @@
 let
   strings = pkgs.lib.strings;
 
-  python38-packages = pypkgs: with pypkgs; [
+  python3-packages = pypkgs: with pypkgs; [
+    flask
     pylint
     numpy
     pandas
@@ -22,7 +23,7 @@ let
     dask
     distributed
   ];
-  python38-with-packages = with pkgs; python38.withPackages python38-packages;
+  python3-with-packages = with pkgs; python3.withPackages python3-packages;
 in
 {
   # Let Home Manager install and manage itself.
@@ -61,6 +62,7 @@ in
       ag
       fzf
       alacritty
+      exa
       rxvt-unicode
       feh
       scrot
@@ -69,6 +71,7 @@ in
       ranger
       rizin # it's the new radare2
       john
+      hashcat
       sshuttle
       bind
       entr
@@ -88,7 +91,6 @@ in
       lshw
       lm_sensors
       docker-compose
-      podman
       dive
       nmap
       telnet
@@ -96,6 +98,8 @@ in
       brightnessctl
       direnv
       qpdf
+      geckodriver
+      chromedriver
 
       # Documents
       texlive.combined.scheme-medium
@@ -110,7 +114,9 @@ in
 
       # Code
       conda
+      python3-with-packages
       nodejs-14_x
+      yarn
       go
       octaveFull
       R
@@ -125,16 +131,28 @@ in
       nix-index
       terraform
       ruby
-      python38-with-packages
       ansible
       ansible-lint
       gcc
       gdb
 
-      # Gui
+      # GUI
+      firefox
+      google-chrome
+      remmina
+      slack
+      keepassxc
+      mpv
+      vlc
+      insomnia
+      libreoffice
+      wpa_supplicant_gui
+      pavucontrol
+      zoom-us
       mysql-workbench
       teams
       obsidian
+      anki
       krita
       cutter
       aws-workspaces
@@ -144,7 +162,7 @@ in
       virt-manager
       nomad
       consul
-      vault
+      vault-bin
 
       # Networking
       wireshark
