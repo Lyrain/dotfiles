@@ -26,16 +26,19 @@ let
   python3-with-packages = with pkgs; python3.withPackages python3-packages;
 in
 {
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
     username = "moffor";
     homeDirectory = "/home/moffor";
 
+    sessionVariables = {
+      # Enable nicer touch support for firefox
+      MOZ_USE_XINPUT2 = 1;
+    };
+
     packages = with pkgs; [
+      gnumake
       coreutils
       binutils
       pkgconfig
@@ -79,6 +82,7 @@ in
       tmux
       screen
       jq
+      yq
       xxd
       file
       awscli2
@@ -127,6 +131,8 @@ in
       sbt
       gradle
       scala_2_11
+      jetbrains.idea-community
+      jetbrains.goland
       nixops
       nix-index
       terraform
@@ -206,24 +212,30 @@ in
   services.lorri.enable = true;
 
   # Programs
-  programs.ncmpcpp = {
-    enable = true;
-    package = pkgs.ncmpcpp.override {
-      visualizerSupport = true;
+  programs = {
+    # Let Home Manager install and manage itself.
+    home-manager.enable = true;
+
+    ncmpcpp = {
+      enable = true;
+      package = pkgs.ncmpcpp.override {
+        visualizerSupport = true;
+      };
+      mpdMusicDir = ~/Music;
+      settings = {
+        visualizer_in_stereo = "yes";
+        visualizer_fifo_path = "/tmp/mpd.fifo";
+        visualizer_output_name = "my_fifo";
+        visualizer_sync_interval = "10";
+      };
     };
-    mpdMusicDir = ~/Music;
-    settings = {
-      visualizer_in_stereo = "yes";
-      visualizer_fifo_path = "/tmp/mpd.fifo";
-      visualizer_output_name = "my_fifo";
-      visualizer_sync_interval = "10";
+
+    zathura = {
+      enable = true;
+      # package = pkgs.zathura.override {
+      #   useMupdf = true;
+      # };
     };
-  };
-  programs.zathura = {
-    enable = true;
-    # package = pkgs.zathura.override {
-    #   useMupdf = true;
-    # };
   };
 
   # This value determines the Home Manager release that your
