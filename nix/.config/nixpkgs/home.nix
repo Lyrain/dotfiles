@@ -83,6 +83,8 @@ in
       screen
       jq
       yq
+      cfssl
+      kubectl
       xxd
       file
       awscli2
@@ -135,7 +137,7 @@ in
       jetbrains.goland
       nixops
       nix-index
-      terraform
+      terraform_0_13
       ruby
       ansible
       ansible-lint
@@ -156,16 +158,19 @@ in
       pavucontrol
       zoom-us
       mysql-workbench
+      sqlitebrowser
       teams
       obsidian
       anki
       krita
       cutter
       aws-workspaces
+      mate.caja
 
       # Virt
       qemu
       virt-manager
+      libguestfs-with-appliance
       nomad
       consul
       vault-bin
