@@ -355,7 +355,7 @@ in {
   };
 
   services.xrdp = {
-    enable = true;
+    enable = false;
     defaultWindowManager = "${pkgs.xfce.xfce4-session}/bin/startxfce4";
   };
 
