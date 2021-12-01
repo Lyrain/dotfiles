@@ -47,6 +47,8 @@ alias json='python -m json.tool'
 alias path='printenv PATH | tr ":" "\n"'
 
 alias hm='home-manager'
+alias k='kubectl'
+alias tf='terraform'
 
 # play youtube videos given a URL
 function yt() {
