@@ -71,7 +71,7 @@ bindsym $mod+Return exec $term
 
 # App shortcuts
 bindsym $mod+w    exec firefox
-bindsym $mod+r    exec thunar
+bindsym $mod+r    exec caja
 bindsym $mod+c    exec $term -e $SHELL -lc $editor
 bindsym $mod+n    exec $term -e ncmpcpp
 bindsym $mod+z    exec zathura
