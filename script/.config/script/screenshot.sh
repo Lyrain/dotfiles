@@ -6,6 +6,6 @@
 #
 # This is bound in i3 to Ctrl+Shift+s.
 
-sed -i 's/background_opacity: 0.82/background_opacity: 1.0/g' $HOME/.config/alacritty/alacritty.yml
+sed -i 's/opacity: 0.82/opacity: 1.0/g' $HOME/.config/alacritty/alacritty.yml
 scrot --select --exec 'mv $f ~/Downloads/'
-sed -i 's/background_opacity: 1.0/background_opacity: 0.82/g' $HOME/.config/alacritty/alacritty.yml
+sed -i 's/opacity: 1.0/opacity: 0.82/g' $HOME/.config/alacritty/alacritty.yml
