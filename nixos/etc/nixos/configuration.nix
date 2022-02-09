@@ -312,7 +312,7 @@ in {
     xfce.xfce4-whiskermenu-plugin
     xfce.xfce4-battery-plugin
     xfce.xfce4-datetime-plugin
-    xfce.xfce4-namebar-plugin
+    #xfce.xfce4-namebar-plugin
     xfce.xfce4-pulseaudio-plugin
     xfce.xfce4-sensors-plugin
     xfce.xfce4-systemload-plugin
@@ -362,17 +362,9 @@ in {
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
+      22
       # Nginx
       80
-
-      # Ghost
-      2368
-
-      # Cassandra
-      3389
-      7000
-      7001
-      7199
     ];
     allowedTCPPortRanges = [
       # Development http servers
