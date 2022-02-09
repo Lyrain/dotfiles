@@ -12,6 +12,7 @@ let
     oauthlib
     requests
     requests_oauthlib
+    urllib3
     jupyterlab
     python-dotenv
     pdfx
@@ -22,12 +23,40 @@ let
     sqlalchemy
     dask
     distributed
+    black
+    mypy
+    pytest
+    tox
   ];
   python3-with-packages = with pkgs; python3.withPackages python3-packages;
 in
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
+  nixpkgs.overlays = [
+    (self: super: {
+      alacritty = super.alacritty.overrideAttrs (oldAttrs: rec {
+        pname = "alacritty";
+        version = "0.10.0";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "alacritty";
+          repo = pname;
+          rev = "v${version}";
+          sha256 = "sha256-eVPy47T2wcsN7NxtwMoyuC6loBVXsoJjJ/2q31i3vxQ=";
+        };
+
+        cargoDeps = oldAttrs.cargoDeps.overrideAttrs (_: {
+          inherit src;
+
+          outputHash = "sha256-B2+itbwd99G3m4cjctiBOpPq7qA9WmFJPe9vnYo6xc4=";
+        });
+
+        patches = [];
+      });
+    })
+  ];
+
   home = {
     username = "moffor";
     homeDirectory = "/home/moffor";
@@ -47,6 +76,12 @@ in
       exfat
       killall
       udiskie
+      lsscsi
+      parted
+      gparted
+      hdparm
+      smartmontools
+      u3-tool
       fish
       tree
       wget
@@ -73,6 +108,7 @@ in
       aspell
       ranger
       rizin # it's the new radare2
+      jadx
       john
       hashcat
       sshuttle
@@ -82,7 +118,7 @@ in
       tmux
       screen
       jq
-      yq
+      # yq
       cfssl
       kubectl
       xxd
@@ -104,13 +140,20 @@ in
       brightnessctl
       direnv
       qpdf
+      poppler
+      cairo
+      # ghostscript # collision with texlive, that has ghostscript anyway
       geckodriver
       chromedriver
+      exif
+      exiftool
+      inotify-tools
 
       # Documents
-      texlive.combined.scheme-medium
+      texlive.combined.scheme-full
       asciidoctor
       pandoc
+      markdown-pp
       hugo
 
       # Manuals
@@ -124,6 +167,7 @@ in
       nodejs-14_x
       yarn
       go
+      lua
       octaveFull
       R
       rPackages.tidyverse
@@ -131,13 +175,15 @@ in
       adoptopenjdk-hotspot-bin-8
       maven
       sbt
-      gradle
+      gradle_6
       scala_2_11
-      jetbrains.idea-community
-      jetbrains.goland
+      elixir
+      # jetbrains.idea-community
       nixops
       nix-index
+      nix-prefetch-github
       terraform_0_13
+      cloud-nuke
       ruby
       ansible
       ansible-lint
@@ -153,11 +199,12 @@ in
       mpv
       vlc
       insomnia
+      postman
       libreoffice
       wpa_supplicant_gui
       pavucontrol
       zoom-us
-      mysql-workbench
+      # mysql-workbench # Causes a bcrypt/python2 issue
       sqlitebrowser
       teams
       obsidian
@@ -166,6 +213,7 @@ in
       cutter
       aws-workspaces
       mate.caja
+      thunderbird
 
       # Virt
       qemu
