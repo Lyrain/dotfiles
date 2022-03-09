@@ -76,6 +76,7 @@ bindsym $mod+c    exec $term -e $SHELL -lc $editor
 bindsym $mod+n    exec $term -e ncmpcpp
 bindsym $mod+z    exec zathura
 bindsym --release $mod+Shift+s exec --no-startup-id $HOME/.config/script/screenshot.sh
+bindsym $mod+t exec --no-startup-id $HOME/.config/script/toggle-opacity
 
 # kill focused window
 bindsym $mod+Shift+q kill

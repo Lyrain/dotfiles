@@ -6,6 +6,19 @@
 #
 # This is bound in i3 to Ctrl+Shift+s.
 
-sed -i 's/opacity: 0.82/opacity: 1.0/g' $HOME/.config/alacritty/alacritty.yml
+config=$HOME/.config/alacritty/alacritty.yml
+
+changeopacity=0
+if grep 'opacity: 0.82' $config; then
+  changeopacity=1
+fi
+
+if [ $changeopacity -eq 1 ]; then
+  sed -i 's/opacity: 0.82/opacity: 1.0/g' $config
+fi
+
 scrot --select --exec 'mv $f ~/Downloads/'
-sed -i 's/opacity: 1.0/opacity: 0.82/g' $HOME/.config/alacritty/alacritty.yml
+
+if [ $changeopacity -eq 1 ]; then
+  sed -i 's/opacity: 1.0/opacity: 0.82/g' $config
+fi
