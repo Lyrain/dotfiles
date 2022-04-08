@@ -1,10 +1,14 @@
 { config, pkgs, ... }:
 
 let
-  strings = pkgs.lib.strings;
+  lib = pkgs.lib;
+  strings = lib.strings;
+
+  bloodhound = import ./bloodhound.nix {};
 
   python3-packages = pypkgs: with pypkgs; [
     flask
+    flask-cors
     pylint
     numpy
     pandas
@@ -27,8 +31,17 @@ let
     mypy
     pytest
     tox
+    ipdb
+    pwntools
+    unicorn
+    capstone
+    keystone-engine
+    ropper
+    tqdm
+    docker
+    h5py
   ];
-  python3-with-packages = with pkgs; python3.withPackages python3-packages;
+  python3-with-packages = with pkgs; python39.withPackages python3-packages;
 in
 {
   # Home Manager needs a bit of information about you and the
@@ -55,7 +68,29 @@ in
         patches = [];
       });
     })
+
+    (self: super: {
+      weechat = super.weechat.override {
+        configure = { availablePlugins, ...}: {
+          scripts = with super.weechatScripts; [
+            weechat-matrix
+          ];
+        };
+      };
+    })
   ];
+
+  # xsession = {
+  #   windowManager.xmonad = {
+  #     enable = false;
+  #     enableContribAndExtras = true;
+  #     extraPackages = hp: [
+  #       hp.dbus
+  #       hp.monad-logger
+  #       hp.xmonad-contrib
+  #     ];
+  #   };
+  # };
 
   home = {
     username = "moffor";
@@ -67,16 +102,29 @@ in
     };
 
     packages = with pkgs; [
+      # Core
       gnumake
       coreutils
       binutils
       pkgconfig
       glibc
+      dmenu
+      rofi
+      rofi-emoji
+      # i3lock
+      # polybar
+      dunst
+      libnotify
+      lxappearance
+      # xmonad-with-packages
+
+      # Essentials
       zlib
       exfat
       killall
       udiskie
       lsscsi
+      lsof
       parted
       gparted
       hdparm
@@ -97,6 +145,7 @@ in
       git
       neovim
       ripgrep
+      lolcat
       ag
       fzf
       alacritty
@@ -112,13 +161,14 @@ in
       john
       hashcat
       sshuttle
+      sshpass
       bind
       entr
       htop
       tmux
       screen
+      ansifilter
       jq
-      # yq
       cfssl
       kubectl
       xxd
@@ -148,6 +198,10 @@ in
       exif
       exiftool
       inotify-tools
+      arandr
+      graphviz
+      go-ethereum
+      gocryptfs
 
       # Documents
       texlive.combined.scheme-full
@@ -178,15 +232,16 @@ in
       gradle_6
       scala_2_11
       elixir
-      # jetbrains.idea-community
+      neo4j
       nixops
       nix-index
       nix-prefetch-github
-      terraform_0_13
+      nix-tree
+      nixpkgs-review
+      nixpkgs-fmt
+      terraform
       cloud-nuke
       ruby
-      ansible
-      ansible-lint
       gcc
       gdb
 
@@ -195,6 +250,8 @@ in
       google-chrome
       remmina
       slack
+      discord
+      weechat
       keepassxc
       mpv
       vlc
@@ -204,16 +261,19 @@ in
       wpa_supplicant_gui
       pavucontrol
       zoom-us
-      # mysql-workbench # Causes a bcrypt/python2 issue
       sqlitebrowser
       teams
       obsidian
       anki
       krita
+      blender
+      kmag
       cutter
       aws-workspaces
       mate.caja
-      thunderbird
+      bloodhound
+      ghidra-bin
+      burpsuite
 
       # Virt
       qemu
