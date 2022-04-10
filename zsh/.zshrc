@@ -64,6 +64,11 @@ alias ans='ansible'
 alias ansp='ansible-playbook'
 alias ansl='ansible-lint'
 
+function getcert() {
+  echo | openssl s_client -connect "${1}:${2}" | \
+    sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
+}
+
 # play youtube videos given a URL
 function yt() {
   mpv --ytdl "$@"
