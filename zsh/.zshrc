@@ -10,10 +10,14 @@ source $HOME/antigen.zsh
 antigen use oh-my-zsh
 
 antigen bundle git
-antigen bundle cargo
 antigen bundle env
+antigen bundle ssh-agent
 
-antigen bundle kiurchv/asdf.plugin.zsh
+# Configure ssh-agent
+zstyle :omz:plugins:ssh-agent agent-forwarding yes
+zstyle :omz:plugins:ssh-agent quiet yes
+zstyle :omz:plugins:ssh-agent lazy yes
+
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 
@@ -21,12 +25,17 @@ antigen theme Lyrain/dotfiles xxf
 
 antigen apply
 
-# ZSH_THEME="xxf"
-
 # Aliases
 alias cl='clear'
-alias l='ls -l'
-alias ll='ls -lah'
+if type exa > /dev/null; then
+  alias ls='exa'
+  alias l='exa -lg --icons'
+  alias ll='exa -lag --icons'
+else
+  alias l='ls -l'
+  alias ll='ls -lah'
+fi
+
 alias ..='cd ..'
 alias desk='~/Desktop'
 alias trim='sed -e "s/^[[:space:]]*//" -e "s/[[:space:]]*$//"'
@@ -48,7 +57,12 @@ alias path='printenv PATH | tr ":" "\n"'
 
 alias hm='home-manager'
 alias k='kubectl'
-alias tf='terraform'
+alias tf='podman run --rm docker.io/hashicorp/terraform:1.1.7'
+alias gdb='gdb -q'
+alias mol='molecule'
+alias ans='ansible'
+alias ansp='ansible-playbook'
+alias ansl='ansible-lint'
 
 # play youtube videos given a URL
 function yt() {
@@ -76,6 +90,25 @@ _-accept-line () {
     zle .accept-line
 }
 zle -N accept-line _-accept-line
+
+start-tmux-logger() {
+  local -r COLOR_RED=$'\e[31m' COLOR_GREEN=$'\e[32m' \
+    COLOR_BLUE=$'\e[34m' RESET_COLORS=$'\e[0m'
+
+  if [ -n "$TMUX" ]; then
+    log_file_name=$(tmux display-message -p "#{session_name}-#{window_index}-#{pane_index}-%Y%m%dT%H%M%S.log")
+    file="$HOME/.local/share/tmux/${log_file_name}"
+
+    if type ansifilter >/dev/null 2>&1; then
+      tmux pipe-pane "exec cat - | ansifilter >> $file"
+      printf "${COLOR_GREEN}Started logging to ${file}.${RESET_COLORS}\n"
+    else
+      printf "${COLOR_RED}ansifilter not installed.${RESET_COLORS}\n"
+    fi
+  else
+    printf "${COLOR_RED}Not in a tmux session.${RESET_COLORS}\n"
+  fi
+}
 
 # OS Specific
 case "$(uname)" in
