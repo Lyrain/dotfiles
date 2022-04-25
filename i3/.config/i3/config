@@ -11,7 +11,7 @@ gaps inner 8
 smart_gaps on
 
 set $mod Mod4
-set $term --no-startup-id alacritty
+set $term alacritty
 set $editor nvim
 
 # External scripts
@@ -67,13 +67,13 @@ bindsym $mod+Shift+p exec --no-startup-id i3resize right
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec $term
+bindsym $mod+Return exec --no-startup-id $term
 
 # App shortcuts
 bindsym $mod+w    exec firefox
 bindsym $mod+r    exec caja
-bindsym $mod+c    exec $term -e $SHELL -lc $editor
-bindsym $mod+n    exec $term -e ncmpcpp
+bindsym $mod+c    exec --no-startup-id $term -e $SHELL -lc $editor
+bindsym $mod+n    exec --no-startup-id $term -e ncmpcpp
 bindsym $mod+z    exec zathura
 bindsym --release $mod+Shift+s exec --no-startup-id $HOME/.config/script/screenshot.sh
 bindsym $mod+t exec --no-startup-id $HOME/.config/script/toggle-opacity
@@ -87,6 +87,7 @@ bindsym $mod+Shift+d exec "rofi -show emoji -modi emoji"
 
 # find a window with rofi
 bindsym $mod+Shift+f exec rofi -show window
+bindsym $mod+numbersign exec rofi -show ssh -terminal $term
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
