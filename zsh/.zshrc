@@ -27,6 +27,7 @@ antigen apply
 
 # Aliases
 alias cl='clear'
+
 if type exa > /dev/null; then
   alias ls='exa'
   alias l='exa -lg --icons'
@@ -55,14 +56,20 @@ alias json='python -m json.tool'
 # Print out PATH legibly
 alias path='printenv PATH | tr ":" "\n"'
 
+# Convenience
 alias hm='home-manager'
 alias k='kubectl'
-alias tf='podman run --rm docker.io/hashicorp/terraform:1.1.7'
+alias tf='terraform'
 alias gdb='gdb -q'
 alias mol='molecule'
 alias ans='ansible'
 alias ansp='ansible-playbook'
 alias ansl='ansible-lint'
+
+# Tmux
+alias tma='tmux attach'
+alias tmz='tmux detatch'
+alias tms='tmux list-sessions'
 
 function getcert() {
   echo | openssl s_client -connect "${1}:${2}" | \
