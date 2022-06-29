@@ -27,6 +27,7 @@ antigen apply
 
 # Aliases
 alias cl='clear'
+
 if type exa > /dev/null; then
   alias ls='exa'
   alias l='exa -lg --icons'
@@ -55,6 +56,7 @@ alias json='python -m json.tool'
 # Print out PATH legibly
 alias path='printenv PATH | tr ":" "\n"'
 
+# Convenience
 alias hm='home-manager'
 alias k='kubectl'
 alias tf='terraform'
@@ -65,6 +67,11 @@ alias ansp='ansible-playbook'
 alias ansl='ansible-lint'
 
 alias awsident='export AWS_ACCOUNT=$(aws sts get-caller-identity | jq ".Account" | tr -d "\"")'
+
+# Tmux
+alias tma='tmux attach'
+alias tmz='tmux detatch'
+alias tms='tmux list-sessions'
 
 function getcert() {
   echo | openssl s_client -connect "${1}:${2}" | \
