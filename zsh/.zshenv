@@ -7,7 +7,10 @@
 export LANG=en_GB.UTF-8
 export EDITOR="nvim"
 # export SHELL="/bin/zsh"
-export TERM="screen-256color"
+
+# Don't use screen-256color as it causes issues with the command being printed
+# out before execution (seperate to alias expansion)
+export TERM="xterm-256color"
 export XDG_DATA_HOME="$HOME/.local/share"
 
 export LD_LIBRARY_PATH="/usr/local/lib"

@@ -57,12 +57,14 @@ alias path='printenv PATH | tr ":" "\n"'
 
 alias hm='home-manager'
 alias k='kubectl'
-alias tf='podman run --rm docker.io/hashicorp/terraform:1.1.7'
+alias tf='terraform'
 alias gdb='gdb -q'
 alias mol='molecule'
 alias ans='ansible'
 alias ansp='ansible-playbook'
 alias ansl='ansible-lint'
+
+alias awsident='export AWS_ACCOUNT=$(aws sts get-caller-identity | jq ".Account" | tr -d "\"")'
 
 function getcert() {
   echo | openssl s_client -connect "${1}:${2}" | \
