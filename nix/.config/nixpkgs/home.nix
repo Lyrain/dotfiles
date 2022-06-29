@@ -4,7 +4,11 @@ let
   lib = pkgs.lib;
   strings = lib.strings;
 
+  secrets = import ./secrets.nix {};
+
   bloodhound = import ./bloodhound.nix {};
+
+  kubectl-doctor = import ./kubectl-doctor.nix {};
 
   python3-packages = pypkgs: with pypkgs; [
     flask
@@ -40,6 +44,13 @@ let
     tqdm
     docker
     h5py
+    netaddr
+    libvirt
+    pyyaml
+    kubernetes
+    jsonpatch
+    folium
+    twisted
   ];
   python3-with-packages = with pkgs; python39.withPackages python3-packages;
 in
@@ -47,28 +58,6 @@ in
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   nixpkgs.overlays = [
-    (self: super: {
-      alacritty = super.alacritty.overrideAttrs (oldAttrs: rec {
-        pname = "alacritty";
-        version = "0.10.0";
-
-        src = pkgs.fetchFromGitHub {
-          owner = "alacritty";
-          repo = pname;
-          rev = "v${version}";
-          sha256 = "sha256-eVPy47T2wcsN7NxtwMoyuC6loBVXsoJjJ/2q31i3vxQ=";
-        };
-
-        cargoDeps = oldAttrs.cargoDeps.overrideAttrs (_: {
-          inherit src;
-
-          outputHash = "sha256-B2+itbwd99G3m4cjctiBOpPq7qA9WmFJPe9vnYo6xc4=";
-        });
-
-        patches = [];
-      });
-    })
-
     (self: super: {
       weechat = super.weechat.override {
         configure = { availablePlugins, ...}: {
@@ -78,11 +67,17 @@ in
         };
       };
     })
+
+    (self: super: {
+      polymc = super.polymc.override {
+        msaClientID = secrets.msaClientID;
+      };
+    })
   ];
 
   # xsession = {
   #   windowManager.xmonad = {
-  #     enable = false;
+  #     enable = true;
   #     enableContribAndExtras = true;
   #     extraPackages = hp: [
   #       hp.dbus
@@ -111,10 +106,9 @@ in
       dmenu
       rofi
       rofi-emoji
-      # i3lock
-      # polybar
       dunst
       libnotify
+      libpcap
       lxappearance
       # xmonad-with-packages
 
@@ -146,12 +140,13 @@ in
       neovim
       ripgrep
       lolcat
-      ag
+      silver-searcher
       fzf
       alacritty
       exa
       rxvt-unicode
       feh
+      digikam
       scrot
       imagemagick
       aspell
@@ -160,6 +155,7 @@ in
       jadx
       john
       hashcat
+      clinfo
       sshuttle
       sshpass
       bind
@@ -171,6 +167,10 @@ in
       jq
       cfssl
       kubectl
+      kubectl-doctor
+      eksctl
+      kubernetes-helm
+      cilium-cli
       xxd
       file
       awscli2
@@ -185,7 +185,7 @@ in
       docker-compose
       dive
       nmap
-      telnet
+      inetutils
       mpc_cli
       brightnessctl
       direnv
@@ -209,19 +209,24 @@ in
       pandoc
       markdown-pp
       hugo
+      evince
+      okular
 
       # Manuals
-      manpages
+      man-pages
       stdmanpages
       zeal
 
       # Code
       conda
       python3-with-packages
+      poetry
       nodejs-14_x
       yarn
       go
       lua
+      cargo
+      rustc
       octaveFull
       R
       rPackages.tidyverse
@@ -242,15 +247,18 @@ in
       terraform
       cloud-nuke
       ruby
+      leiningen
       gcc
       gdb
+      pwndbg
+      sonar-scanner-cli
 
       # GUI
       firefox
-      google-chrome
+      # google-chrome
+      chromium
       remmina
       slack
-      discord
       weechat
       keepassxc
       mpv
@@ -258,22 +266,28 @@ in
       insomnia
       postman
       libreoffice
+      taskjuggler
       wpa_supplicant_gui
       pavucontrol
       zoom-us
       sqlitebrowser
       teams
       obsidian
+      vscode
       anki
       krita
+      cdrtools
       blender
       kmag
       cutter
       aws-workspaces
       mate.caja
       bloodhound
+      sleuthkit
       ghidra-bin
       burpsuite
+      # multimc replace by polymc due to politics https://github.com/NixOS/nixpkgs/pull/154051
+      polymc
 
       # Virt
       qemu
@@ -312,16 +326,7 @@ in
       "}"
     ];
   };
-  # services.polybar = {
-  #   enable = true;
-  #   package = pkgs.polybar.override {
-  #     i3GapsSupport = true;
-  #     mpdSupport = true;
-  #     pulseSupport = true;
-  #   };
-  #   script = strings.fileContents ~/.config/polybar/launch.sh;
-  #   config = ~/.config/polybar/config.example;
-  # };
+
   services.lorri.enable = true;
 
   # Programs

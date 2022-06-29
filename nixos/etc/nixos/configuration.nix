@@ -5,28 +5,6 @@
 { config, pkgs, ... }:
 
 let
-  python38-packages = pypkgs: with pypkgs; [
-    pylint
-    numpy
-    pandas
-    beautifulsoup4
-    oauthlib
-    requests
-    requests_oauthlib
-    jupyterlab
-    python-dotenv
-    pdfx
-    ipython
-    ipykernel
-    bokeh
-    matplotlib
-    sqlalchemy
-    dask
-    distributed
-  ];
-
-  python38-with-packages = with pkgs; python38.withPackages python38-packages;
-
   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
     export _NV_PRIME_RENDER_OFFLOAD=1
     export _NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
@@ -61,7 +39,7 @@ in {
     # zathura.useMupdf = true;
     packageOverrides = pkgs: rec {
       polybar = pkgs.polybar.override {
-        i3Support = true;
+        i3GapsSupport = true;
         mpdSupport = true;
         pulseSupport = true;
       };
@@ -70,6 +48,13 @@ in {
 
   # Use the systemd-boot EFI boot loader.
   boot = {
+    kernel = {
+      sysctl = {
+        "vm.max_map_count" = 524288;
+        "fs.file-max" = 131072;
+      };
+    };
+
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -79,34 +64,46 @@ in {
     kernelPackages = pkgs.linuxPackages_latest;
 
     # CPU stuff
-    initrd.kernelModules = [ "intel_agp" "i915" ];
+    initrd.kernelModules =
+      [ "intel_agp"
+        "i915"
+        "overlay"
+      ];
   };
 
   networking = {
     hostName = "daportbd9"; # Define your hostname.
-    # networkmanager = {
-    #   enable = true;
-    #   # Ignore wireless so WPA supplicat can work
-    #   unmanaged = [
-    #     "*" "except:type:wwan" "except:type:gsm" "except:type:ethernet"
-    #   ];
-    # };
+    hosts = {
+      "192.168.200.1"  = [ "k8s.test" ];
+      "192.168.200.104" = [ "k8s-test-master-0.k8s.test" ];
+      "192.168.200.86" = [ "k8s-test-worker-0.k8s.test" ];
+      "192.168.0.58" = [ "master.pwn3" "game.pwn3" ];
+      # "192.168.200.230" = [ "k8s-prod-worker-2.k8s-prod" ];
+      "10.0.0.58" = [ "gitlab.serlresearch.ac.uk" ];
+    };
+    nameservers = [ "1.1.1.1" "9.9.9.9" ];
+    networkmanager = {
+      enable = true;
+      # dns = "dnsmasq";
+      # Ignore wireless so WPA supplicat can work
+      unmanaged = [
+        "*" "except:type:wwan" "except:type:gsm" "except:type:ethernet"
+      ];
+    };
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config
     # replicates the default behaviour.
     useDHCP = false;
-    # interfaces.enp0s20f0u1 = {
+
+    # interfaces.enp0s20f0u2 = {
+    #   # useDHCP = true;
+    #   # OR use
     #   ipv4.addresses = [
     #     { address = "10.100.0.1"; prefixLength = 24; }
     #   ];
     # };
-    # interfaces.enp0s20f0u2.useDHCP = true;
     interfaces.wlp2s0.useDHCP = true;
-
-    # Configure network proxy if necessary
-    # networking.proxy.default = "http://user:password@proxy:port/";
-    # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
     wireless = {
       interfaces = [ "wlp2s0" ];
@@ -116,6 +113,25 @@ in {
       };
       networks = import ./wireless-networks.nix;
     };
+
+    firewall = {
+      enable = true;
+      checkReversePath = false;
+      allowedTCPPorts = [
+        22
+        80
+      ];
+      allowedTCPPortRanges = [
+        # Development http servers
+        { from = 3000; to = 3010; }
+        { from = 4000; to = 4010; }
+        { from = 8000; to = 9090; }
+      ];
+    };
+
+    # Configure network proxy if necessary
+    # proxy.default = "http://user:password@proxy:port/";
+    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
   };
 
   # Set your time zone.
@@ -136,6 +152,7 @@ in {
     dpi = 192;
 
     videoDrivers = [ "nvidia" ];
+
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
 
@@ -149,23 +166,30 @@ in {
     };
 
     windowManager.i3 = {
-        enable = true;
-        package = pkgs.i3-gaps;
-        extraPackages = with pkgs; [
-            dmenu
-            rofi
-            i3lock
-            polybar
-            dunst
-            libnotify
-            lxappearance
-        ];
+      enable = true;
+      package = pkgs.i3-gaps;
+      extraPackages = with pkgs; [
+        i3lock
+        polybar
+      ];
     };
+
+    modules = with pkgs; [
+      xf86_input_wacom
+    ];
+    wacom.enable = true;
+
+    # windowManager.xmonad = {
+    #   enable = false;
+    #   enableContribAndExtras = true;
+    # };
   };
 
   hardware = {
     enableRedistributableFirmware = true;
     cpu.intel.updateMicrocode = true;
+
+    opengl.enable = true;
     opengl.extraPackages = with pkgs; [
       vaapiIntel
       vaapiVdpau
@@ -238,10 +262,31 @@ in {
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [ hplip ];
+  };
+
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+  };
+
+  # services.dnsmasq = {
+  #   enable = true;
+  #   resolveLocalQueries = true;
+  #   servers = [
+  #     "192.168.200.1"
+  #     "192.168.122.1"
+  #     "1.1.1.1"
+  #   ];
+  #   extraConfig = ''
+  #     listen-address=127.0.0.1
+  #     '';
+  # };
 
   services.nginx = {
-    enable = true;
+    enable = false;
     virtualHosts."daportbd9.lan" = {
       root = "/var/www/";
       locations = {
@@ -259,7 +304,13 @@ in {
   hardware.pulseaudio.extraConfig = "load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1";
 
   virtualisation = {
-    docker.enable = true;
+    docker = {
+      enable = true;
+      listenOptions = [
+        "/run/docker.sock" # default
+        "tcp://127.0.0.1:2375"
+      ];
+    };
     libvirtd.enable = true;
     podman.enable = true;
   };
@@ -276,9 +327,21 @@ in {
       "power"
       "storage"
       "libvirtd"
-      # "networkmanager"
       "nginx"
       "wireshark"
+      "docker"
+      "networkmanager"
+    ];
+  };
+
+  security.doas = {
+    enable = true;
+    extraRules = [
+      {
+        groups = [ "wheel" ];
+        keepEnv = true;
+        persist = true;
+      }
     ];
   };
 
@@ -292,6 +355,7 @@ in {
     xorg.xbacklight
     xorg.libxcb
     xorg.xcbutil
+    xorg.xinput
     xclip
     xsel
     xdotool
@@ -331,6 +395,7 @@ in {
   # Fonts
   fonts.fonts = with pkgs; [
     source-code-pro
+    nerdfonts
     noto-fonts
     noto-fonts-extra
     noto-fonts-emoji
@@ -344,7 +409,14 @@ in {
   #   enableSSHSupport = true;
   # };
   programs.dconf.enable = true;
-  programs.steam.enable = true;
+  # programs.steam.enable = true;
+
+  # needed for flatpak because not doing (full) Gnome
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+  };
+  services.flatpak.enable = true;
 
   # List services that you want to enable:
 
@@ -357,21 +429,6 @@ in {
   services.xrdp = {
     enable = false;
     defaultWindowManager = "${pkgs.xfce.xfce4-session}/bin/startxfce4";
-  };
-
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [
-      22
-      # Nginx
-      80
-    ];
-    allowedTCPPortRanges = [
-      # Development http servers
-      { from = 3000; to = 3010; }
-      { from = 4000; to = 4010; }
-      { from = 8000; to = 9090; }
-    ];
   };
 
   # This value determines the NixOS release from which the default
