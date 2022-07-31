@@ -45,6 +45,10 @@ au BufRead,BufNewFile *.Rmd set filetype=markdown
 augroup markdownSpell
   autocmd!
   autocmd FileType markdown setlocal spell
+
+  " Abbreviations
+  iabbr w/ with
+  iabbr wo/ without
 augroup END
 
 augroup asciidocSpell
@@ -73,6 +77,7 @@ call plug#begin('~/.vim/plugged')
 
 " Colors & Theming
 Plug 'morhetz/gruvbox', { 'as': 'gruvbox' }
+" Plug 'rebelot/kanagawa.nvim', { 'as': 'kanagawa' }
 Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
@@ -86,10 +91,10 @@ Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'w0rp/ale'
 Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'ledger/vim-ledger' " Plaintext Accounting
+Plug 'epitzer/vim-rdf-turtle'
 
 call plug#end()
 
@@ -99,13 +104,15 @@ let mapleader = "\<Space>" " Leader
 nmap <leader>w :w<CR>
 " Toggle buffers
 nnoremap <leader><leader> <c-^>
-" Use <leader>t for 'jump to tag'.
+" Use <leader>] for 'jump to tag'.
 nnoremap <Leader>] <C-]>
 " Removes highlighting until the next search is made
-nnoremap <Leader>n :noh<CR>
+nnoremap <Leader>n :noh<cr>
 " Removes the last char from the current word
 nnoremap <Leader>x exb
-nnoremap <Leader>m :make<CR><CR>
+nnoremap <Leader>m :make<cr><cr>
+" Base64
+vnoremap <Leader>64 c<c-r>=system("base64 --decode", @")<cr><esc>
 
 " theme
 colorscheme gruvbox
@@ -159,7 +166,4 @@ nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nnoremap <leader>cr :CocRestart
-
-" ale (linter) configuration
-let g:ale_linters = { 'rust': ['rls', 'cargo', 'rustc'] }
 
