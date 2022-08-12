@@ -10,6 +10,14 @@ let
 
   kubectl-doctor = import ./kubectl-doctor.nix {};
 
+  awscli2 = import ./awscli2.nix {
+    inherit lib;
+    python3 = pkgs.python3;
+    groff = pkgs.groff;
+    less = pkgs.less;
+    fetchFromGitHub = pkgs.fetchFromGitHub;
+  };
+
   python3-packages = pypkgs: with pypkgs; [
     flask
     flask-cors
@@ -110,6 +118,7 @@ in
       libnotify
       libpcap
       lxappearance
+      mlocate
       # xmonad-with-packages
 
       # Essentials
@@ -124,7 +133,6 @@ in
       hdparm
       smartmontools
       u3-tool
-      fish
       tree
       wget
       curl
@@ -135,10 +143,12 @@ in
       stow
       zip
       unzip
+      p7zip
       rsync
       git
       neovim
       ripgrep
+      rename
       lolcat
       silver-searcher
       fzf
@@ -149,18 +159,22 @@ in
       digikam
       scrot
       imagemagick
+      zbar
       aspell
       ranger
+      ueberzug
+      mc
       rizin # it's the new radare2
       jadx
       john
       hashcat
+      sleuthkit
+      nuclei
       clinfo
       sshuttle
       sshpass
       bind
       entr
-      htop
       tmux
       screen
       ansifilter
@@ -200,7 +214,6 @@ in
       inotify-tools
       arandr
       graphviz
-      go-ethereum
       gocryptfs
 
       # Documents
@@ -209,6 +222,7 @@ in
       pandoc
       markdown-pp
       hugo
+      plantuml
       evince
       okular
 
@@ -224,6 +238,7 @@ in
       nodejs-14_x
       yarn
       go
+      gopls # go language server
       lua
       cargo
       rustc
@@ -231,7 +246,7 @@ in
       R
       rPackages.tidyverse
       rstudio
-      adoptopenjdk-hotspot-bin-8
+      openjdk17
       maven
       sbt
       gradle_6
@@ -255,7 +270,7 @@ in
 
       # GUI
       firefox
-      # google-chrome
+      google-chrome
       chromium
       remmina
       slack
@@ -269,25 +284,29 @@ in
       taskjuggler
       wpa_supplicant_gui
       pavucontrol
-      zoom-us
       sqlitebrowser
       teams
       obsidian
       vscode
       anki
       krita
+      kdenlive
       cdrtools
       blender
       kmag
       cutter
-      aws-workspaces
       mate.caja
       bloodhound
-      sleuthkit
       ghidra-bin
       burpsuite
+      zap
+      gnome.dconf-editor
       # multimc replace by polymc due to politics https://github.com/NixOS/nixpkgs/pull/154051
       polymc
+
+      # Android
+      android-studio
+      android-tools
 
       # Virt
       qemu
@@ -300,6 +319,14 @@ in
       # Networking
       wireshark
       termshark
+
+      # Non Nix managed packages (Flatpak)
+      #
+      # us.zoom.Zoom
+      # com.discordapp.Discord
+      # com.valvesoftware.Steam
+      # org.onlyoffice.desktopeditors
+      # com.amazon.Workspaces
     ];
   };
 
