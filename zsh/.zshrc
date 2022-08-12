@@ -68,6 +68,10 @@ alias ansl='ansible-lint'
 
 alias awsident='export AWS_ACCOUNT=$(aws sts get-caller-identity | jq ".Account" | tr -d "\"")'
 
+alias msf-pattern_create='/opt/metasploit/tools/exploit/pattern_create.rb'
+alias msf-pattern_offset='/opt/metasploit/tools/exploit/pattern_offset.rb'
+alias tunip="ip a s tun0 | grep 'inet ' | awk '{ print \$2 }'"
+
 # Tmux
 alias tma='tmux attach'
 alias tmz='tmux detatch'
