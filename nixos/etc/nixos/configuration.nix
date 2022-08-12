@@ -3,16 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
-let
-  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-    export _NV_PRIME_RENDER_OFFLOAD=1
-    export _NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-    export __GLX_VENDOR_LIBRARY_NAME=nvidia
-    export __VK_LAYER_NV_optimus=NVIDIA_only
-    exec -a "$0" "$@"
-    '';
-in {
+{
   imports =
     [ # Include the results of the hardware scan.
       "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; }}/dell/xps/15-9550"
@@ -74,12 +65,10 @@ in {
   networking = {
     hostName = "daportbd9"; # Define your hostname.
     hosts = {
-      "192.168.200.1"  = [ "k8s.test" ];
-      "192.168.200.104" = [ "k8s-test-master-0.k8s.test" ];
-      "192.168.200.86" = [ "k8s-test-worker-0.k8s.test" ];
+      "18.132.196.155" = [ "rdf-vocabulary.ddialliance.org" ];
       "192.168.0.58" = [ "master.pwn3" "game.pwn3" ];
-      # "192.168.200.230" = [ "k8s-prod-worker-2.k8s-prod" ];
-      "10.0.0.58" = [ "gitlab.serlresearch.ac.uk" ];
+      "127.0.0.1" = [ "fuseki" ];
+      "10.129.227.208" = [ "faculty.htb" ];
     };
     nameservers = [ "1.1.1.1" "9.9.9.9" ];
     networkmanager = {
@@ -96,13 +85,13 @@ in {
     # replicates the default behaviour.
     useDHCP = false;
 
-    # interfaces.enp0s20f0u2 = {
-    #   # useDHCP = true;
-    #   # OR use
-    #   ipv4.addresses = [
-    #     { address = "10.100.0.1"; prefixLength = 24; }
-    #   ];
-    # };
+    interfaces.enp0s20f0u1 = {
+      # useDHCP = true;
+      # OR use
+      ipv4.addresses = [
+        { address = "10.100.0.5"; prefixLength = 24; }
+      ];
+    };
     interfaces.wlp2s0.useDHCP = true;
 
     wireless = {
@@ -158,9 +147,10 @@ in {
 
     # Desktop environment
     desktopManager = {
-      #xterm.enable = false;
-      xfce.enable = true;
+      # xterm.enable = false;
+      # mate.enable = true;
     };
+
     displayManager = {
         defaultSession = "none+i3";
     };
@@ -210,6 +200,8 @@ in {
       # 00:02.0 VGA compatible controller: Intel Corporation HD Graphics 530 (rev 06) (prog-if 00 [VGA controller])
       intelBusId = "PCI:0:2:0";
     };
+
+    bluetooth.enable = true;
   };
 
   services.udev.extraRules = ''
@@ -285,6 +277,11 @@ in {
   #     '';
   # };
 
+  services.globalprotect = {
+    enable = true;
+    # csdWrapper = "${pkgs.openconnect/libexec/openconnect/hireport.sh}"
+  };
+
   services.nginx = {
     enable = false;
     virtualHosts."daportbd9.lan" = {
@@ -348,7 +345,9 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    # Networking
     nginx
+    globalprotect-openconnect
 
     # Xorg
     xorg.xev
@@ -384,9 +383,6 @@ in {
     xfce.xfce4-volumed-pulse
     xfce.thunar
 
-    # custom scripts
-    nvidia-offload
-
     # Graphical
     breeze-gtk
     flat-remix-icon-theme
@@ -410,6 +406,7 @@ in {
   # };
   programs.dconf.enable = true;
   # programs.steam.enable = true;
+  programs.zsh.enable = true;
 
   # needed for flatpak because not doing (full) Gnome
   xdg.portal = {
