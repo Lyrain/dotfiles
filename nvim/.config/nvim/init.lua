@@ -203,11 +203,13 @@ vim.api.nvim_create_autocmd('FileType', {
 
 -- LSP
 
-local nvim_lsp = require 'lspconfig'
+local nvim_lsp = require('lspconfig')
+local rt = require('rust-tools')
+
 local opts = {
     tools = {
         autoSetHints = true,
-        hover_with_actions = true,
+        -- hover_with_actions = true,
         inlay_hints = {
             show_parameter_hints = true,
             parameter_hints_prefix = "",
@@ -223,10 +225,17 @@ local opts = {
                 },
             },
         },
+        on_attach = function(_, bufnr)
+            vim.keymap.set("n", "<C-space>",
+                rt.hover_actions.hover_actions, { buffer = bufnr })
+
+            vim.keymap.set("n", "<Leader>a",
+                rt.code_action_group.code_action_group, { buffer = bufnr })
+        end,
     },
 }
 
-require('rust-tools').setup(opts)
+rt.setup(opts)
 
 local cmp = require 'cmp'
 
