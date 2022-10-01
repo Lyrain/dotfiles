@@ -66,7 +66,7 @@ alias ans='ansible'
 alias ansp='ansible-playbook'
 alias ansl='ansible-lint'
 
-alias awsident='export AWS_ACCOUNT=$(aws sts get-caller-identity | jq ".Account" | tr -d "\"")'
+alias awsident='export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)'
 
 alias msf-pattern_create='/opt/metasploit/tools/exploit/pattern_create.rb'
 alias msf-pattern_offset='/opt/metasploit/tools/exploit/pattern_offset.rb'
