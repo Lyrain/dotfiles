@@ -29,17 +29,20 @@ vim.cmd "Plug 'neovim/nvim-lspconfig'"
 -- Completion framework
 vim.cmd "Plug 'hrsh7th/nvim-cmp'"
 vim.cmd "Plug 'hrsh7th/cmp-nvim-lsp'"
-vim.cmd "Plug 'hrsh7th/cmp-vsnip'"
-
--- Other usefull completion sources
 vim.cmd "Plug 'hrsh7th/cmp-path'"
 vim.cmd "Plug 'hrsh7th/cmp-buffer'"
+vim.cmd "Plug 'hrsh7th/cmp-vsnip'"
 vim.cmd "Plug 'hrsh7th/vim-vsnip'"
 
 -- See hrsh7th's other plugins for more completion sources!
 
 -- To enable more of the features of rust-analyzer, such as inlay hints and more!
 vim.cmd "Plug 'simrat39/rust-tools.nvim'"
+
+-- Scala
+vim.cmd "Plug 'scalameta/nvim-metals'"
+vim.cmd "Plug 'nvim-lua/plenary.nvim'"
+vim.cmd "Plug 'mfussenegger/nvim-dap'"
 
 vim.cmd 'call plug#end()'
 
@@ -237,9 +240,61 @@ local opts = {
 
 rt.setup(opts)
 
+local metals_config = require("metals").bare_config()
+
+metals_config.settings = {
+    showImplicitArguments = true,
+    excludedPackages = {
+        "akka.actor.typed.javadsl",
+        "com.github.swagger.akka.javadsl",
+    },
+}
+
+-- metals_config.init_options.statusBarProvider = "on"
+
+local dap = require("dap")
+
+dap.configurations.scala = {
+    {
+        type = "scala",
+        request = "launch",
+        name = "RunOrTest",
+        metals = {
+            runType = "runOrTestFile"
+        },
+    },
+    {
+        type = "scala",
+        request = "launch",
+        name = "Test Target",
+        metals = {
+            runType = "testTarget"
+        },
+    },
+}
+
+metals_config.on_attach = function(client, bufnr)
+    require("metals").setup_dap()
+end
+
+local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "scala", "sbt", "java" },
+    callback = function()
+        require("metals").initialize_or_attach(metals_config)
+    end,
+    group = nvim_metals_group,
+})
+
 local cmp = require 'cmp'
 
 cmp.setup({
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' },
+        { name = 'path' },
+        -- { name = 'buffer' },
+    },
     snippet = {
         expand = function(args)
             vim.fn["vsnip#anonymous"](args.body)
@@ -259,11 +314,5 @@ cmp.setup({
           behavior = cmp.ConfirmBehavior.Insert,
           select = true,
         })
-    },
-    sources = {
-        { name = 'nvim_lsp' },
-        { name = 'vsnip' },
-        { name = 'path' },
-        -- { name = 'buffer' },
     },
 })
