@@ -72,7 +72,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.completeopt = {"menu", "menuone", "preview"}
 vim.opt.spelllang = "en_gb"
 -- vim.opt.clipboard:append({ name = "unnamedplus" })
-vim.wo.colorcolumn = "80,81"
+vim.wo.colorcolumn = "120,121"
 
 -- View tab
 vim.opt.list = true
@@ -107,6 +107,10 @@ vim.keymap.set('n', '<Leader>x', 'exb') -- Delete last char of word
 vim.keymap.set('n', '<Leader>m', ':make') -- Quick make
 vim.keymap.set('n', '<Leader>p', ':Files<CR>') -- FZF file finder
 vim.keymap.set('n', '<Leader>;', ':Buffer<CR>') -- FZF buffer selector
+
+vim.keymap.set('n', '<Leader>gd', vim.lsp.buf.definition) -- LSP Definition
+vim.keymap.set('n', '<Leader>r', vim.lsp.buf.references) -- LSP references
+vim.keymap.set('n', '<Leader>h', vim.lsp.buf.hover) -- LSP hover
 
 -- Base64 decode selected text in visual mode
 vim.keymap.set('v', '<Leader>64',
