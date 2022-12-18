@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Locks the screen when called with i3lock, applying customisations
+Locks the screen when called with swaylock, applying customisations
 """
 
 import os
@@ -18,7 +18,7 @@ def color_lock():
                  randint(0, 255))
 
     color = "{:02X}{:02X}{:02X}".format(red, green, blue)
-    call(["i3lock", "-c", color])
+    call(["swaylock", "-c", color])
 
 
 def blur_wallpaper_lock():
@@ -31,7 +31,7 @@ def blur_wallpaper_lock():
     lockpaper = "{0}/.config/lockpaper.png".format(home)
 
     call(["convert", wallpaper, "-blur", "0x5", lockpaper])
-    call(["i3lock", "-i", lockpaper, "-t"])
+    call(["swaylock", "-i", lockpaper, "-t"])
 
 
 if __name__ == "__main__":

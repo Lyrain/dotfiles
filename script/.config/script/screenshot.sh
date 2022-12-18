@@ -10,15 +10,19 @@ config=$HOME/.config/alacritty/alacritty.yml
 
 changeopacity=0
 if grep 'opacity: 0.82' $config; then
-  changeopacity=1
+    changeopacity=1
 fi
 
 if [ $changeopacity -eq 1 ]; then
-  sed -i 's/opacity: 0.82/opacity: 1.0/g' $config
+    sed -i 's/opacity: 0.82/opacity: 1.0/g' $config
 fi
 
-scrot --select --exec 'mv $f ~/Downloads/'
+if [ $WAYLAND_DISPLAY ]; then
+    grim -g "$(slurp)" -t png "$HOME/Downloads/$(date --iso-8601=seconds | tr ':' '-')-grim.png"
+else
+    scrot --select --exec 'mv $f ~/Downloads/' && notify-send "Saved to $HOME/Downloads"
+fi
 
 if [ $changeopacity -eq 1 ]; then
-  sed -i 's/opacity: 1.0/opacity: 0.82/g' $config
+    sed -i 's/opacity: 1.0/opacity: 0.82/g' $config
 fi

@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+
+import argparse
+import subprocess
+import sys
+
+def print_result(result):
+    if result.returncode == 0:
+        for line in result.stdout.split(b"\\n"):
+            if line:
+                print(line.decode("UTF-8"))
+
+        for line in result.stderr.split(b"\\n"):
+            if line:
+                print(line.decode("UTF-8"))
+
+def run_version_command(command):
+    try:
+        result = subprocess.run(command.split(), check=True,
+                                capture_output=True)
+
+        print_result(result)
+    except FileNotFoundError:
+        # Assume command not installed
+        pass
+    except subprocess.CalledProcessError as err:
+        print(f"Error while tyring to run {command}: {err}")
+
+def jvm():
+    run_version_command("java -version")
+
+    run_version_command("scala -version")
+    run_version_command("scalac -version")
+    run_version_command("scalafmt --version")
+    run_version_command("sbt -version")
+    run_version_command("amm --version")
+
+    run_version_command("clojure -version")
+    run_version_command("lein -version")
+
+def beam():
+    run_version_command("erl -version")
+    run_version_command("elixir -v")
+
+def print_all():
+    jvm()
+    beam()
+
+    run_version_command("python --version")
+    run_version_command("go version")
+
+def main():
+    parser = argparse.ArgumentParser(prog='ver',
+                                     description='Prints the versions of various commands installed and on PATH')
+
+    # parser.add_argument('-h', '--help', action='help')
+    parser.add_argument('-j', '--jvm',
+                        action='store_true',
+                        help='Only JVM related programs')
+    parser.add_argument('-b', '--beam',
+                        action='store_true',
+                        help='Only BEAM related programs')
+
+    args = parser.parse_args()
+
+    if args.jvm:
+        jvm()
+        sys.exit()
+
+    if args.beam:
+        beam()
+        sys.exit()
+
+    print_all()
+
+if __name__ == "__main__":
+    main()

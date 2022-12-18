@@ -1,0 +1,201 @@
+# sway config file (v4)
+#
+# Please see https://swaywm.org/docs/userguide.html for a complete reference!
+#
+
+for_window [class=".*"] border pixel 0
+for_window [app_id=".*"] border pixel 0
+for_window [window_role="development"] floating enable
+font pango:monospace 8
+
+gaps inner 8
+smart_gaps on
+
+set $mod Mod4
+set $term alacritty
+set $editor nvim
+
+# External scripts
+exec_always --no-startup-id setxkbmap -option caps:escape
+# exec_always --no-startup-id xrdb -I$HOME ~/.Xresources
+exec_always --no-startup-id dunst
+exec_always --no-startup-id xrandr --output XWAYLAND2 --primary
+# exec_always --no-startup-id feh --bg-scale ~/.config/wallpaper
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+# exec_always --no-startup-id picom --config $HOME/.config/picom/picom.conf
+
+output "*" bg ~/.config/wallpaper fill
+output DP-1 mode 1920x1080@30hz position -1920,1080
+output HDMI-A-1 mode 1920x1080@60hz position 0,1080
+output DP-2 mode 1920x1080@60hz position 1920,1080
+output DVI-I-1 mode 1920x1080@60hz position 0,0
+
+input * {
+    xkb_layout "us"
+    xkb_options "caps:escape"
+    xkb_numlock enabled
+}
+
+input "1386:888:Wacom_Intuos_BT_M_Pen" {
+    map_to_output HDMI-A-1
+}
+
+bar {
+    swaybar_command waybar
+    workspace_buttons yes
+}
+
+# Audio
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 2%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 2%-
+bindsym XF86AudioMute        exec --no-startup-id amixer -D pulse sset Master toggle
+
+bindsym XF86AudioPlay        exec --no-startup-id mpc toggle
+bindsym XF86AudioNext        exec --no-startup-id mpc next
+bindsym XF86AudioPrev        exec --no-startup-id mpc prev
+
+# Brightness
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+bindsym $mod+Up   exec --no-startup-id pactl set-sink-volume 0 +2%
+bindsym $mod+Down exec --no-startup-id pactl set-sink-volume 0 -2%
+bindsym $mod+m    exec --no-startup-id pactl set-sink-mute 0 toggle
+
+# Shutdown, Restart & Lock
+set $shutdown shutdown -h now
+set $reboot reboot
+
+bindsym $mod+Shift+x exec $HOME/.config/script/prompt "Are you sure you want to shutdown?" "$shutdown"
+bindsym $mod+x       exec $HOME/.config/script/prompt "Are you sure you want to reboot?" "$reboot"
+# exit sway (logs you out of your X session)
+bindsym $mod+Shift+e exec $HOME/.config/script/prompt "Do you really want to exit sway? This will end your X session." "sway-msg exit"
+
+bindsym $mod+Ctrl+q exec $HOME/.config/script/locksway
+
+# use these keys for focus, movement, and resize directions when reaching for
+# the arrows is not convenient
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Resize, to replace the annoying resize mode
+bindsym $mod+Shift+u exec --no-startup-id swayresize left
+bindsym $mod+Shift+i exec --no-startup-id swayresize down
+bindsym $mod+Shift+o exec --no-startup-id swayresize up
+bindsym $mod+Shift+p exec --no-startup-id swayresize right
+
+# use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec --no-startup-id $term
+
+# App shortcuts
+bindsym $mod+w    exec firefox
+bindsym $mod+r    exec caja
+bindsym $mod+c    exec --no-startup-id $term -e $SHELL -lc $editor
+bindsym $mod+n    exec --no-startup-id $term -e ncmpcpp
+bindsym $mod+z    exec zathura
+bindsym --release $mod+Shift+s exec --no-startup-id $HOME/.config/script/screenshot.sh
+bindsym $mod+t exec --no-startup-id $HOME/.config/script/toggle-opacity
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start dmenu (a program launcher)
+bindsym $mod+d exec "rofi -combi-modi drun,run -show combi -modi combi"
+bindsym $mod+Shift+d exec "rofi -show emoji -modi emoji"
+
+# find a window with rofi
+bindsym $mod+Shift+f exec rofi -show window
+# bindsym $mod+numbersign exec rofi -show ssh -terminal $term
+
+# There also is the (new) sway-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym $mod+d exec --no-startup-id sway-dmenu-desktop
+
+# change focus
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# move focused window
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# split in vertical orientation
+bindsym $mod+v split toggle
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s            layout stacking
+bindsym $mod+e            layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart sway inplace (preserves your layout/session, can be used to upgrade sway)
+bindsym $mod+Shift+r restart
