@@ -23,10 +23,10 @@ return require('packer').startup(function(use)
         tag = '0.1.0',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
-    -- use 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    -- use 'junegunn/fzf.vim'
 
     use 'mattn/emmet-vim'
+
+    use 'mbbill/undotree'
 
     use {
         'VonHeikemen/lsp-zero.nvim',
@@ -44,15 +44,16 @@ return require('packer').startup(function(use)
             {'hrsh7th/cmp-nvim-lua'},
             {'hrsh7th/cmp-vsnip'},
             {'hrsh7th/vim-vsnip'},
+
+            {'L3MON4D3/LuaSnip'},
         }
     }
 
-    -- To enable more of the features of rust-analyzer, such as inlay hints and more!
-    use 'simrat39/rust-tools.nvim'
-
-    -- Scala
     use 'scalameta/nvim-metals'
-    use 'nvim-lua/plenary.nvim'
+
     use 'mfussenegger/nvim-dap'
+
+    -- To enable more of the features of rust-analyzer, such as inlay hints and more!
+    -- use 'simrat39/rust-tools.nvim'
 end)
 
