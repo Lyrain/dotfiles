@@ -12,3 +12,5 @@ if type "ruby" > /dev/null; then
     export GEM_HOME=$(ruby -e 'print Gem.user_dir')
     PATH="$PATH:${GEM_HOME}/bin"
 fi
+
+[ -f "$HOME/.bashrc" ] && source ~/.bashrc
