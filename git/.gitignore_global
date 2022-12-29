@@ -181,3 +181,5 @@ emacs-color-theme-solarized
 .metals/
 .bloop/
 .scannerwork/
+
+project/metals.sbt
