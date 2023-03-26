@@ -52,6 +52,7 @@ return require('packer').startup(function(use)
     use 'scalameta/nvim-metals'
 
     use 'mfussenegger/nvim-dap'
+    use 'rcarriga/nvim-dap-ui'
 
     -- To enable more of the features of rust-analyzer, such as inlay hints and more!
     -- use 'simrat39/rust-tools.nvim'

@@ -12,12 +12,31 @@ local lsp_set_keymap = function(_client, bufnr)
     vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts)
 end
 
+local dap_set_keymap = function()
+    local dap = require('dap')
+
+    vim.keymap.set('n', '<F5>', dap.continue)
+    vim.keymap.set('n', '<F10>', dap.step_over)
+    vim.keymap.set('n', '<F11>', dap.step_into)
+    vim.keymap.set('n', '<F12>', dap.step_out)
+    vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint)
+    vim.keymap.set('n', '<leader>B', function()
+        dap.set_breakpoint(vim.fn.input('Breakpoint condition > '))
+    end)
+    vim.keymap.set('n', '<leader>lp', function()
+        dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
+    end)
+    vim.keymap.set('n', '<leader>dr', dap.repl.open)
+end
+
 lsp.preset('recommended')
 
 lsp.ensure_installed({
     'html',
     'cssls',
     'sumneko_lua',
+    'rust_analyzer',
+    'elixirls',
 })
 
 local cmp = require('cmp')
@@ -47,7 +66,16 @@ lsp.configure('sumneko_lua', {
     },
 })
 
-lsp.on_attach(lsp_set_keymap)
+lsp.configure('rust_analyzer', {
+    settings = {
+    }
+})
+
+lsp.on_attach(function()
+    lsp_set_keymap()
+
+    dap_set_keymap()
+end)
 
 lsp.setup()
 
@@ -77,31 +105,96 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Debugger
 
-local dap = require("dap")
+local dap = require('dap')
 
 dap.configurations.scala = {
     {
-        type = "scala",
-        request = "launch",
-        name = "RunOrTest",
+        type = 'scala',
+        request = 'launch',
+        name = 'RunOrTest',
         metals = {
-            runType = "runOrTestFile"
+            runType = 'runOrTestFile'
         },
     },
     {
-        type = "scala",
-        request = "launch",
-        name = "Test Target",
+        type = 'scala',
+        request = 'launch',
+        name = 'Test Target',
         metals = {
-            runType = "testTarget"
+            runType = 'testTarget'
         },
     },
 }
 
+require('dapui').setup()
+-- {
+--     -- icons = {}
+--     mappings = {
+--         expand = { "<CR>", "<2-LeftMouse>" },
+--         open = "o",
+--         remove = "d",
+--         edit = "e",
+--         repl = "r",
+--         toggle = "t",
+--     },
+--     layouts = {
+--     {
+--       elements = {
+--       -- Elements can be strings or table with id and size keys.
+--         { id = "scopes", size = 0.25 },
+--         "breakpoints",
+--         "stacks",
+--         "watches",
+--       },
+--       size = 40, -- 40 columns
+--       position = "left",
+--     },
+--     {
+--       elements = {
+--         "repl",
+--         "console",
+--       },
+--       size = 0.25, -- 25% of total lines
+--       position = "bottom",
+--     },
+--   },
+--   controls = {
+--     -- Requires Neovim nightly (or 0.8 when released)
+--     enabled = true,
+--     -- Display controls in this element
+--     element = "repl",
+--     icons = {
+--       pause = "",
+--       play = "",
+--       step_into = "",
+--       step_over = "",
+--       step_out = "",
+--       step_back = "",
+--       run_last = "",
+--       terminate = "",
+--     },
+--   },
+--   floating = {
+--     max_height = nil, -- These can be integers or a float between 0 and 1.
+--     max_width = nil, -- Floats will be treated as percentage of your screen.
+--     border = "single", -- Border style. Can be "single", "double" or "rounded"
+--     mappings = {
+--       close = { "q", "<Esc>" },
+--     },
+--   },
+--   windows = { indent = 1 },
+--   render = {
+--     max_type_length = nil, -- Can be integer or nil.
+--     max_value_lines = 100, -- Can be integer or nil.
+--   },
+-- }
+
 metals_config.on_attach = function(client, bufnr)
     lsp_set_keymap(client, bufnr)
 
-    require("metals").setup_dap()
+    dap_set_keymap()
+
+    require('metals').setup_dap()
 end
 
 vim.diagnostic.config({
