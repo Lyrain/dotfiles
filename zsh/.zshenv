@@ -18,23 +18,30 @@ export LIBRARY_PATH=LD_LIBRARY_PATH
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!./git/*"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
+if [[ "$(uname)" == 'Darwin' ]]; then
+    export JAVA_8_HOME=$(/usr/libexec/java_home -v 1.8)
+    alias java8="export JAVA_HOME=$JAVA_8_HOME"
+
+    export JAVA_11_HOME=$(/usr/libexec/java_home -v 11.0.18)
+    alias java11="export JAVA_HOME=$JAVA_11_HOME"
+
+    export JAVA_HOME="$JAVA_11_HOME"
+else
+    export JAVA_HOME="/usr/lib/jvm/default"
+fi
+
+export AWS_DEFAULT_REGION="eu-west-2"
+
 # array of paths to try to add to PATH
 # Only adds paths that exist as directories
-paths=("$HOME/bin"
-       "$HOME/.scripts" # for dotfiles scripts
-       "$HOME/.composer/vendor/bin" # laravel (macOS)
-       "$HOME/.config/.composer/vendor/bin" # laravel (linux)
+paths=("$HOME/.config/script" # for dotfiles scripts
        "$HOME/.cargo/bin" # cargo
        "$HOME/go/bin" # golang
-       "$HOME/.pub-cache/bin"
        "$HOME/.yarn/bin" # yarn
        "$HOME/.config/yarn/global/node_modules/.bin"
        "$HOME/Library/Python/3.7/bin"
        "$HOME/.local/bin" # pip executables installed with --user
-       "/usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/bin" # pylint
-       "/snap/bin" # Snap
-       "/usr/local/opt/php@7.1/bin"
-       "/usr/local/opt/php@7.1/sbin"
+       "$HOME/.local/share/coursier/bin" # Coursier (Scala)
        )
 
 for p in $paths; do

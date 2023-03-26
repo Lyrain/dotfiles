@@ -37,12 +37,17 @@ else
   alias ll='ls -lah'
 fi
 
+if type coursier > /dev/null; then
+    alias cs='coursier'
+fi
+
 alias ..='cd ..'
 alias desk='~/Desktop'
 alias trim='sed -e "s/^[[:space:]]*//" -e "s/[[:space:]]*$//"'
 
 # Git aliases
 alias gs='git status' # take priority over GhostScript
+alias glol='git log --graph --pretty="%Cred%h%Creset %G? -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"'
 alias config='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 
 # use neovim
@@ -66,6 +71,11 @@ alias ans='ansible'
 alias ansp='ansible-playbook'
 alias ansl='ansible-lint'
 
+alias dcup='docker compose up'
+alias dcdw='docker compose down'
+alias dcb='docker compose build'
+alias dcbnc='docker compose build --no-cache'
+
 alias awsident='export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)'
 
 alias msf-pattern_create='/opt/metasploit/tools/exploit/pattern_create.rb'
@@ -86,12 +96,6 @@ function getcert() {
 function yt() {
   mpv --ytdl "$@"
 }
-
-if [ -d ~/Homestead ] && type "vagrant" > /dev/null; then
-  function homestead() {
-      ( cd ~/Homestead && vagrant $* )
-  }
-fi
 
 # Display the expanded alias on running one
 # See https://stackoverflow.com/questions/9299402/echo-all-aliases-in-zsh
