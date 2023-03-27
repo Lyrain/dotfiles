@@ -37,6 +37,7 @@ lsp.ensure_installed({
     'sumneko_lua',
     'rust_analyzer',
     'elixirls',
+    'gopls',
 })
 
 local cmp = require('cmp')

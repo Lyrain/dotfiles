@@ -84,8 +84,10 @@ alias tunip="ip a s tun0 | grep 'inet ' | awk '{ print \$2 }'"
 
 # Tmux
 alias tma='tmux attach'
-alias tmz='tmux detatch'
+alias tmz='tmux detach'
 alias tms='tmux list-sessions'
+
+alias work='cd $WORKSPACE'
 
 function getcert() {
   echo | openssl s_client -connect "${1}:${2}" | \
@@ -137,6 +139,10 @@ case "$(uname)" in
   'Darwin')
     # pbcopy is OS X specific
     alias cpwd='printf "%q\n" "$(pwd)" | pbcopy'
+
+    ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+    export PATH="/Users/mylesofford/.rd/bin:$PATH"
+    ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
     ;;
   'Linux')
      alias cpwd='printf "%q\n" "$(pwd)" | xsel'
@@ -144,3 +150,7 @@ case "$(uname)" in
 esac
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"

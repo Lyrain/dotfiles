@@ -9,6 +9,7 @@ return require('packer').startup(function(use)
     use 'airblade/vim-rooter'
 
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+    use 'nvim-treesitter/playground'
     -- Tresitter (should) replace below
     -- use 'sheerun/vim-polyglot'
     -- use 'ledger/vim-ledger'

@@ -183,3 +183,6 @@ emacs-color-theme-solarized
 .scannerwork/
 
 project/metals.sbt
+
+.env
+.envrc

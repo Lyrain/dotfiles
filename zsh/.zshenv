@@ -18,30 +18,36 @@ export LIBRARY_PATH=LD_LIBRARY_PATH
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!./git/*"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
+#<<<<<<< Updated upstream
 if [[ "$(uname)" == 'Darwin' ]]; then
     export JAVA_8_HOME=$(/usr/libexec/java_home -v 1.8)
     alias java8="export JAVA_HOME=$JAVA_8_HOME"
 
-    export JAVA_11_HOME=$(/usr/libexec/java_home -v 11.0.18)
-    alias java11="export JAVA_HOME=$JAVA_11_HOME"
-
-    export JAVA_HOME="$JAVA_11_HOME"
+    export JAVA_11_HOME_ADOPT=$(/usr/libexec/java_home -v 11.0.11)
+    export JAVA_11_HOME_TERMURIN=$(/usr/libexec/java_home -v 11.0.18)
+    export JAVA_HOME="$JAVA_11_HOME_TERMURIN"
+    alias java11='export JAVA_HOME=$JAVA_11_HOME_TERMURIN'
 else
     export JAVA_HOME="/usr/lib/jvm/default"
 fi
 
 export AWS_DEFAULT_REGION="eu-west-2"
 
+export WORKSPACE="$HOME/Documents/Workspace"
+
+export GPG_TTY=$(tty)
+
 # array of paths to try to add to PATH
 # Only adds paths that exist as directories
-paths=("$HOME/.config/script" # for dotfiles scripts
+paths=("$HOME/bin"
+       "$HOME/.config/script" # for dotfiles scripts
        "$HOME/.cargo/bin" # cargo
        "$HOME/go/bin" # golang
        "$HOME/.yarn/bin" # yarn
        "$HOME/.config/yarn/global/node_modules/.bin"
-       "$HOME/Library/Python/3.7/bin"
        "$HOME/.local/bin" # pip executables installed with --user
        "$HOME/.local/share/coursier/bin" # Coursier (Scala)
+       "/usr/local/opt/libarchive/bin"
        )
 
 for p in $paths; do
@@ -50,10 +56,11 @@ for p in $paths; do
   fi
 done
 
-if type "ruby" > /dev/null; then
-  # Set GEM_HOME for per-user gem install
-  export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
-fi
+# Using RVM, let that manage this
+#if type "ruby" > /dev/null; then
+#  # Set GEM_HOME for per-user gem install
+#  export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
+#fi
 
 if type "rustc" > /dev/null; then
   # set rust src path for racer
