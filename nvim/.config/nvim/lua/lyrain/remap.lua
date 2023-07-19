@@ -17,4 +17,4 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 vim.keymap.set('n', 'Q', '<nop>')
 
 -- Base64 decode selected text in visual mode
-vim.keymap.set("v", "<leader>64", 'c<c-r>=system("base64 --decode", @")<CR><ESC>')
+vim.keymap.set('v', '<leader>64', 'c<c-r>=system("base64 --decode", @")<CR><ESC>')

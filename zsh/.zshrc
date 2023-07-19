@@ -63,6 +63,7 @@ alias path='printenv PATH | tr ":" "\n"'
 
 # Convenience
 alias hm='home-manager'
+alias hme="$EDITOR ~/.config/nixpkgs/home.nix"
 alias k='kubectl'
 alias tf='terraform'
 alias gdb='gdb -q'

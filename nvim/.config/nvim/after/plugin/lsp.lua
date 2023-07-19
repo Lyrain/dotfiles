@@ -34,30 +34,52 @@ lsp.preset('recommended')
 lsp.ensure_installed({
     'html',
     'cssls',
-    'sumneko_lua',
+    'lua_ls',
     'rust_analyzer',
     'elixirls',
     'gopls',
+    'rnix',
 })
 
 local cmp = require('cmp')
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
+-- local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_mappings = lsp.defaults.cmp_mappings({
     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
     -- ['<C-y>'] = cmp.mapping.confirm({ select = true }),
     ['<C-Space>'] = cmp.mapping.complete(),
+    -- Add tab support
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
+    })
 })
 
 lsp.setup_nvim_cmp({
     mapping = cmp_mappings,
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' },
+        { name = 'path' },
+        { name = 'buffer' },
+    },
+    snippet = {
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+        end,
+    },
 })
 
 lsp.set_preferences({
     suggest_lsp_servers = false,
 })
 
-lsp.configure('sumneko_lua', {
+lsp.configure('lua_ls', {
     settings = {
         Lua = {
             diagnostics = {
@@ -254,35 +276,3 @@ vim.diagnostic.config({
 -- }
 --
 -- rt.setup(opts)
---
--- local cmp = require 'cmp'
---
--- cmp.setup({
---     sources = {
---         { name = 'nvim_lsp' },
---         { name = 'vsnip' },
---         { name = 'path' },
---         -- { name = 'buffer' },
---     },
---     snippet = {
---         expand = function(args)
---             vim.fn["vsnip#anonymous"](args.body)
---         end,
---     },
---     mapping =  {
---         ['<C-p>'] = cmp.mapping.select_prev_item(),
---         ['<C-n>'] = cmp.mapping.select_next_item(),
---         -- Add tab support
---         ['<S-Tab>'] = cmp.mapping.select_prev_item(),
---         ['<Tab>'] = cmp.mapping.select_next_item(),
---         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
---         ['<C-f>'] = cmp.mapping.scroll_docs(4),
---         ['<C-Space>'] = cmp.mapping.complete(),
---         ['<C-e>'] = cmp.mapping.close(),
---         ['<CR>'] = cmp.mapping.confirm({
---           behavior = cmp.ConfirmBehavior.Insert,
---           select = true,
---         })
---     },
--- })
-

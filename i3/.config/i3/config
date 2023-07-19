@@ -20,7 +20,6 @@ exec_always --no-startup-id xrdb -I$HOME ~/.Xresources
 exec_always --no-startup-id feh --bg-scale ~/.config/wallpaper
 exec_always --no-startup-id dunst # -config ~/.config/dunst/dunstrc
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always --no-startup-id picom --config $HOME/.config/picom/picom.conf
 
 # Audio
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 2%+
