@@ -18,7 +18,6 @@ export LIBRARY_PATH=LD_LIBRARY_PATH
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!./git/*"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
-#<<<<<<< Updated upstream
 if [[ "$(uname)" == 'Darwin' ]]; then
     export JAVA_8_HOME=$(/usr/libexec/java_home -v 1.8)
     alias java8="export JAVA_HOME=$JAVA_8_HOME"
@@ -27,8 +26,6 @@ if [[ "$(uname)" == 'Darwin' ]]; then
     export JAVA_11_HOME_TERMURIN=$(/usr/libexec/java_home -v 11.0.18)
     export JAVA_HOME="$JAVA_11_HOME_TERMURIN"
     alias java11='export JAVA_HOME=$JAVA_11_HOME_TERMURIN'
-else
-    export JAVA_HOME="/usr/lib/jvm/default"
 fi
 
 export AWS_DEFAULT_REGION="eu-west-2"
@@ -80,6 +77,6 @@ if [ -f "$HOME/.env" ]; then
   . $HOME/.env
 fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

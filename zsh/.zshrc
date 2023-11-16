@@ -37,9 +37,9 @@ else
   alias ll='ls -lah'
 fi
 
-if type coursier > /dev/null; then
-    alias cs='coursier'
-fi
+# if type coursier > /dev/null; then
+#     alias cs='coursier'
+# fi
 
 alias ..='cd ..'
 alias desk='~/Desktop'
@@ -63,14 +63,18 @@ alias path='printenv PATH | tr ":" "\n"'
 
 # Convenience
 alias hm='home-manager'
-alias hme="$EDITOR ~/.config/nixpkgs/home.nix"
 alias k='kubectl'
-alias tf='terraform'
 alias gdb='gdb -q'
 alias mol='molecule'
 alias ans='ansible'
 alias ansp='ansible-playbook'
 alias ansl='ansible-lint'
+
+
+alias hme="$EDITOR ~/.config/nixpkgs/home.nix"
+function nixwhere() {
+    readlink $(which $@)
+}
 
 alias dcup='docker compose up'
 alias dcdw='docker compose down'

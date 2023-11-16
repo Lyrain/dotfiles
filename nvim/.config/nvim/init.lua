@@ -1,4 +1,5 @@
 -- init.lua
+
 -- Set Essential Options
 
 vim.cmd "filetype plugin indent on"
@@ -7,59 +8,63 @@ vim.cmd "syntax on"
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+local isNixOS = not (vim.loop.os_uname().version:find("NixOS") == nil)
+
 -- Packages
-vim.cmd [[packadd packer.nvim]]
+if not isNixOS then
+    vim.cmd [[packadd packer.nvim]]
 
-require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim'
+    require('packer').startup(function(use)
+        use 'wbthomason/packer.nvim'
 
-    use { 'morhetz/gruvbox', as = 'gruvbox' }
-    use 'vim-airline/vim-airline'
-    use 'airblade/vim-rooter'
+        use { 'morhetz/gruvbox', as = 'gruvbox' }
+        use 'vim-airline/vim-airline'
+        use 'airblade/vim-rooter'
 
-    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-    use 'nvim-treesitter/playground'
+        use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+        use 'nvim-treesitter/playground'
 
-    -- Tresitter (should) replace below
-    -- use 'sheerun/vim-polyglot'
-    -- use 'ledger/vim-ledger'
-    -- use 'epitzer/vim-rdf-turtle'
+        -- Tresitter (should) replace below
+        -- use 'sheerun/vim-polyglot'
+        -- use 'ledger/vim-ledger'
+        -- use 'epitzer/vim-rdf-turtle'
 
-    use 'tpope/vim-fugitive'
-    use 'tpope/vim-surround'
-    use 'tpope/vim-repeat'
+        use 'tpope/vim-fugitive'
+        use 'tpope/vim-surround'
+        use 'tpope/vim-repeat'
 
-    use {
-        'nvim-telescope/telescope.nvim',
-        tag = '0.1.0',
-        requires = { { 'nvim-lua/plenary.nvim' } }
-    }
+        use {
+            'nvim-telescope/telescope.nvim',
+            tag = '0.1.0',
+            requires = { { 'nvim-lua/plenary.nvim' } }
+        }
 
-    use 'mattn/emmet-vim'
+        use 'mattn/emmet-vim'
 
-    use 'mbbill/undotree'
+        use 'mbbill/undotree'
 
-    -- LSP Support
-    use 'neovim/nvim-lspconfig'
-    use 'williamboman/mason.nvim'
-    use 'williamboman/mason-lspconfig.nvim'
+        -- LSP Support
+        use 'neovim/nvim-lspconfig'
+        use 'williamboman/mason.nvim'
+        use 'williamboman/mason-lspconfig.nvim'
 
-    -- Autocompletion
-    use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/cmp-buffer'
-    use 'hrsh7th/cmp-path'
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/cmp-nvim-lua'
-    use 'hrsh7th/cmp-vsnip'
-    use 'hrsh7th/vim-vsnip'
+        -- Autocompletion
+        use 'hrsh7th/nvim-cmp'
+        use 'hrsh7th/cmp-buffer'
+        use 'hrsh7th/cmp-path'
+        use 'hrsh7th/cmp-nvim-lsp'
+        use 'hrsh7th/cmp-nvim-lua'
+        use 'hrsh7th/cmp-vsnip'
+        use 'hrsh7th/vim-vsnip'
 
-    use 'L3MON4D3/LuaSnip'
+        use 'L3MON4D3/LuaSnip'
 
-    use 'scalameta/nvim-metals'
+        use 'scalameta/nvim-metals'
 
-    use 'mfussenegger/nvim-dap'
-    use 'rcarriga/nvim-dap-ui'
-end)
+        use 'mfussenegger/nvim-dap'
+        use 'rcarriga/nvim-dap-ui'
+    end)
+end
 
 -- Line Numbers
 
@@ -266,12 +271,19 @@ require('telescope').setup{
     },
 }
 
+treesitter_ensure_installed = function()
+    if isNixOS then
+        return {}
+    else
+        return { "javascript", "c", "lua", "elixir", "java", "scala" }
+    end
+end
+
+-- if !string.find(vim.loop.os_uname().sysname, "NixOS") then
 require('nvim-treesitter.configs').setup{
-    ensure_installed = { "javascript", "c", "lua", "elixir", "java", "scala" },
-
+    ensure_installed = treesitter_ensure_installed(),
     sync_install = false,
-
-    auto_install = true,
+    auto_install = not isNixOS,
 
     highlight = {
         enable = true,
