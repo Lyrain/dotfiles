@@ -35,7 +35,7 @@ if not isNixOS then
 
         use {
             'nvim-telescope/telescope.nvim',
-            tag = '0.1.0',
+            tag = '0.1.4',
             requires = { { 'nvim-lua/plenary.nvim' } }
         }
 
@@ -54,10 +54,13 @@ if not isNixOS then
         use 'hrsh7th/cmp-path'
         use 'hrsh7th/cmp-nvim-lsp'
         use 'hrsh7th/cmp-nvim-lua'
-        use 'hrsh7th/cmp-vsnip'
-        use 'hrsh7th/vim-vsnip'
 
-        use 'L3MON4D3/LuaSnip'
+        use {
+            'L3MON4D3/LuaSnip',
+            tag = "v2.1.0",
+            run = "make install_jsregexp"
+        }
+        use 'saadparwaiz1/cmp_luasnip'
 
         use 'scalameta/nvim-metals'
 
@@ -138,7 +141,7 @@ vim.opt.smartcase = true
 vim.opt.cursorline = true
 
 vim.opt.shortmess:append({ I = true, c = true })
-vim.opt.completeopt = {"menu", "menuone", "preview"}
+vim.opt.completeopt = {"menuone", "noinsert", "preview"}
 vim.opt.spelllang = "en_gb"
 -- vim.opt.clipboard:append({ name = "unnamedplus" })
 
@@ -340,22 +343,29 @@ require('mason-lspconfig').setup({
         'cssls',
         'elixirls',
         'lua_ls',
-        'gopls'
+        'gopls',
+        'cssls'
     },
     handlers = {
         default_setup,
         lua_ls = function()
             require('lspconfig').lua_ls.setup({
-                Lua = {
-                    runtime = {
-                        version = 'LuaJIT',
-                    },
-                    diagnostics = {
-                        globals = {'vim'},
-                    },
-                    workspace = {
-                        library = {
-                            vim.env.VIMRUNTIME,
+                settings = {
+                    Lua = {
+                        runtime = {
+                            version = 'LuaJIT',
+                        },
+                        diagnostics = {
+                            globals = {
+                                'vim',
+                                'require',
+                            },
+                        },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true),
+                        },
+                        telemetry = {
+                            enable = false,
                         },
                     },
                 },
@@ -364,22 +374,38 @@ require('mason-lspconfig').setup({
     },
 })
 
+local luasnip = require('luasnip')
+
+vim.keymap.set({ "i" }, "<C-K>", function() luasnip.expand() end, { silent = true })
+
+require("luasnip.loaders.from_snipmate").lazy_load()
+
 local cmp = require('cmp')
 cmp.setup({
-    cmp_select = {
-        behavior = cmp.SelectBehavior.Select
-    },
-    cmp_mappings = cmp.mapping.preset.insert({
-        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-        -- ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-Space>'] = cmp.mapping.complete(),
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
+    }, {
+        { name = 'buffer' },
     }),
     snippet = {
         expand = function(args)
             require('luasnip').lsp_expand(args.body)
         end,
     },
+    mapping = cmp.mapping.preset.insert({
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-Space>'] = cmp.mapping.complete(),
+    }),
+})
+
+cmp.setup.cmdline({'/', '?'}, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' },
+    }
 })
 
 -- Metals isn't supported by Mason so use nvim-metals
@@ -397,7 +423,9 @@ metals_config.settings = {
     },
 }
 
--- metals_config.init_options.statusBarProvider = "on"
+metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+metals_config.init_options.statusBarProvider = "on"
 
 local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
@@ -433,7 +461,6 @@ dap.configurations.scala = {
 }
 
 local dap_set_keymap = function()
-    local dap = require('dap')
     local dapui = require('dapui')
 
     vim.keymap.set('n', '<F5>', dap.continue)
