@@ -17,7 +17,7 @@ set $editor nvim
 # External scripts
 exec_always --no-startup-id setxkbmap -option caps:escape
 exec_always --no-startup-id xrdb -I$HOME ~/.Xresources
-exec_always --no-startup-id feh --bg-scale ~/.config/wallpaper
+exec_always --no-startup-id feh --bg-scale ~/.config/wallpaper.png
 exec_always --no-startup-id dunst # -config ~/.config/dunst/dunstrc
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
@@ -70,7 +70,7 @@ bindsym $mod+Return exec --no-startup-id $term
 
 # App shortcuts
 bindsym $mod+w    exec firefox
-bindsym $mod+r    exec caja
+bindsym $mod+r    exec thunar
 bindsym $mod+c    exec --no-startup-id $term -e $SHELL -lc $editor
 bindsym $mod+n    exec --no-startup-id $term -e ncmpcpp
 bindsym $mod+z    exec zathura

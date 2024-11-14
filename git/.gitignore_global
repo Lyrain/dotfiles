@@ -186,3 +186,5 @@ project/metals.sbt
 
 .env
 .envrc
+
+tmp/

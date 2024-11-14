@@ -27,11 +27,13 @@ def blur_wallpaper_lock():
     """
     home = os.environ["HOME"]
 
-    wallpaper = "{0}/.config/wallpaper".format(home)
+    wallpaper = "{0}/.config/wallpaper.png".format(home)
     lockpaper = "{0}/.config/lockpaper.png".format(home)
 
-    call(["convert", wallpaper, "-blur", "0x5", lockpaper])
-    call(["i3lock", "-i", lockpaper, "-t"])
+    if not os.path.isfile(lockpaper):
+        call(["convert", wallpaper, "-blur", "0x5", lockpaper])
+
+    call(["i3lock", "-i", lockpaper, "-t", "-f"])
 
 
 if __name__ == "__main__":

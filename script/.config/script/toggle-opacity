@@ -7,10 +7,10 @@
 #
 # This is bound in i3 to Ctrl+t.
 
-config="$HOME/.config/alacritty/alacritty.yml"
+config="$HOME/.config/alacritty/alacritty.toml"
 
-if grep 'opacity: 0.82' $config; then
-  sed -i 's/opacity: 0.82/opacity: 1.0/g' $config
+if grep 'opacity = 0.82' $config; then
+  sed -i 's/opacity = 0.82/opacity = 1.0/g' $config
 else
-  sed -i 's/opacity: 1.0/opacity: 0.82/g' $config
+  sed -i 's/opacity = 1.0/opacity = 0.82/g' $config
 fi

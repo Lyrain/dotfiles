@@ -8,6 +8,8 @@ vim.cmd "syntax on"
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+-- TODO: Consider changing test here to `stat /nix/store`, if that fails then the os is 100% NOT nix
+-- The benefit: Would allow for use of nix the package manager on Darwin,
 local isNixOS = not (vim.loop.os_uname().version:find("NixOS") == nil)
 
 -- Packages
@@ -23,11 +25,6 @@ if not isNixOS then
 
         use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
         use 'nvim-treesitter/playground'
-
-        -- Tresitter (should) replace below
-        -- use 'sheerun/vim-polyglot'
-        -- use 'ledger/vim-ledger'
-        -- use 'epitzer/vim-rdf-turtle'
 
         use 'tpope/vim-fugitive'
         use 'tpope/vim-surround'
@@ -62,7 +59,7 @@ if not isNixOS then
         }
         use 'saadparwaiz1/cmp_luasnip'
 
-        use 'scalameta/nvim-metals'
+        -- use 'scalameta/nvim-metals'
 
         use 'mfussenegger/nvim-dap'
         use 'rcarriga/nvim-dap-ui'
@@ -149,6 +146,10 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 
+vim.diagnostic.config({
+    virtual_text = true,
+})
+
 -- Gloabl Key Remaps
 vim.g.mapleader = " "
 
@@ -190,11 +191,26 @@ vim.api.nvim_create_autocmd('FileType', {
     end,
 })
 
+local tab_level = function(size)
+    vim.opt.tabstop = size
+    vim.opt.softtabstop = size
+    vim.opt.shiftwidth = size
+    vim.opt.expandtab = true
+end
+
 vim.api.nvim_create_autocmd('FileType', {
-    pattern = {'javascript', 'typescript'},
-    desc = "Set indent to 2 spaces for JavaScript & TypeScript",
+    pattern = {'javascript', 'typescript', 'nix'},
+    desc = "Set indent to 2 spaces for Specific file types",
     callback = function()
-        vim.opt.tabstop = 2
+        tab_level(2)
+    end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = {'c', 'cpp'},
+    desc = "Set indent to 4 spaces for C & C++",
+    callback = function()
+        tab_level(4)
     end,
 })
 
@@ -278,7 +294,14 @@ treesitter_ensure_installed = function()
     if isNixOS then
         return {}
     else
-        return { "javascript", "c", "lua", "elixir", "java", "scala" }
+        return {
+            "javascript",
+            "c",
+            "cpp",
+            "lua",
+            -- "java",
+            -- "scala"
+        }
     end
 end
 
@@ -336,16 +359,25 @@ local default_setup = function(server)
     })
 end
 
+lspconfig.ccls.setup({})
+
+mason_ensure_installed = function()
+    if isNixOS then
+        return {}
+    else
+        return {
+            'html',
+            'cssls',
+            'lua_ls',
+            'gopls',
+            'cssls'
+        }
+    end
+end
+
 require('mason').setup({})
 require('mason-lspconfig').setup({
-    ensure_installed = {
-        'html',
-        'cssls',
-        'elixirls',
-        'lua_ls',
-        'gopls',
-        'cssls'
-    },
+    ensure_installed = mason_ensure_installed(),
     handlers = {
         default_setup,
         lua_ls = function()
@@ -408,96 +440,96 @@ cmp.setup.cmdline({'/', '?'}, {
     }
 })
 
--- Metals isn't supported by Mason so use nvim-metals
--- https://github.com/williamboman/mason.nvim/issues/369
--- Using metals with lspconfig is also an issue...
--- See footnote 1 - https://github.com/scalameta/nvim-metals
-
-local metals_config = require("metals").bare_config()
-
-metals_config.settings = {
-    showImplicitArguments = true,
-    excludedPackages = {
-        "akka.actor.typed.javadsl",
-        "com.github.swagger.akka.javadsl",
-    },
-}
-
-metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-metals_config.init_options.statusBarProvider = "on"
-
-local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "scala", "sbt", "java" },
-    callback = function()
-        require("metals").initialize_or_attach(metals_config)
-    end,
-    group = nvim_metals_group,
-})
-
--- DAP Setup
-
-local dap = require('dap')
-require('dapui').setup()
-
-dap.configurations.scala = {
-    {
-        type = 'scala',
-        request = 'launch',
-        name = 'RunOrTest',
-        metals = {
-            runType = 'runOrTestFile'
-        },
-    },
-    {
-        type = 'scala',
-        request = 'launch',
-        name = 'Test Target',
-        metals = {
-            runType = 'testTarget'
-        },
-    },
-}
-
-local dap_set_keymap = function()
-    local dapui = require('dapui')
-
-    vim.keymap.set('n', '<F5>', dap.continue)
-    vim.keymap.set('n', '<F10>', dap.step_over)
-    vim.keymap.set('n', '<F11>', dap.step_into)
-    vim.keymap.set('n', '<F12>', dap.step_out)
-    vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint)
-    vim.keymap.set('n', '<leader>B', function()
-        dap.set_breakpoint(vim.fn.input('Breakpoint condition > '))
-    end)
-    vim.keymap.set('n', '<leader>lp', function()
-        dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
-    end)
-    vim.keymap.set('n', '<leader>dr', dap.repl.open)
-
-    vim.keymap.set('n', '<leader>do', dapui.open)
-    vim.keymap.set('n', '<leader>dc', dapui.close)
-
-    dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open()
-    end
-    dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
-    end
-    dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
-    end
-end
-
-metals_config.on_attach = function(client, bufnr)
-    lsp_set_keymap(client, bufnr)
-
-    dap_set_keymap()
-
-    require('metals').setup_dap()
-end
-
-vim.diagnostic.config({
-    virtual_text = true,
-})
+-- -- Metals isn't supported by Mason so use nvim-metals
+-- -- https://github.com/williamboman/mason.nvim/issues/369
+-- -- Using metals with lspconfig is also an issue...
+-- -- See footnote 1 - https://github.com/scalameta/nvim-metals
+--
+-- local metals_config = require("metals").bare_config()
+--
+-- metals_config.settings = {
+--     showImplicitArguments = true,
+--     excludedPackages = {
+--         "akka.actor.typed.javadsl",
+--         "com.github.swagger.akka.javadsl",
+--     },
+-- }
+--
+-- metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
+--
+-- metals_config.init_options.statusBarProvider = "on"
+--
+-- local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+-- vim.api.nvim_create_autocmd("FileType", {
+--     pattern = { "scala", "sbt", "java" },
+--     callback = function()
+--         require("metals").initialize_or_attach(metals_config)
+--     end,
+--     group = nvim_metals_group,
+-- })
+--
+-- -- DAP Setup
+--
+-- local ok, dap = pcall(require, 'dap')
+-- if ok then
+--     -- local dap = require('dap')
+--     require('dapui').setup()
+--
+--     dap.configurations.scala = {
+--         {
+--             type = 'scala',
+--             request = 'launch',
+--             name = 'RunOrTest',
+--             metals = {
+--                 runType = 'runOrTestFile'
+--             },
+--         },
+--         {
+--             type = 'scala',
+--             request = 'launch',
+--             name = 'Test Target',
+--             metals = {
+--                 runType = 'testTarget'
+--             },
+--         },
+--     }
+--
+--     local dap_set_keymap = function()
+--         local dapui = require('dapui')
+--
+--         vim.keymap.set('n', '<F5>', dap.continue)
+--         vim.keymap.set('n', '<F10>', dap.step_over)
+--         vim.keymap.set('n', '<F11>', dap.step_into)
+--         vim.keymap.set('n', '<F12>', dap.step_out)
+--         vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint)
+--         vim.keymap.set('n', '<leader>B', function()
+--             dap.set_breakpoint(vim.fn.input('Breakpoint condition > '))
+--         end)
+--         vim.keymap.set('n', '<leader>lp', function()
+--             dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
+--         end)
+--         vim.keymap.set('n', '<leader>dr', dap.repl.open)
+--
+--         vim.keymap.set('n', '<leader>do', dapui.open)
+--         vim.keymap.set('n', '<leader>dc', dapui.close)
+--
+--         dap.listeners.after.event_initialized["dapui_config"] = function()
+--             dapui.open()
+--         end
+--         dap.listeners.before.event_terminated["dapui_config"] = function()
+--             dapui.close()
+--         end
+--         dap.listeners.before.event_exited["dapui_config"] = function()
+--             dapui.close()
+--         end
+--     end
+--
+--     metals_config.on_attach = function(client, bufnr)
+--         lsp_set_keymap(client, bufnr)
+--
+--         dap_set_keymap()
+--
+--         require('metals').setup_dap()
+--     end
+-- end
+--

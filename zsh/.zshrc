@@ -1,37 +1,43 @@
 #!/usr/bin/env zsh
 
-# Get antigen if we don't already have it.
-if [ ! -f $HOME/antigen.zsh ]; then
-  curl -sL git.io/antigen > $HOME/antigen.zsh
-fi
-
-source $HOME/antigen.zsh
-
-antigen use oh-my-zsh
-
-antigen bundle git
-antigen bundle env
-antigen bundle ssh-agent
-
 # Configure ssh-agent
 zstyle :omz:plugins:ssh-agent agent-forwarding yes
 zstyle :omz:plugins:ssh-agent quiet yes
 zstyle :omz:plugins:ssh-agent lazy yes
 
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
+autoload -U colors && colors
 
-antigen theme Lyrain/dotfiles xxf
+setopt autocd
 
-antigen apply
+# setup git information
+autoload -Uz vcs_info
+precmd_functions+=( vcs_info )
+setopt prompt_subst
+
+zstyle ':vcs_info:git:*' formats '%F{7}on %s%f:%F{14}%b%f%F{3}%c%f%F{9}%u%a%f %F{3}%6.6i%f'
+zstyle ':vcs_info:*' get-revision true
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr ' ✔︎'
+zstyle ':vcs_info:*' unstagedstr ' ✗'
+zstyle ':vcs_info:*' enable git
+
+PROMPT='
+%{$fg[cyan]%}%n \
+%{$fg[white]%}at \
+%{$fg[green]%}%m \
+%{$fg[white]%}in \
+%{$terminfo[bold]$fg[yellow]%}[%~]%{$reset_color%} \
+${vcs_info_msg_0_} \
+%{$terminfo[bold]$fg[white]%}
+› %{$reset_color%}'
 
 # Aliases
 alias cl='clear'
 
-if type exa > /dev/null; then
-  alias ls='exa'
-  alias l='exa -lg --icons'
-  alias ll='exa -lag --icons'
+if type eza > /dev/null; then
+  alias ls='eza'
+  alias l='eza -lg --icons'
+  alias ll='eza -lag --icons'
 else
   alias l='ls -l'
   alias ll='ls -lah'
@@ -42,11 +48,24 @@ fi
 # fi
 
 alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
 alias desk='~/Desktop'
 alias trim='sed -e "s/^[[:space:]]*//" -e "s/[[:space:]]*$//"'
 
 # Git aliases
+alias g='git'
+alias ga='git add'
+
+alias gb='git branch'
+
+alias gc='git commit -v'
+
 alias gs='git status' # take priority over GhostScript
+
+alias gd='git diff'
 alias glol='git log --graph --pretty="%Cred%h%Creset %G? -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"'
 alias config='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 
@@ -55,27 +74,23 @@ alias vi='nvim'
 alias vim='nvim'
 alias vif='nvim $(fzf)'
 
-# Pretty print json
-alias json='python -m json.tool'
-
 # Print out PATH legibly
 alias path='printenv PATH | tr ":" "\n"'
 
-# Convenience
-alias hm='home-manager'
-alias k='kubectl'
 alias gdb='gdb -q'
+
 alias mol='molecule'
 alias ans='ansible'
 alias ansp='ansible-playbook'
 alias ansl='ansible-lint'
 
-
+alias hm='home-manager'
 alias hme="$EDITOR ~/.config/nixpkgs/home.nix"
 function nixwhere() {
     readlink $(which $@)
 }
 
+alias k='kubectl'
 alias dcup='docker compose up'
 alias dcdw='docker compose down'
 alias dcb='docker compose build'
@@ -103,6 +118,30 @@ function getcert() {
 function yt() {
   mpv --ytdl "$@"
 }
+
+function yy() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+  cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
+
+# Batch rename files using sed
+# https://stackoverflow.com/questions/602706/batch-renaming-files-with-bash
+function sedrename() {
+  if [ $# -gt 1 ]; then
+    sed_pattern=$1
+    shift
+    for file in $(ls $@); do
+      mv -v "$file" "$(sed $sed_pattern <<< $file)"
+    done
+  else
+    echo "usage: $0 sed_pattern files..."
+  fi
+}
+
 
 # Display the expanded alias on running one
 # See https://stackoverflow.com/questions/9299402/echo-all-aliases-in-zsh
@@ -146,7 +185,7 @@ case "$(uname)" in
     alias cpwd='printf "%q\n" "$(pwd)" | pbcopy'
 
     ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-    export PATH="/Users/mylesofford/.rd/bin:$PATH"
+    export PATH="$PATH:$HOME/.rd/bin"
     ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
     ;;
   'Linux')
@@ -155,7 +194,6 @@ case "$(uname)" in
 esac
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

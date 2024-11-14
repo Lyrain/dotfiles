@@ -1,4 +1,6 @@
 {
+  # https://www.youtube.com/watch?v=RfiQYRn7fBg
+
   "SSID_1" = {
     pskRaw = "1234567890abcdef";
   };

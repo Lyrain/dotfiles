@@ -194,7 +194,7 @@ ramp-volume-2 = 🔊
 
 [module/wlan]
 type = internal/network
-interface = wlp2s0
+interface = wlp5s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>

@@ -1,115 +1,159 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   lib = pkgs.lib;
-  strings = lib.strings;
-
-  secrets = import ./secrets.nix {};
 
   bloodhound = import ./bloodhound.nix {};
 
-  kubectl-doctor = import ./kubectl-doctor.nix {};
+  username = "moffor";
+  homeDirectory = "/home/moffor";
 
-  awscli2 = import ./awscli2.nix {
-    inherit lib;
-    python3 = pkgs.python3;
-    groff = pkgs.groff;
-    less = pkgs.less;
-    fetchFromGitHub = pkgs.fetchFromGitHub;
-  };
+  # python3WithOverrides = with pkgs; python311.override {
+  #   packageOverrides = lib.composeManyExtensions [
+  #     (self: super: {
+  #         torch = super.torch.overridePythonAttrs (oldAttrs: rec {
+  #             # version = "2.1.2";
+  #             # src = fetchFromGitHub {
+  #             #   owner = "pytorch";
+  #             #   repo = "pytorch";
+  #             #   rev = "refs/tags/v${version}";
+  #             #   fetchSubmodules = true;
+  #             #   hash = "sha256-E/GQCRWBf3hYsDCCk0twaL9gkVOCEQeCvO3Va+jgIdE=";
+  #             # };
 
-  python3-packages = pypkgs: with pypkgs; [
-    flask
-    flask-cors
-    pylint
-    numpy
-    pandas
-    beautifulsoup4
-    oauthlib
-    requests
-    requests_oauthlib
-    urllib3
-    jupyterlab
-    python-dotenv
-    pdfx
-    ipython
-    ipykernel
-    bokeh
-    matplotlib
-    sqlalchemy
-    dask
-    distributed
-    black
-    mypy
-    pytest
-    tox
-    ipdb
-    pwntools
-    unicorn
-    capstone
-    keystone-engine
-    ropper
-    tqdm
-    docker
-    h5py
-    netaddr
-    libvirt
-    pyyaml
-    kubernetes
-    jsonpatch
-    folium
-    twisted
-  ];
-  python3-with-packages = with pkgs; python39.withPackages python3-packages;
-in
-{
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  nixpkgs.overlays = [
-    (self: super: {
-      weechat = super.weechat.override {
-        configure = { availablePlugins, ...}: {
-          scripts = with super.weechatScripts; [
-            weechat-matrix
-          ];
-        };
-      };
-    })
+  #             # GeForce GTX 980 - Nvidia GM204
+  #             # Maxwell Architecture
+  #             # Consider trying 5.3, should be supported for Maxwell
+  #             preConfigure = ''
+  #               export TORCH_CUDA_ARCH_LIST="5.2"
+  #               export CUPTI_INCLUDE_DIR=${pkgs.cudaPackages_12.cuda_cupti.dev}/include
+  #               export CUPTI_INCLUDE_DIR=${pkgs.cudaPackages_12.cuda_cupti.lib}/lib
+  #               export CUDNN_INCLUDE_DIR=${pkgs.cudaPackages_12.cudnn.dev}/include
+  #               export CUDNN_LIB_DIR=${pkgs.cudaPackages_12.cudnn.lib}/lib
+  #             '';
+  #         });
 
-    (self: super: {
-      polymc = super.polymc.override {
-        msaClientID = secrets.msaClientID;
-      };
-    })
-  ];
-
-  # xsession = {
-  #   windowManager.xmonad = {
-  #     enable = true;
-  #     enableContribAndExtras = true;
-  #     extraPackages = hp: [
-  #       hp.dbus
-  #       hp.monad-logger
-  #       hp.xmonad-contrib
-  #     ];
-  #   };
+  #         tomesd = pkgs.callPackage ./tomesd.nix { python311Packages = self; };
+  #         blendmodes = pkgs.callPackage ./blendmodes.nix { python311Packages = self; };
+  #         facexlib = pkgs.callPackage ./facexlib.nix { python311Packages = self; };
+  #         basicsr = pkgs.callPackage ./basicsr.nix { python311Packages = self; };
+  #         gfpgan = pkgs.callPackage ./gfpgan.nix { python311Packages = self; };
+  #         realesrgan = pkgs.callPackage ./realesrgan.nix { python311Packages = self; };
+  #     })
+  #   ];
   # };
 
-  home = {
-    username = "moffor";
-    homeDirectory = "/home/moffor";
+  python3-packages = pypkgs: with pypkgs; [
+    beautifulsoup4
+    black
+    bokeh
+    capstone
+    flask
+    flask-cors
+    ipdb
+    ipython
+    keystone-engine
+    lief
+    matplotlib
+    mypy
+    numpy
+    oauthlib
+    pandas
+    odfpy # ODS libreoffice calc files
+    pyarrow
+    fastparquet
+    pdfx
+    pwntools
+    pylint
+    pytest
+    python-dotenv
+    pyyaml
+    requests
+    requests_oauthlib
 
-    sessionVariables = {
-      # Enable nicer touch support for firefox
-      MOZ_USE_XINPUT2 = 1;
-    };
+    pygame
+
+    ropper # Security...?
+
+    sqlalchemy
+    tox
+    tqdm
+    twisted
+    unicorn
+    urllib3
+    pyyaml
+    gitpython
+    # selenium
+
+    # bottle
+    # puremagic
+    # xlsxwriter
+    # pycryptodomex
+    # pypykatz
+
+    # torch
+    # torchsde
+    # torchvision
+    # open-clip-torch
+    # pytorch-lightning
+    # opencv4
+    # diffusers
+    # accelerate
+    # transformers
+    # scipy
+    # scikit-image
+    # pillow
+    # einops
+    # gradio
+    # omegaconf
+    # kornia
+    # lark
+    # clean-fid
+    # jsonmerge
+    # torchdiffeq
+    # clip
+    # resize-right
+    # piexif
+    # aenum
+    # inflection
+    # gdown
+    # xformers
+    # rich
+
+    # blendmodes
+    # facexlib
+    # tomesd
+    # gfpgan
+    # realesrgan
+  ];
+  python3-with-packages = pkgs.python311.withPackages python3-packages;
+in
+{
+  nixpkgs.overlays = [
+    (self: super: {
+        vlc = super.vlc.override { # not sure if this works?
+            libbluray = super.libbluray.override {
+              withJava = true;
+              withAACS = true;
+              withBDplus = true;
+            };
+        };
+    })
+  ];
+
+  home = {
+    username = username;
+    homeDirectory = homeDirectory;
 
     packages = with pkgs; [
-      # Core
+      # Essentials
       gnumake
+      cmake
+      ninja
+      gnupg
       coreutils
       binutils
-      pkgconfig
+      pkg-config
       glibc
       dmenu
       rofi
@@ -117,15 +161,16 @@ in
       dunst
       libnotify
       libpcap
-      lxappearance
-      mlocate
-      # xmonad-with-packages
 
-      # Essentials
+      git
+      git-lfs
+      tmux
+      file
       zlib
       exfat
       killall
-      udiskie
+      udisks2
+      usbutils
       lsscsi
       lsof
       parted
@@ -136,77 +181,69 @@ in
       tree
       wget
       curl
-      lynx
-      youtube-dl
       lame
       htop
-      stow
+
+      stow # BYE BYE SOON
+
       zip
       unzip
       p7zip
+      rar
       rsync
-      git
-      neovim
       ripgrep
-      rename
-      lolcat
-      silver-searcher
+      fd
+      f2
       fzf
       alacritty
-      exa
+      kitty
+      eza # exa is unmaintained, :(
       rxvt-unicode
       feh
-      digikam
-      scrot
+      flameshot
       imagemagick
-      zbar
       aspell
-      ranger
+      ranger # trying out yazi, didn't like felix-fm
+      yazi
       ueberzug
-      mc
-      rizin # it's the new radare2
-      jadx
-      john
-      hashcat
-      sleuthkit
-      nuclei
-      clinfo
       sshuttle
       sshpass
       bind
       entr
-      tmux
-      screen
-      ansifilter
       jq
-      cfssl
-      kubectl
-      kubectl-doctor
-      eksctl
-      kubernetes-helm
-      cilium-cli
-      xxd
-      file
-      awscli2
+      # screen
+      # ansifilter
+      # cfssl
+      # kubectl
+      # eksctl
+      # kubernetes-helm
+      # cilium-cli
+      # terraform
+      # cloud-nuke
+
+      # docker-compose
+      dive
+
+      firecracker
+      firectl
+
       openssl
       openvpn
+      wireguard-tools
       upower
       acpi
       ffmpeg
       pciutils
       lshw
       lm_sensors
-      docker-compose
-      dive
-      nmap
       inetutils
       mpc_cli
       brightnessctl
       direnv
+
       qpdf
       poppler
       cairo
-      # ghostscript # collision with texlive, that has ghostscript anyway
       geckodriver
       chromedriver
       exif
@@ -215,16 +252,49 @@ in
       arandr
       graphviz
       gocryptfs
+      veracrypt
+      # zulucrypt :sad.jpg:
+      dfu-util
+
+      # GPU / Graphics
+      clinfo
+
+      # Machine Learning
+      # mkl # clashes with llvmPackages.openmp
+      # llvmPackages.openmp
+
+      # Security
+      # burpsuite
+      # jadx
+      # nuclei
+      # sleuthkit
+      # zap
+      bloodhound
+      clamav
+      cutter
+      ghidra-bin
+      hashcat
+      imhex
+      john
+      pwndbg
+      rizin # it's the new radare2
+      xxd
+      nmap
 
       # Documents
       texlive.combined.scheme-full
-      asciidoctor
+      # asciidoctor
       pandoc
-      markdown-pp
-      hugo
       plantuml
       evince
       okular
+      libreoffice
+
+      # Accounting
+      hledger
+      hledger-ui
+      hledger-web
+      gnucash
 
       # Manuals
       man-pages
@@ -232,89 +302,91 @@ in
       zeal
 
       # Code
-      conda
       python3-with-packages
-      poetry
-      nodejs-14_x
-      yarn
-      go
-      gopls # go language server
+
       lua
-      cargo
-      rustc
-      octaveFull
-      R
-      rPackages.tidyverse
-      rstudio
-      openjdk17
+      # ruby # remove???
+      nodejs_18
       maven
       sbt
-      gradle_6
-      scala_2_11
-      elixir
+      coursier
+      leiningen
+      # scala_2_
+      jetbrains-toolbox
+      jetbrains.idea-ultimate
       neo4j
-      nixops
+
+      # Maybe just do these in nix shell flakes per-project?
+      # gcc
+      # ccls
+      # gdb
+
+      # go
+      # gopls # go language server
+      # delve
+      # gdlv # GUI for delve
+
       nix-index
       nix-prefetch-github
       nix-tree
-      nixpkgs-review
+      nixops_unstable_minimal
+      deploy-rs
       nixpkgs-fmt
-      terraform
-      cloud-nuke
-      ruby
-      leiningen
-      gcc
-      gdb
-      pwndbg
-      sonar-scanner-cli
 
-      # GUI
+      # File & Utilities
+      mate.caja
+      czkawka
+      keepassxc
+
+      # Browsers
       firefox
       google-chrome
       chromium
+      brave
+
       remmina
-      slack
-      weechat
-      keepassxc
+
+      # thunderbird
+
+      wpa_supplicant_gui
+      pulseaudioFull
+      pavucontrol
+      paprefs
+      sqlitebrowser
+      anki
+      kmag
+
+      # Media
       mpv
       vlc
-      insomnia
-      postman
-      libreoffice
-      taskjuggler
-      wpa_supplicant_gui
-      pavucontrol
-      sqlitebrowser
-      teams
-      obsidian
-      vscode
-      anki
       krita
+      obs-studio
       kdenlive
-      cdrtools
+      youtube-dl
+      handbrake
+      makemkv
       blender
-      kmag
-      cutter
-      mate.caja
-      bloodhound
-      ghidra-bin
-      burpsuite
-      zap
+      ruffle
+      audacity
+
+      amidst
+      plover.dev
+      kicad
+      geeqie
+
+      lxappearance
       gnome.dconf-editor
-      # multimc replace by polymc due to politics https://github.com/NixOS/nixpkgs/pull/154051
-      polymc
+      gnome.simple-scan
 
       # Android
-      android-studio
-      android-tools
+      # android-studio
+      # android-tools
 
       # Virt
       qemu
-      virt-manager
       libguestfs-with-appliance
-      nomad
-      consul
-      vault-bin
+
+      pcsx2
 
       # Networking
       wireshark
@@ -322,21 +394,28 @@ in
 
       # Non Nix managed packages (Flatpak)
       #
-      # us.zoom.Zoom
+      # com.amazon.Workspaces
       # com.discordapp.Discord
       # com.valvesoftware.Steam
+      # net.runelite.RuneLite
       # org.onlyoffice.desktopeditors
-      # com.amazon.Workspaces
+      # org.polymc.PolyMC
+      # us.zoom.Zoom
+      # md.obsidian.Obsidian
     ];
   };
 
   # Services
   services.mpd = {
     enable = true;
-    dbFile = "~/.config/mpd/mpd.db";
-    musicDirectory = "~/Music";
-    playlistDirectory = ~/.config/mpd/playlists;
-    extraConfig = strings.concatStringsSep "\n" [
+    dbFile = "/home/moffor/.config/mpd/mpd.db";
+    musicDirectory = "/home/moffor/Music";
+    playlistDirectory = "/home/moffor/.config/mpd/playlists";
+
+    # network.listenAddress = "0.0.0.0";
+    # network.port = 6600;
+
+    extraConfig = lib.strings.concatStringsSep "\n" [
       ""
       "auto_update \"yes\""
       "audio_output {"
@@ -349,29 +428,124 @@ in
       "audio_output {"
       "\ttype \"pulse\""
       "\tname \"Pulse Audio\""
-      "\tserver \"127.0.0.1\""
       "}"
+
+      # "audio_output {"
+      # "\ttype \"httpd\""
+      # "\tname \"HTTP Stream\""
+      # "\tencoder \"opus\"" # optional"
+      # "\tport \"8000\""
+      # "\tquality \"5.0\"" # do not define if bitrate is defined
+      # "\tbitrate \"128000\"" # do not define if quality is defined
+      # "\tformat \"48000:16:1\""
+      # "\talways_on \"yes\"" # prevent MPD from disconnecting all listeners when playback is stopped.
+      # "\ttags \"yes\"" # httpd supports sending tags to listening streams.
+      # "}"
     ];
   };
 
-  services.lorri.enable = true;
+  services.syncthing = {
+      enable = false;
+  };
+
+  services.picom = {
+    enable = true;
+
+    fade = true;
+    fadeSteps = [ 0.05 0.05 ];
+    fadeDelta = 8;
+
+    shadow = true;
+    shadowOpacity = 0.0;
+    shadowOffsets = [ (-7) (-7) ];
+    shadowExclude = [
+      "name = 'Notification'"
+      "name = 'cpt_frame_window'"
+      "class_g = 'Conky'"
+      "class_g ?= 'Notify-osd'"
+      "_GTK_FRAME_EXTENTS@:c"
+    ];
+
+    activeOpacity = 1.0;
+    inactiveOpacity = 1.0;
+  };
 
   # Programs
   programs = {
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
 
+    java = {
+        enable = true;
+        package = pkgs.temurin-bin-21;
+    };
+
+    neovim = {
+      enable = true;
+      extraLuaConfig = ''vim.cmd("source ${homeDirectory}/dotfiles/nvim/.config/nvim/init.lua")'';
+      withPython3 = true;
+      withNodeJs = true;
+      plugins = with pkgs.vimPlugins; [
+        gruvbox
+        airline
+        vim-rooter
+
+        #nvim-treesitter.withAllGrammars
+        (nvim-treesitter.withPlugins (plugins: with plugins; [
+            c
+            cpp
+            java
+            javascript
+            lua
+            rust
+            scala
+            elixir
+            hcl
+            clojure
+        ]))
+        playground
+
+        vim-fugitive
+        vim-surround
+        vim-repeat
+
+        telescope-nvim
+        plenary-nvim
+        emmet-vim
+        undotree
+
+        mason-nvim
+        mason-lspconfig-nvim
+
+        nvim-lspconfig
+        nvim-cmp
+        cmp-buffer
+        cmp-path
+        cmp-nvim-lsp
+        cmp-nvim-lua
+        cmp-vsnip
+        vim-vsnip
+        nvim-metals
+        luasnip
+
+        # nvim-nio
+        # nvim-dap
+        # nvim-dap-ui
+      ];
+    };
+
     ncmpcpp = {
       enable = true;
       package = pkgs.ncmpcpp.override {
         visualizerSupport = true;
       };
-      mpdMusicDir = ~/Music;
+      mpdMusicDir = "${homeDirectory}/Music";
       settings = {
         visualizer_in_stereo = "yes";
         visualizer_fifo_path = "/tmp/mpd.fifo";
         visualizer_output_name = "my_fifo";
         visualizer_sync_interval = "10";
+        visualizer_type = "spectrum";
       };
     };
 
@@ -391,5 +565,5 @@ in
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "20.09";
+  home.stateVersion = "22.11";
 }
