@@ -44,15 +44,10 @@ return {
                 end
             })
 
-            local default_setup = function(server)
-                vim.lsp.config[server].setup({
-                    capabilities = lsp_capabilities,
-                })
-            end
 
-            -- vim.lsp.config.ccls.setup({})
+            local isNixOS = not (vim.loop.os_uname().version:find("NixOS") == nil)
 
-            mason_ensure_installed = function()
+            local mason_ensure_installed = function()
                 if isNixOS then
                     return {}
                 else
@@ -61,39 +56,37 @@ return {
                         'cssls',
                         'lua_ls',
                         'gopls',
-                        'cssls'
+                        'ccls'
                     }
                 end
             end
 
             require('mason').setup({})
             require('mason-lspconfig').setup({
-                ensure_installed = mason_ensure_installed(),
-                handlers = {
-                    default_setup,
-                    lua_ls = function()
-                        vim.lsp.config.lua_ls.setup({
-                            settings = {
-                                Lua = {
-                                    runtime = {
-                                        version = 'LuaJIT',
-                                    },
-                                    diagnostics = {
-                                        globals = {
-                                            'vim',
-                                            'require',
-                                        },
-                                    },
-                                    workspace = {
-                                        library = vim.api.nvim_get_runtime_file("", true),
-                                    },
-                                    telemetry = {
-                                        enable = false,
-                                    },
-                                },
+                automatic_enable = mason_ensure_installed(),
+            })
+
+            vim.lsp.config("ccls", {})
+
+            vim.lsp.config("lua_ls", {
+                settings = {
+                    Lua = {
+                        runtime = {
+                            version = 'LuaJIT',
+                        },
+                        diagnostics = {
+                            globals = {
+                                'vim',
+                                'require',
                             },
-                        })
-                    end,
+                        },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true),
+                        },
+                        telemetry = {
+                            enable = false,
+                        },
+                    },
                 },
             })
 

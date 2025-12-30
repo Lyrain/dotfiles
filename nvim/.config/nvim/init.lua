@@ -5,9 +5,7 @@
 local isNixOS = not (vim.loop.os_uname().version:find("NixOS") == nil)
 
 -- Packages
-if not isNixOS then
-    require("config.lazy")
-end
+require("config.lazy")
 
 -- Line Numbers
 
@@ -37,10 +35,16 @@ vim.api.nvim_create_autocmd(
 
 -- Tabs
 
-local tab_level = 4
-vim.opt.tabstop = tab_level
-vim.opt.softtabstop = tab_level
-vim.opt.shiftwidth = tab_level
+local tab_level = function(size)
+    vim.opt.tabstop = size
+    vim.opt.softtabstop = size
+    vim.opt.shiftwidth = size
+    vim.opt.expandtab = true
+end
+
+vim.opt.tabstop = tab_level(4)
+vim.opt.softtabstop = tab_level(4)
+vim.opt.shiftwidth = tab_level(4)
 vim.opt.expandtab = true
 
 vim.opt.smartindent = true
@@ -135,13 +139,6 @@ vim.api.nvim_create_autocmd('FileType', {
     end,
 })
 
-local tab_level = function(size)
-    vim.opt.tabstop = size
-    vim.opt.softtabstop = size
-    vim.opt.shiftwidth = size
-    vim.opt.expandtab = true
-end
-
 vim.api.nvim_create_autocmd('FileType', {
     pattern = {'javascript', 'typescript', 'nix'},
     desc = "Set indent to 2 spaces for Specific file types",
@@ -196,144 +193,3 @@ vim.api.nvim_create_autocmd('FileType', {
     callback = enable_spell,
 })
 
--- Colors
-
-function Color(color)
-    color = color or "gruvbox"
-    vim.cmd.colorscheme(color)
-    vim.opt.background = "dark"
-
-    --vim.cmd "highlight Normal ctermbg=NONE"
-    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-end
-
-Color()
-
-vim.g.airline_theme = "gruvbox"
-
-vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
-
-vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
-
-treesitter_ensure_installed = function()
-    if isNixOS then
-        return {}
-    else
-        return {
-            "javascript",
-            "c",
-            "cpp",
-            "lua",
-            -- "java",
-            -- "scala"
-        }
-    end
-end
-
--- if !string.find(vim.loop.os_uname().sysname, "NixOS") then
-require('nvim-treesitter.configs').setup{
-    ensure_installed = treesitter_ensure_installed(),
-    sync_install = false,
-    auto_install = not isNixOS,
-
-    highlight = {
-        enable = true,
-
-        additional_vim_regex_highlighting = false,
-    },
-}
-
--- -- Metals isn't supported by Mason so use nvim-metals
--- -- https://github.com/williamboman/mason.nvim/issues/369
--- -- Using metals with lspconfig is also an issue...
--- -- See footnote 1 - https://github.com/scalameta/nvim-metals
---
--- local metals_config = require("metals").bare_config()
---
--- metals_config.settings = {
---     showImplicitArguments = true,
---     excludedPackages = {
---         "akka.actor.typed.javadsl",
---         "com.github.swagger.akka.javadsl",
---     },
--- }
---
--- metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
---
--- metals_config.init_options.statusBarProvider = "on"
---
--- local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
--- vim.api.nvim_create_autocmd("FileType", {
---     pattern = { "scala", "sbt", "java" },
---     callback = function()
---         require("metals").initialize_or_attach(metals_config)
---     end,
---     group = nvim_metals_group,
--- })
---
--- -- DAP Setup
---
--- local ok, dap = pcall(require, 'dap')
--- if ok then
---     -- local dap = require('dap')
---     require('dapui').setup()
---
---     dap.configurations.scala = {
---         {
---             type = 'scala',
---             request = 'launch',
---             name = 'RunOrTest',
---             metals = {
---                 runType = 'runOrTestFile'
---             },
---         },
---         {
---             type = 'scala',
---             request = 'launch',
---             name = 'Test Target',
---             metals = {
---                 runType = 'testTarget'
---             },
---         },
---     }
---
---     local dap_set_keymap = function()
---         local dapui = require('dapui')
---
---         vim.keymap.set('n', '<F5>', dap.continue)
---         vim.keymap.set('n', '<F10>', dap.step_over)
---         vim.keymap.set('n', '<F11>', dap.step_into)
---         vim.keymap.set('n', '<F12>', dap.step_out)
---         vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint)
---         vim.keymap.set('n', '<leader>B', function()
---             dap.set_breakpoint(vim.fn.input('Breakpoint condition > '))
---         end)
---         vim.keymap.set('n', '<leader>lp', function()
---             dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
---         end)
---         vim.keymap.set('n', '<leader>dr', dap.repl.open)
---
---         vim.keymap.set('n', '<leader>do', dapui.open)
---         vim.keymap.set('n', '<leader>dc', dapui.close)
---
---         dap.listeners.after.event_initialized["dapui_config"] = function()
---             dapui.open()
---         end
---         dap.listeners.before.event_terminated["dapui_config"] = function()
---             dapui.close()
---         end
---         dap.listeners.before.event_exited["dapui_config"] = function()
---             dapui.close()
---         end
---     end
---
---     metals_config.on_attach = function(client, bufnr)
---         lsp_set_keymap(client, bufnr)
---
---         dap_set_keymap()
---
---         require('metals').setup_dap()
---     end
--- end
---
