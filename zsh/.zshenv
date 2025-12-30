@@ -4,9 +4,9 @@
 #
 
 # You may need to manually set your language environment
-export LANG=en_GB.UTF-8
+export LANG=en_US.UTF-8
 export EDITOR="nvim"
-export TERMINAL="alacritty"
+export TERMINAL="kitty"
 # export SHELL="/bin/zsh"
 
 # Don't use screen-256color as it causes issues with the command being printed

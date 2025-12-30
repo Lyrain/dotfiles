@@ -1,5 +1,13 @@
 #!/usr/bin/env zsh
 
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME="xxf"
+
+plugins=(git ssh-agent)
+
+source $ZSH/oh-my-zsh.sh
+
 # Configure ssh-agent
 zstyle :omz:plugins:ssh-agent agent-forwarding yes
 zstyle :omz:plugins:ssh-agent quiet yes
@@ -20,16 +28,6 @@ zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr ' ✔︎'
 zstyle ':vcs_info:*' unstagedstr ' ✗'
 zstyle ':vcs_info:*' enable git
-
-PROMPT='
-%{$fg[cyan]%}%n \
-%{$fg[white]%}at \
-%{$fg[green]%}%m \
-%{$fg[white]%}in \
-%{$terminfo[bold]$fg[yellow]%}[%~]%{$reset_color%} \
-${vcs_info_msg_0_} \
-%{$terminfo[bold]$fg[white]%}
-› %{$reset_color%}'
 
 # Aliases
 alias cl='clear'

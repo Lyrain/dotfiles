@@ -32,8 +32,8 @@ end
 lsp.preset('recommended')
 
 lsp.ensure_installed({
-    'html',
-    'cssls',
+    --'html',
+    --'cssls',
     'lua_ls',
     'rust_analyzer',
     'elixirls',
@@ -224,19 +224,19 @@ vim.diagnostic.config({
     virtual_text = true,
 })
 
--- local nvim_lsp = require('lspconfig')
+local nvim_lsp = require('lspconfig')
 
--- -- Lua
---
--- nvim_lsp.sumneko_lua.setup {
---     settings = {
---         Lua = {
---             diagnostics = {
---                 globals = { 'vim' }
---             }
---         }
---     }
--- }
+-- Lua
+
+nvim_lsp.sumneko_lua.setup {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
+    }
+}
 --
 -- -- Python
 --
