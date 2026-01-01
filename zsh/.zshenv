@@ -20,13 +20,19 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!./git/*"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
 if [[ "$(uname)" == 'Darwin' ]]; then
-    export JAVA_8_HOME=$(/usr/libexec/java_home -v 1.8)
-    alias java8="export JAVA_HOME=$JAVA_8_HOME"
+    # export JAVA_8_HOME=$(/usr/libexec/java_home -v 1.8)
+    # alias java8="export JAVA_HOME=$JAVA_8_HOME"
 
-    export JAVA_11_HOME_ADOPT=$(/usr/libexec/java_home -v 11.0.11)
-    export JAVA_11_HOME_TERMURIN=$(/usr/libexec/java_home -v 11.0.18)
-    export JAVA_HOME="$JAVA_11_HOME_TERMURIN"
+    # Found java_home slow on some systems, might not be a problem for the beefy M4 Macbook :)
+    #export JAVA_11_HOME_TERMURIN=$(/usr/libexec/java_home -v 11.0.18)
+    export JAVA_11_HOME_TERMURIN=/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home
+
+    export JAVA_21_HOME_TERMURIN=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home
+
+    export JAVA_HOME="$JAVA_21_HOME_TERMURIN"
+
     alias java11='export JAVA_HOME=$JAVA_11_HOME_TERMURIN'
+    alias java21='export JAVA_HOME=$JAVA_21_HOME_TERMURIN'
 fi
 
 export AWS_DEFAULT_REGION="eu-west-2"
@@ -38,14 +44,11 @@ export GPG_TTY=$(tty)
 # array of paths to try to add to PATH
 # Only adds paths that exist as directories
 paths=("$HOME/bin"
-       "$HOME/.config/script" # for dotfiles scripts
        "$HOME/.cargo/bin" # cargo
        "$HOME/go/bin" # golang
-       "$HOME/.yarn/bin" # yarn
-       "$HOME/.config/yarn/global/node_modules/.bin"
        "$HOME/.local/bin" # pip executables installed with --user
        "$HOME/.local/share/coursier/bin" # Coursier (Scala)
-       "/usr/local/opt/libarchive/bin"
+       "$HOME/.config/script" # for dotfiles scripts
        )
 
 for p in $paths; do

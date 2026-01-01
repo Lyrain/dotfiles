@@ -125,9 +125,11 @@ tags
 .config/ranger/bookmarks
 
 .config/nvim/spell
+nvim/.config/nvim/spell
 
 .config/i3/i3log
 
 .config/fish/fish_variables
 
 nvim/.config/nvim/.netrwhist
+nvim/.config/nvim/plugin

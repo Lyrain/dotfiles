@@ -8,5 +8,5 @@ if [[ "$(uname)" == 'Linux' ]]; then
 fi
 
 if [[ "$(uname)" == 'Darwin' ]]; then
-  eval "$(/usr/local/bin/brew shellenv)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
