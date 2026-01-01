@@ -26,6 +26,7 @@ def blur_wallpaper_lock():
     Displays a blured version of the current wallpaper as the lock screen
     """
     home = os.environ["HOME"]
+    wayland = os.environ["WAYLAND_DISPLAY"]
 
     wallpaper = "{0}/.config/wallpaper.png".format(home)
     lockpaper = "{0}/.config/lockpaper.png".format(home)
@@ -33,7 +34,10 @@ def blur_wallpaper_lock():
     if not os.path.isfile(lockpaper):
         call(["convert", wallpaper, "-blur", "0x5", lockpaper])
 
-    call(["i3lock", "-i", lockpaper, "-t", "-f"])
+    if wayland:
+        call(["hyprlock"])
+    else:
+        call(["i3lock", "-i", lockpaper, "-t", "-f"])
 
 
 if __name__ == "__main__":

@@ -66,7 +66,12 @@ return {
                 automatic_enable = mason_ensure_installed(),
             })
 
-            vim.lsp.config("ccls", {})
+            vim.lsp.config("ccls", {
+                cmd = { "wccls" },
+                init_options = {
+                    compilationDatabaseDirectory = "build",
+                },
+            })
 
             vim.lsp.config("lua_ls", {
                 settings = {

@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
-# Prompt using dmenu
+# Prompt using dmenu/wmenu
 # Credit: githum.com/LukeSmithxyz
+# Modified to work with both wayland and X11
 
-[ $( echo -e "No\nYes" | dmenu -i -p "$1" -nb darkred -sb red -sf white -nf gray -fn mono ) \
-  == "Yes" ] && $2
+if [[ -n $WAYLAND_DISPLAY ]]; then
+    [ $( echo -e "No\nYes" | wmenu -i -N FF0000 -p "$1") \
+      == "Yes" ] && $2
+else
+    [ $( echo -e "No\nYes" | dmenu -i -N FF0000 -p "$1") \
+      == "Yes" ] && $2
+fi
+
 
