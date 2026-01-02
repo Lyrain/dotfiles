@@ -1,18 +1,19 @@
 -- Autocompletion
-local isNixOS = not (vim.loop.os_uname().version:find("NixOS") == nil)
+--local isNixOS = not (vim.loop.os_uname().version:find("NixOS") == nil)
 
 local mason_ensure_installed = function()
-    if isNixOS then
-        return {}
-    else
-        return {
-            'html',
-            'cssls',
-            'lua_ls',
-            'gopls',
-            'ccls'
-        }
-    end
+    --if isNixOS then
+    --    return {}
+    --else
+    --end
+
+    return {
+        'html',
+        'cssls',
+        'lua_ls',
+        'gopls',
+        'ccls'
+    }
 end
 
 return {

@@ -7,15 +7,20 @@
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
 export TERMINAL="kitty"
-# export SHELL="/bin/zsh"
 
 # Don't use screen-256color as it causes issues with the command being printed
 # out before execution (seperate to alias expansion)
-export TERM="xterm-256color"
+if [[ "$(uname)" == 'Darwin' ]]; then
+    export TERM="xterm-256color"
+else
+    export TERM="xterm-kitty"
+fi
+
 export XDG_DATA_HOME="$HOME/.local/share"
 
 export LD_LIBRARY_PATH="/usr/local/lib"
 export LIBRARY_PATH=LD_LIBRARY_PATH
+
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!./git/*"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 

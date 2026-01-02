@@ -1,8 +1,9 @@
--- DAP
+-- DAP and metals
 
 return {
     {
         "rcarriga/nvim-dap-ui",
+        ft = { "scala", "sbt", "java" },
         dependencies = {
             "mfussenegger/nvim-dap",
             "nvim-neotest/nvim-nio",
@@ -46,7 +47,6 @@ return {
 
             local ok, dap = pcall(require, 'dap')
             if ok then
-                -- local dap = require('dap')
                 require('dapui').setup()
 
                 dap.configurations.scala = {
@@ -99,8 +99,6 @@ return {
                 end
 
                 metals_config.on_attach = function(client, bufnr)
-                    lsp_set_keymap(client, bufnr)
-
                     dap_set_keymap()
 
                     require('metals').setup_dap()

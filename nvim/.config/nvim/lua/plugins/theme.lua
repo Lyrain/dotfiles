@@ -1,3 +1,5 @@
+-- Theme plugins
+
 return {
     {
         "morhetz/gruvbox",
@@ -15,39 +17,9 @@ return {
     },
     {
         "vim-airline/vim-airline",
+        lazy = false,
         config = function()
             vim.g.airline_theme = "gruvbox"
-        end,
-    },
-    {
-        "airblade/vim-rooter",
-    },
-    {
-        "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate",
-    },
-    {
-        "nvim-treesitter/playground",
-    },
-    {
-        "tpope/vim-fugitive",
-        config = function()
-            vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
-        end,
-    },
-    {
-        "tpope/vim-surround",
-    },
-    {
-        "tpope/vim-repeat",
-    },
-    {
-        'mattn/emmet-vim',
-    },
-    {
-        'mbbill/undotree',
-        config = function()
-            vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
         end,
     },
 }

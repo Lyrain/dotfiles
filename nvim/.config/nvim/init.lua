@@ -90,6 +90,8 @@ vim.opt.completeopt = {"menuone", "noinsert", "preview"}
 vim.opt.spelllang = "en_gb"
 -- vim.opt.clipboard:append({ name = "unnamedplus" })
 
+vim.opt.modeline = true
+
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
@@ -104,11 +106,12 @@ vim.g.mapleader = " "
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 
 vim.keymap.set('n', '<leader>w', ':w<CR>') -- Quick save
+vim.keymap.set('n', '<leader>q', ':q<CR>') -- Quick save
 vim.keymap.set('n', '<leader><leader>', '<c-^>') -- Toggle buffers
 vim.keymap.set('n', '<leader>]', '<C-]>') -- Jump to tag
 vim.keymap.set('n', '<leader>n', ':noh<CR>') -- Dismiss search highlight
 vim.keymap.set('n', '<leader>x', 'exb') -- Delete last char of word
-vim.keymap.set('n', '<leader>m', ':make') -- Quick make
+vim.keymap.set('n', '<leader>mm', ':make<CR>') -- Quick make
 
 -- Move selected lines in visual mode, ty to theprimeagen
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
@@ -117,7 +120,8 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 vim.keymap.set('n', 'Q', '<nop>')
 
 -- Base64 decode selected text in visual mode
-vim.keymap.set("v", "<leader>64", 'c<c-r>=system("base64 --decode", @")<CR><ESC>')
+vim.keymap.set("v", "<leader>e64", 'c<c-r>=system("base64", @")<CR><ESC>')
+vim.keymap.set("v", "<leader>b64", 'c<c-r>=system("base64 --decode", @")<CR><ESC>')
 
 -- Autocommands
 
@@ -126,7 +130,14 @@ vim.keymap.set("v", "<leader>64", 'c<c-r>=system("base64 --decode", @")<CR><ESC>
 vim.api.nvim_create_autocmd('BufWritePre', {
     pattern = '*',
     desc = "Trim whitespace from the end of the line for all filetypes",
-    command = [[%s/\s\+$//e]],
+    callback = function()
+        -- Except yaml, don't do this for yaml.
+        if (vim.bo.filetype == "yaml") then
+            return
+        end
+
+        vim.cmd([[%s/\s\+$//e]])
+    end,
 })
 
 -- File Types
@@ -160,13 +171,12 @@ vim.api.nvim_create_autocmd('FileType', {
 local markdown_group = vim.api.nvim_create_augroup('markdownGroup',
 { clear = true })
 
-vim.api.nvim_create_autocmd({'BufRead', 'BufNewFile'},
-{
+vim.api.nvim_create_autocmd({'BufRead', 'BufNewFile'}, {
     pattern = '*.Rmd',
     group = markdown_group,
     desc = "RMarkdown files should use the markdown filetype",
     callback = function()
-        vim.opt.filetype = "markdown"
+        vim.bo.filetype = "markdown"
     end,
 })
 
@@ -174,8 +184,7 @@ local enable_spell = function()
     vim.opt.spell = true
 end
 
-vim.api.nvim_create_autocmd('FileType',
-{
+vim.api.nvim_create_autocmd('FileType', {
     pattern = 'markdown',
     group = markdown_group,
     desc = "Markdown files should have spell enabled",
