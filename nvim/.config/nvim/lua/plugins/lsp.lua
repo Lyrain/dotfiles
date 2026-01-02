@@ -1,12 +1,29 @@
 -- Autocompletion
+local isNixOS = not (vim.loop.os_uname().version:find("NixOS") == nil)
+
+local mason_ensure_installed = function()
+    if isNixOS then
+        return {}
+    else
+        return {
+            'html',
+            'cssls',
+            'lua_ls',
+            'gopls',
+            'ccls'
+        }
+    end
+end
 
 return {
     {
-        "neovim/nvim-lspconfig",
+        "mason-org/mason-lspconfig.nvim",
+
+        lazy = false,
 
         dependencies = {
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
+            "mason-org/mason.nvim",
+            "neovim/nvim-lspconfig",
             "hrsh7th/nvim-cmp",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
@@ -16,11 +33,12 @@ return {
             "saadparwaiz1/cmp_luasnip",
         },
 
+        opt = {
+            automatic_enable = mason_ensure_installed(),
+        },
+
         config = function()
             -- LSP
-
-            -- local lspconfig = require('lspconfig')
-            local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
             vim.api.nvim_create_autocmd('LspAttach', {
                 desc = 'LSP actions',
@@ -42,28 +60,6 @@ return {
                     vim.keymap.set('n', '<leader>vrr', vim.lsp.buf.references, opts)
                     vim.keymap.set('n', '<leader>vrn', vim.lsp.buf.rename, opts)
                 end
-            })
-
-
-            local isNixOS = not (vim.loop.os_uname().version:find("NixOS") == nil)
-
-            local mason_ensure_installed = function()
-                if isNixOS then
-                    return {}
-                else
-                    return {
-                        'html',
-                        'cssls',
-                        'lua_ls',
-                        'gopls',
-                        'ccls'
-                    }
-                end
-            end
-
-            require('mason').setup({})
-            require('mason-lspconfig').setup({
-                automatic_enable = mason_ensure_installed(),
             })
 
             vim.lsp.config("ccls", {
