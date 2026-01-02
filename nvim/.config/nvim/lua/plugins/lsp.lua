@@ -1,45 +1,35 @@
 -- Autocompletion
---local isNixOS = not (vim.loop.os_uname().version:find("NixOS") == nil)
-
-local mason_ensure_installed = function()
-    --if isNixOS then
-    --    return {}
-    --else
-    --end
-
-    return {
-        'html',
-        'cssls',
-        'lua_ls',
-        'gopls',
-        'ccls'
-    }
-end
 
 return {
     {
-        "mason-org/mason-lspconfig.nvim",
+        'mason-org/mason-lspconfig.nvim',
 
         lazy = false,
 
         dependencies = {
-            "mason-org/mason.nvim",
-            "neovim/nvim-lspconfig",
-            "hrsh7th/nvim-cmp",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-nvim-lua",
-            "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
-        },
-
-        opt = {
-            automatic_enable = mason_ensure_installed(),
+            'mason-org/mason.nvim',
+            'neovim/nvim-lspconfig',
+            'hrsh7th/nvim-cmp',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-nvim-lua',
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
         },
 
         config = function()
-            -- LSP
+            require('mason').setup()
+
+            require('mason-lspconfig').setup({
+                automatic_enable = true,
+                ensure_installed = {
+                    'html',
+                    'cssls',
+                    'lua_ls',
+                    'gopls',
+                },
+            })
 
             vim.api.nvim_create_autocmd('LspAttach', {
                 desc = 'LSP actions',
@@ -63,14 +53,27 @@ return {
                 end
             })
 
-            vim.lsp.config("ccls", {
-                cmd = { "wccls" },
+            -- Seems to not be available via Mason, so setup and enable here.
+            vim.lsp.config('ccls', {
+                cmd = { 'wccls' },
                 init_options = {
-                    compilationDatabaseDirectory = "build",
+                    compilationDatabaseDirectory = 'build',
                 },
             })
+            vim.lsp.enable('ccls')
 
-            vim.lsp.config("lua_ls", {
+            local isNixOS = not (vim.loop.os_uname().version:find("NixOS") == nil)
+
+            local lua_ls_cmd = function()
+                if (isNixOS) then
+                    return { '/home/moffor/.nix-profile/bin/lua-language-server' }
+                else
+                    return { 'lua-language-server' }
+                end
+            end
+
+            vim.lsp.config('lua_ls', {
+                cmd = lua_ls_cmd(),
                 settings = {
                     Lua = {
                         runtime = {
@@ -83,7 +86,7 @@ return {
                             },
                         },
                         workspace = {
-                            library = vim.api.nvim_get_runtime_file("", true),
+                            library = vim.api.nvim_get_runtime_file('', true),
                         },
                         telemetry = {
                             enable = false,
@@ -94,9 +97,9 @@ return {
 
             local luasnip = require('luasnip')
 
-            vim.keymap.set({ "i" }, "<C-K>", function() luasnip.expand() end, { silent = true })
+            vim.keymap.set({ 'i' }, '<C-K>', function() luasnip.expand() end, { silent = true })
 
-            require("luasnip.loaders.from_snipmate").lazy_load()
+            require('luasnip.loaders.from_snipmate').lazy_load()
 
             local cmp = require('cmp')
             cmp.setup({

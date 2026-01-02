@@ -62,10 +62,9 @@ alias gb='git branch'
 alias gc='git commit -v'
 
 alias gs='git status' # take priority over GhostScript
+alias gla='git pull --all --tags'
 
-alias gd='git diff'
-alias glol='git log --graph --pretty="%Cred%h%Creset %G? -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"'
-alias config='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+alias gdc='git diff --cached'
 
 # use neovim
 alias vi='nvim'
@@ -88,6 +87,7 @@ function nixwhere() {
     readlink $(which $@)
 }
 
+alias d='docker'
 alias k='kubectl'
 alias dcup='docker compose up'
 alias dcdw='docker compose down'
@@ -191,7 +191,9 @@ case "$(uname)" in
      ;;
 esac
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if type fzf > /dev/null; then
+    eval "$(fzf --zsh)"
+fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
